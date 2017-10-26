@@ -1,6 +1,7 @@
 {
   "commands": {
     "play": "Cadence play",
-    "stop": "Cadence stop"
+    "stop": "Cadence stop",
+    "help": "Cadence help"
   }
 }
