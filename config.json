@@ -1,0 +1,6 @@
+{
+  "commands": {
+    "play": "Cadence play",
+    "stop": "Cadence stop"
+  }
+}
