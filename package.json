@@ -4,5 +4,7 @@
   "description": "Plays Cadence.",
   "main": "bot.js",
   "author": "Ryan Hodin",
-  "dependencies": {}
+  "dependencies": {
+    "discord.js": "^11.2.1"
+  }
 }
