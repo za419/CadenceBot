@@ -13,9 +13,9 @@ bot.on('message', message => {
             message.reply("Don't you have enough Cadence already?");
         }
         else {
-            isPlaying=true;
             var voiceChannel=message.member.voiceChannel;
             if (voiceChannel) {
+                isPlaying=true;
                 voiceChannel.join().then(connection => {
                     const dispatch = connection.playArbitraryInput('http://cadenceradio.com:8000/cadence1');
     //                dispatch.on("end", end=> {
@@ -29,9 +29,9 @@ bot.on('message', message => {
     }
     else if (message.content===config.commands.stop) {
         if (isPlaying) {
-            isPlaying=false;
             var voiceChannel=message.member.voiceChannel;
             if (voiceChannel) {
+                isPlaying=false;
                 voiceChannel.leave();
             }
         }
