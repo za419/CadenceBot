@@ -35,6 +35,15 @@ bot.on('message', message => {
             message.reply("OK, OK, I get it, you don't like me, sheesh!");
         }
     }
+    else if (message.content===config.commands.help) {
+        var help="";
+        help="I have "+config.commands.length+" commands. They are:\n";
+        for (var key in config.commands) {
+            if (config.commands.hasOwnProperty(key)) {
+                help+="  "+config.commands[key]+" - "+key+"\n";
+            }
+        }
+    }
 })
 
 bot.login(auth.token);
