@@ -19,4 +19,14 @@ bot.on('message', message => {
             }).catch(err => console.log(err));
         }
     }
+    else if (message.content==="NO CADENCE!!") {
+        if (isPlaying) {
+            isPlaying=false;
+            var voiceChannel=message.member.voiceChannel;
+            voiceChannel.leave();
+        }
+        else {
+            message.reply("OK, OK, I get it, you don't like me, sheesh!");
+        }
+    }
 })
