@@ -17,6 +17,7 @@ bot.on('message', message => {
             voiceChannel.join().then(connection => {
                 const dispatch = connection.playFile('http://cadenceradio.com:8000/cadence1.mp3');
                 dispatch.on("end", end=> {
+                    isPlaying=false;
                     message.reply("End of Cadence");
                     voiceChannel.leave();
                 });
