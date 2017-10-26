@@ -25,6 +25,9 @@ bot.on('message', message => {
 //                  });
                 }).catch(err => console.log(err));
             }
+            else {
+                message.reply("You need to be in a voice channel for me to play Cadence in it, silly!");
+            }
         }
     }
     else if (message.content===config.commands.stop) {
@@ -33,6 +36,9 @@ bot.on('message', message => {
             if (voiceChannel) {
                 isPlaying=false;
                 voiceChannel.leave();
+            }
+            else {
+                message.reply("I dunno, I'd prefer if someone in the channel told me to stop.");
             }
         }
         else {
