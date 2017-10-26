@@ -1,0 +1,8 @@
+{
+  "name": "CadenceBot",
+  "version": "0.9b",
+  "description": "Plays Cadence.",
+  "main": "bot.js",
+  "author": "Ryan Hodin",
+  "dependencies": {}
+}
