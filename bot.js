@@ -15,21 +15,25 @@ bot.on('message', message => {
         else {
             isPlaying=true;
             var voiceChannel=message.member.voiceChannel;
-            voiceChannel.join().then(connection => {
-                const dispatch = connection.playArbitraryInput('http://cadenceradio.com:8000/cadence1');
-//                dispatch.on("end", end=> {
-//                    isPlaying=false;
-//                    message.reply("End of Cadence: "+end);
-//                    voiceChannel.leave();
-//                });
-            }).catch(err => console.log(err));
+            if (voiceChannel) {
+                voiceChannel.join().then(connection => {
+                    const dispatch = connection.playArbitraryInput('http://cadenceradio.com:8000/cadence1');
+    //                dispatch.on("end", end=> {
+    //                    isPlaying=false;
+    //                    message.reply("End of Cadence: "+end);
+    //                    voiceChannel.leave();
+    //                });
+                }).catch(err => console.log(err));
+            }
         }
     }
     else if (message.content===config.commands.stop) {
         if (isPlaying) {
             isPlaying=false;
             var voiceChannel=message.member.voiceChannel;
-            voiceChannel.leave();
+            if (voiceChannel) {
+                voiceChannel.leave();
+            }
         }
         else {
             message.reply("OK, OK, I get it, you don't like me, sheesh!");
