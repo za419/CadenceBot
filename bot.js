@@ -40,7 +40,7 @@ bot.on('message', message => {
         help="I have "+Object.keys(config.commands).length+" commands. They are:\n";
         for (var key in config.commands) {
             if (config.commands.hasOwnProperty(key)) {
-                help+="  "+config.commands[key]+" - "+key+"\n";
+                help+="  \""+config.commands[key]+"\" - "+config.commandDescriptions[key]+"\n";
             }
         }
         message.reply(help);
