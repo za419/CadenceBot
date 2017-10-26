@@ -1,5 +1,9 @@
 var Discord=require('discord.js');
-var bot=new Discord.Client();
+var auth=require('./auth.json');
+var bot=new Discord.Client({
+    token: auth.token,
+    autorun: true
+});
 var isPlaying=false;
 
 bot.on('message', message => {
