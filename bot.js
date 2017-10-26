@@ -1,5 +1,6 @@
 var Discord=require('discord.js');
 var auth=require('./auth.json');
+var config=require('./config.json');
 var bot=new Discord.Client({
     token: auth.token,
     autorun: true
@@ -7,7 +8,7 @@ var bot=new Discord.Client({
 var isPlaying=false;
 
 bot.on('message', message => {
-    if (message.content==="CADENCE!!") {
+    if (message.content===config.commands.play) {
         if (isPlaying) {
             message.reply("Don't you have enough Cadence already?");
         }
@@ -24,7 +25,7 @@ bot.on('message', message => {
             }).catch(err => console.log(err));
         }
     }
-    else if (message.content==="NO CADENCE!!") {
+    else if (message.content===config.commands.stop) {
         if (isPlaying) {
             isPlaying=false;
             var voiceChannel=message.member.voiceChannel;
