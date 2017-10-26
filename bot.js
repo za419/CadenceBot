@@ -37,7 +37,7 @@ bot.on('message', message => {
     }
     else if (message.content===config.commands.help) {
         var help="";
-        help="I have "+config.commands.length+" commands. They are:\n";
+        help="I have "+config.commands.keys.length+" commands. They are:\n";
         for (var key in config.commands) {
             if (config.commands.hasOwnProperty(key)) {
                 help+="  "+config.commands[key]+" - "+key+"\n";
