@@ -15,12 +15,12 @@ bot.on('message', message => {
             isPlaying=true;
             var voiceChannel=message.member.voiceChannel;
             voiceChannel.join().then(connection => {
-                const dispatch = connection.playStream('http://cadenceradio.com:8000/cadence1.mp3');
-                dispatch.on("end", end=> {
-                    isPlaying=false;
-                    message.reply("End of Cadence");
-                    voiceChannel.leave();
-                });
+                const dispatch = connection.playArbitraryInput('http://cadenceradio.com:8000/cadence1');
+//                dispatch.on("end", end=> {
+//                    isPlaying=false;
+//                    message.reply("End of Cadence: "+end);
+//                    voiceChannel.leave();
+//                });
             }).catch(err => console.log(err));
         }
     }
