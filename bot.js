@@ -43,6 +43,7 @@ bot.on('message', message => {
                 help+="  "+config.commands[key]+" - "+key+"\n";
             }
         }
+        message.reply(help);
     }
 })
 
