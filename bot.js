@@ -87,7 +87,12 @@ bot.on('message', message => {
                message.reply(response);
            }
            else {
-               message.reply("Error "+response.statusCode+". Aria says:\n\n"+body);
+               if (response) {
+                   message.reply("Error "+response.statusCode+". Aria says:\n\n"+body);
+               }
+               else {
+                   message.reply("Error. Aria says:\n\n"+body);
+               }
            }
         });
     }
