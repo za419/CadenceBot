@@ -1,6 +1,8 @@
 var Discord=require('discord.js');
 var auth=require('./auth.json');
 var config=require('./config.json');
+var fetch=require('node-fetch');
+
 var bot=new Discord.Client({
     token: auth.token,
     autorun: true
@@ -54,6 +56,16 @@ bot.on('message', message => {
             }
         }
         message.reply(help);
+    }
+    else if (message.content===config.commands.nowplaying) {
+        const url="http://cadenceradio.com:8000/now-playing.xsl";
+        fetch(url).then(response => {
+            response.json.then(json => {
+                var artist=json['/cadence1']['artist_name'].trim();
+                var song=json['/cadence1']['song_title'].trim();
+                message.reply("Now playing: "+song+" by "+artist);
+            });
+        });
     }
 })
 
