@@ -4,7 +4,7 @@
     "stop": "Cadence stop",
     "help": "Cadence help",
     "nowplaying": "Cadence now playing",
-    "search": "Cadence search [search terms]"
+    "search": "Cadence search "
   },
   "commandDescriptions": {
     "play": "Starts playing Cadence in your voice channel",
