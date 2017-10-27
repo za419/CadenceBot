@@ -74,7 +74,9 @@ bot.on('message', message => {
         const url='http://cadenceradio.com/search';
         var options={
             dataType: 'application/json',
-            data: message.content.substring(config.commands.search.length),
+            data: {
+                search: message.content.substring(config.commands.search.length)
+            },
         };
         
         request.post(url, {json: options}, function(err, response, body) {
