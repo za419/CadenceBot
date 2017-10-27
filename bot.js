@@ -78,7 +78,7 @@ bot.on('message', message => {
         };
         
         request.post(url, {json: options}, function(err, response, body) {
-           if (!err && response.statusCode==200) {
+           if (!err && (!response || response.statusCode==200)) {
                var response="Cadence returned:\n";
                var songs=JSON.parse(body);
                for (var i=0; i<songs.length; ++i) {
