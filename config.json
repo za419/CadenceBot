@@ -3,12 +3,14 @@
     "play": "Cadence play",
     "stop": "Cadence stop",
     "help": "Cadence help",
-    "nowplaying": "Cadence now playing"
+    "nowplaying": "Cadence now playing",
+    "search": "Cadence search [search terms]"
   },
   "commandDescriptions": {
     "play": "Starts playing Cadence in your voice channel",
     "stop": "Stops playing Cadence and leaves your voice channel (so you can play it in another)",
     "help": "Generates this help message",
-    "nowplaying": "Displays now playing information from Cadence"
+    "nowplaying": "Displays now playing information from Cadence",
+    "search": "Search the Cadence database using the remainder of the given message as a query."
   }
 }
