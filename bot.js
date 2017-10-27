@@ -60,7 +60,7 @@ bot.on('message', message => {
     else if (message.content===config.commands.nowplaying) {
         const url="http://cadenceradio.com:8000/now-playing.xsl";
         fetch(url).then(response => {
-            response.json.then(json => {
+            response.json().then(json => {
                 var artist=json['/cadence1']['artist_name'].trim();
                 var song=json['/cadence1']['song_title'].trim();
                 message.reply("Now playing: "+song+" by "+artist);
