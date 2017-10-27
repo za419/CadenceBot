@@ -65,7 +65,7 @@ bot.on('message', message => {
                 var json=JSON.parse(text);
                 var artist=json['/cadence1']['artist_name'].trim();
                 var song=json['/cadence1']['song_title'].trim();
-                message.reply("Now playing: "+song+" by "+artist);
+                message.reply("Now playing: \""+song+"\" by "+artist);
             });
         });
     }
