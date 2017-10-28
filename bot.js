@@ -80,7 +80,7 @@ bot.on('message', message => {
            if (!err && (!response || response.statusCode==200)) {
                var songs=JSON.parse(body);
                if (songs.length==0) {
-                   message.reply("Cadence has no results for "+data.search+".");
+                   message.reply("Cadence has no results for \""+data.search+"\".");
                }
                else {
                    var response="Cadence returned:\n";
