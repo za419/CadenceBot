@@ -78,12 +78,17 @@ bot.on('message', message => {
         
         request.post({url, form: data}, function(err, response, body) {
            if (!err && (!response || response.statusCode==200)) {
-               var response="Cadence returned:\n";
                var songs=JSON.parse(body);
-               for (var i=0; i<songs.length; ++i) {
-                   response+="    \""+songs[i].title+"\" by "+songs[i].artist[0]+"\n";
+               if (songs.length==0) {
+                   message.reply("Cadence has no results for "+data.search+".");
                }
-               message.reply(response);
+               else {
+                   var response="Cadence returned:\n";
+                   for (var i=0; i<songs.length; ++i) {
+                       response+="    \""+songs[i].title+"\" by "+songs[i].artist[0]+"\n";
+                   }
+                   message.reply(response);
+               }
            }
            else {
                if (response) {
