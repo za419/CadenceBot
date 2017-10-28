@@ -72,14 +72,11 @@ bot.on('message', message => {
     }
     else if (message.content.startsWith(config.commands.search)) {
         const url='http://cadenceradio.com/search';
-        var options={
-            dataType: 'application/json',
-            data: {
-                search: message.content.substring(config.commands.search.length)
-            },
+        var data={
+            search: message.content.substring(config.commands.search.length)
         };
         
-        request.post(url, {json: options}, function(err, response, body) {
+        request.post({url, form: data}, function(err, response, body) {
            if (!err && (!response || response.statusCode==200)) {
                var response="Cadence returned:\n";
                var songs=JSON.parse(body);
