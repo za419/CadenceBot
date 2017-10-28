@@ -2,6 +2,7 @@ var Discord=require('discord.js');
 var auth=require('./auth.json');
 var config=require('./config.json');
 var fetch=require('node-fetch');
+var request=require('request');
 
 var bot=new Discord.Client({
     token: auth.token,
@@ -67,6 +68,31 @@ bot.on('message', message => {
                 var song=json['/cadence1']['song_title'].trim();
                 message.reply("Now playing: \""+song+"\" by "+artist);
             });
+        });
+    }
+    else if (message.content.startsWith(config.commands.search)) {
+        const url='http://cadenceradio.com/search';
+        var data={
+            search: message.content.substring(config.commands.search.length)
+        };
+        
+        request.post({url, form: data}, function(err, response, body) {
+           if (!err && (!response || response.statusCode==200)) {
+               var response="Cadence returned:\n";
+               var songs=JSON.parse(body);
+               for (var i=0; i<songs.length; ++i) {
+                   response+="    \""+songs[i].title+"\" by "+songs[i].artist[0]+"\n";
+               }
+               message.reply(response);
+           }
+           else {
+               if (response) {
+                   message.reply("Error "+response.statusCode+". Aria says:\n\n"+body);
+               }
+               else {
+                   message.reply("Error. Aria says:\n\n"+body);
+               }
+           }
         });
     }
 })
