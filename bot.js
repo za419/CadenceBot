@@ -85,7 +85,7 @@ bot.on('message', message => {
                else {
                    var response="Cadence returned:\n";
                    for (var i=0; i<songs.length; ++i) {
-                       response+="    \""+songs[i].title+"\" by "+songs[i].artist[0]+"\n";
+                       response+="  "+i-1+")  \""+songs[i].title+"\" by "+songs[i].artist[0]+"\n";
                    }
                    message.reply(response);
                }
