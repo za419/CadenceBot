@@ -1,2 +1,2 @@
 pkill nodejs
-nohup nodejs bot.js &>/dev/null &
+nohup nodejs bot.js &>CadenceBot.log &
