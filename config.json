@@ -13,6 +13,6 @@
     "help": "Generates this help message",
     "nowplaying": "Displays now playing information from Cadence",
     "search": "Search the Cadence database using the remainder of the given message as a query.",
-    "request": "Request a song to be played on Cadence, by its number in the last search."
+    "request": "Request a song to be played on Cadence, by its number in the last search. You may request one song every five minutes (limited by Cadence)"
   }
 }
