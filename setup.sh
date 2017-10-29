@@ -5,4 +5,4 @@ npm install --save discord.js
 npm install --save node-fetch
 npm install --save request
 npm install --save node-opus
-echo "TEST"
+
