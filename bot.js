@@ -10,6 +10,8 @@ var bot=new Discord.Client({
 });
 var isPlaying=false;
 
+var lastSearchedSongs=[];
+
 bot.on('message', message => {
     if (message.content===config.commands.play) {
         if (isPlaying) {
@@ -78,12 +80,18 @@ bot.on('message', message => {
         
         request.post({url, form: data}, function(err, response, body) {
            if (!err && (!response || response.statusCode==200)) {
-               var response="Cadence returned:\n";
                var songs=JSON.parse(body);
-               for (var i=0; i<songs.length; ++i) {
-                   response+="    \""+songs[i].title+"\" by "+songs[i].artist[0]+"\n";
+               if (songs.length==0) {
+                   message.reply("Cadence has no results for \""+data.search+"\".");
                }
-               message.reply(response);
+               else {
+                   lastSearchedSongs=songs;
+                   var response="Cadence returned:\n";
+                   for (var i=0; i<songs.length; ++i) {
+                       response+="  "+(i+1)+")  \""+songs[i].title+"\" by "+songs[i].artist[0]+"\n";
+                   }
+                   message.reply(response);
+               }
            }
            else {
                if (response) {
@@ -93,6 +101,39 @@ bot.on('message', message => {
                    message.reply("Error. Aria says:\n\n"+body);
                }
            }
+        });
+    }
+    else if (message.content.startsWith(config.commands.request)) {
+        if (lastSearchedSongs.length==0) {
+            message.reply("Please search for your songs before requesting them.");
+            return;
+        }
+        const url='http://cadenceradio.com/request';
+        var song=parseInt(message.content.substring(config.commands.request.length))-1;
+        if (song>=lastSearchedSongs.length) {
+            message.reply("Sorry, I can't request song number "+song+" out of a set of "+lastSearchedSongs.length+".");
+            return;
+        }
+
+        var data={
+            path: lastSearchedSongs[song].path
+        };
+        request.post({url, form: data}, function(err, response, body) {
+            if (!err && (!response || response.statusCode==200)) {
+                message.reply("Your request has been received.");
+                lastSearchedSongs=[];
+            }
+            else if (response) {
+                if (response.statusCode==429) {
+                    message.reply("Sorry, Cadence limits you to one request every five minutes.");
+                }
+                else {
+                    message.reply("Error "+response.statusCode+". Aria says:\n\n"+body);
+                }
+            }
+            else {
+                message.reply("Error. Aria says:\n\n"+body);
+            }
         });
     }
 })
