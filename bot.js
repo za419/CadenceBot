@@ -62,6 +62,7 @@ bot.on('message', message => {
         }
     }
     else if (message.content===config.commands.help) {
+        console.log("Received help command.");
         var help="";
         help="I have "+Object.keys(config.commands).length+" commands. They are:\n";
         for (var key in config.commands) {
@@ -70,6 +71,7 @@ bot.on('message', message => {
             }
         }
         message.reply(help);
+        console.log("Issued help message.");
     }
     else if (message.content===config.commands.nowplaying) {
         const url="http://cadenceradio.com:8000/now-playing.xsl";
