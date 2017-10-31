@@ -92,18 +92,27 @@ bot.on('message', message => {
         });
     }
     else if (message.content.startsWith(config.commands.search)) {
+        console.log("Received search command.");
+        console.log("Received message was \""+message.content+"\"");
         const url='http://cadenceradio.com/search';
         var data={
             search: message.content.substring(config.commands.search.length)
         };
-        
+
+        console.log("Making a request to "+url);
+        console.log("data.search="+data.search);        
         request.post({url, form: data}, function(err, response, body) {
+           console.log("Received response.");
            if (!err && (!response || response.statusCode==200)) {
+               console.log("No error, and either no status code or status code 200.");
+               console.log("Received body:\n\n"+body+"\n\n");
                var songs=JSON.parse(body);
                if (songs.length==0) {
+                   console.log("No results.");
                    message.reply("Cadence has no results for \""+data.search+"\".");
                }
                else {
+                   console.log(songs.length+" results.");
                    lastSearchedSongs=songs;
                    var response="Cadence returned:\n";
                    for (var i=0; i<songs.length; ++i) {
@@ -113,10 +122,13 @@ bot.on('message', message => {
                }
            }
            else {
+               console.log("Response is erroneous. Returned body:\n\n"+body+"\n\n");
                if (response) {
+                   console.log("Returned status code: "+response.statusCode);
                    message.reply("Error "+response.statusCode+". Aria says:\n\n"+body);
                }
                else {
+                   console.log("No status code.");
                    message.reply("Error. Aria says:\n\n"+body);
                }
            }
