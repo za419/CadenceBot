@@ -135,13 +135,19 @@ bot.on('message', message => {
         });
     }
     else if (message.content.startsWith(config.commands.request)) {
+        console.log("Received song request.");
+        console.log("Received message was \""+message.content+"\"");
+        console.log("Last searched songs: "+JSON.stringify(lastSearchedSongs));
         if (lastSearchedSongs.length==0) {
+            console.log("No stored results.");
             message.reply("Please search for your songs before requesting them.");
             return;
         }
         const url='http://cadenceradio.com/request';
         var song=parseInt(message.content.substring(config.commands.request.length))-1;
+        console.log("Prepared to construct request for song at index "+song);
         if (song>=lastSearchedSongs.length) {
+            console.log("Index out-of-bounds.");
             message.reply("Sorry, I can't request song number "+song+" out of a set of "+lastSearchedSongs.length+".");
             return;
         }
@@ -149,20 +155,30 @@ bot.on('message', message => {
         var data={
             path: lastSearchedSongs[song].path
         };
+        console.log("Making a request to "+url);
+        console.log("data.path="+data.path);
         request.post({url, form: data}, function(err, response, body) {
+            console.log("Received response.");
             if (!err && (!response || response.statusCode==200)) {
+                console.log("Request received. Clearing lastSearchedSongs...");
+                console.log("Aria says: "+body);
                 message.reply("Your request has been received.");
                 lastSearchedSongs=[];
             }
             else if (response) {
+                console.log("Request failed with status code "+response.statusCode);
                 if (response.statusCode==429) {
+                    console.log("Issued rate limiting message.");
                     message.reply("Sorry, Cadence limits you to one request every five minutes.");
                 }
                 else {
+                    console.log("Aria says: "+body);
                     message.reply("Error "+response.statusCode+". Aria says:\n\n"+body);
                 }
             }
             else {
+                console.log("Request failed without status code.");
+                console.log("Aria says: "+body);
                 message.reply("Error. Aria says:\n\n"+body);
             }
         });
