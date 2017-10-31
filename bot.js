@@ -137,7 +137,7 @@ bot.on('message', message => {
     else if (message.content.startsWith(config.commands.request)) {
         console.log("\nReceived song request.");
         console.log("Received message was \""+message.content+"\"");
-        console.log("Last searched songs: "+JSON.stringify(lastSearchedSongs));
+        console.log("Last searched songs:\n\n"+JSON.stringify(lastSearchedSongs)+"\n\n");
         if (lastSearchedSongs.length==0) {
             console.log("No stored results.");
             message.reply("Please search for your songs before requesting them.");
