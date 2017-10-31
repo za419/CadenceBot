@@ -14,14 +14,18 @@ var lastSearchedSongs=[];
 
 bot.on('message', message => {
     if (message.content===config.commands.play) {
+        console.log("Received play command.");
         if (isPlaying) {
+            console.log("Already playing.\n");
             message.reply("Don't you have enough Cadence already?");
         }
         else {
             var voiceChannel=message.member.voiceChannel;
             if (voiceChannel) {
+                console.log("Attempting to join voice channel "+voiceChannel.name);
                 isPlaying=true;
                 voiceChannel.join().then(connection => {
+                    console.log("Joined. Beginning playback (channel bitrate="+voiceChannel.bitrate+").");
                     const dispatch = connection.playArbitraryInput('http://cadenceradio.com:8000/cadence1');
 //                  dispatch.on("end", end=> {
 //                      isPlaying=false;
@@ -31,6 +35,7 @@ bot.on('message', message => {
                 }).catch(err => console.log(err));
             }
             else {
+                console.log("User "+message.member.user.tag+" is not in a voice channel.");
                 message.reply("You need to be in a voice channel for me to play Cadence in it, silly!");
             }
         }
