@@ -12,3 +12,5 @@ sudo apt-get install -y ffmpeg gcc g++
 
 cp auto-setup.sh .git/hooks/post-checkout
 cp auto-setup.sh .git/hooks/post-merge
+
+./setup.sh
