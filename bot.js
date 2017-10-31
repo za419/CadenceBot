@@ -28,6 +28,7 @@ bot.on('message', message => {
                     console.log("Joined. Beginning playback (channel bitrate="+voiceChannel.bitrate+").");
                     const dispatch = connection.playArbitraryInput('http://cadenceradio.com:8000/cadence1');
                     dispatch.on("end", end=> {
+                        console.log("Stream ended. The current time is "+new Date().toString());
                         isPlaying=false;
                         message.reply("End of Cadence: "+end);
                         voiceChannel.leave();
