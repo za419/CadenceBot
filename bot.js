@@ -27,11 +27,11 @@ bot.on('message', message => {
                 voiceChannel.join().then(connection => {
                     console.log("Joined. Beginning playback (channel bitrate="+voiceChannel.bitrate+").");
                     const dispatch = connection.playArbitraryInput('http://cadenceradio.com:8000/cadence1');
-//                  dispatch.on("end", end=> {
-//                      isPlaying=false;
-//                      message.reply("End of Cadence: "+end);
-//                      voiceChannel.leave();
-//                  });
+                    dispatch.on("end", end=> {
+                        isPlaying=false;
+                        message.reply("End of Cadence: "+end);
+                        voiceChannel.leave();
+                    });
                 }).catch(err => console.log(err));
             }
             else {
