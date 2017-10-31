@@ -14,7 +14,7 @@ var lastSearchedSongs=[];
 
 bot.on('message', message => {
     if (message.content===config.commands.play) {
-        console.log("Received play command.");
+        console.log("\nReceived play command.");
         if (isPlaying) {
             console.log("Already playing.\n");
             message.reply("Don't you have enough Cadence already?");
@@ -42,7 +42,7 @@ bot.on('message', message => {
         }
     }
     else if (message.content===config.commands.stop) {
-        console.log("Received stop command.");
+        console.log("\nReceived stop command.");
         if (isPlaying) {
             console.log("Attempting to disconnect from channel.");
             var voiceChannel=message.member.voiceChannel;
@@ -62,7 +62,7 @@ bot.on('message', message => {
         }
     }
     else if (message.content===config.commands.help) {
-        console.log("Received help command.");
+        console.log("\nReceived help command.");
         var help="";
         help="I have "+Object.keys(config.commands).length+" commands. They are:\n";
         for (var key in config.commands) {
@@ -74,7 +74,7 @@ bot.on('message', message => {
         console.log("Issued help message.");
     }
     else if (message.content===config.commands.nowplaying) {
-        console.log("Received nowplaying command.");
+        console.log("\nReceived nowplaying command.");
         const url="http://cadenceradio.com:8000/now-playing.xsl";
         console.log("Issuing fetch request to "+url);
         fetch(url).then(response => {
@@ -92,7 +92,7 @@ bot.on('message', message => {
         });
     }
     else if (message.content.startsWith(config.commands.search)) {
-        console.log("Received search command.");
+        console.log("\nReceived search command.");
         console.log("Received message was \""+message.content+"\"");
         const url='http://cadenceradio.com/search';
         var data={
@@ -135,7 +135,7 @@ bot.on('message', message => {
         });
     }
     else if (message.content.startsWith(config.commands.request)) {
-        console.log("Received song request.");
+        console.log("\nReceived song request.");
         console.log("Received message was \""+message.content+"\"");
         console.log("Last searched songs: "+JSON.stringify(lastSearchedSongs));
         if (lastSearchedSongs.length==0) {
