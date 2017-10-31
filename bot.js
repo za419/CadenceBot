@@ -42,17 +42,22 @@ bot.on('message', message => {
         }
     }
     else if (message.content===config.commands.stop) {
+        console.log("Received stop command.");
         if (isPlaying) {
+            console.log("Attempting to disconnect from channel.");
             var voiceChannel=message.member.voiceChannel;
             if (voiceChannel) {
                 isPlaying=false;
                 voiceChannel.leave();
+                console.log("Disconnected from channel "+voiceChannel.name+".");
             }
             else {
+                console.log("User not in a voice channel.");
                 message.reply("I dunno, I'd prefer if someone in the channel told me to stop.");
             }
         }
         else {
+            console.log("Not currently playing.");
             message.reply("OK, OK, I get it, you don't like me, sheesh!");
         }
     }
