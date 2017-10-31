@@ -74,13 +74,19 @@ bot.on('message', message => {
         console.log("Issued help message.");
     }
     else if (message.content===config.commands.nowplaying) {
+        console.log("Received nowplaying command.");
         const url="http://cadenceradio.com:8000/now-playing.xsl";
+        console.log("Issuing fetch request to "+url);
         fetch(url).then(response => {
+            console.log("Received response.");
             response.text().then(text => {
+                console.log("Response text:\n\n"+text+"\n\n");
+                console.log("Parsing response...");
                 text=text.substring("parseMusic(".length, text.length-2);
                 var json=JSON.parse(text);
                 var artist=json['/cadence1']['artist_name'].trim();
                 var song=json['/cadence1']['song_title'].trim();
+                console.log("Parse complete: Now playing \""+song+"\" by "+artist);
                 message.reply("Now playing: \""+song+"\" by "+artist);
             });
         });
