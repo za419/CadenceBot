@@ -14,43 +14,55 @@ var lastSearchedSongs=[];
 
 bot.on('message', message => {
     if (message.content===config.commands.play) {
+        console.log("\nReceived play command.");
         if (isPlaying) {
+            console.log("Already playing.\n");
             message.reply("Don't you have enough Cadence already?");
         }
         else {
             var voiceChannel=message.member.voiceChannel;
             if (voiceChannel) {
+                console.log("Attempting to join voice channel "+voiceChannel.name);
                 isPlaying=true;
                 voiceChannel.join().then(connection => {
+                    console.log("Joined. Beginning playback (channel bitrate="+voiceChannel.bitrate+").");
                     const dispatch = connection.playArbitraryInput('http://cadenceradio.com:8000/cadence1');
-//                  dispatch.on("end", end=> {
-//                      isPlaying=false;
-//                      message.reply("End of Cadence: "+end);
-//                      voiceChannel.leave();
-//                  });
+                    dispatch.on("end", end=> {
+                        console.log("Stream ended. The current time is "+new Date().toString());
+                        isPlaying=false;
+                        message.reply("End of Cadence: "+end);
+                        voiceChannel.leave();
+                    });
                 }).catch(err => console.log(err));
             }
             else {
+                console.log("User "+message.member.user.tag+" is not in a voice channel.");
                 message.reply("You need to be in a voice channel for me to play Cadence in it, silly!");
             }
         }
     }
     else if (message.content===config.commands.stop) {
+        console.log("\nReceived stop command.");
         if (isPlaying) {
+            console.log("Attempting to disconnect from channel.");
             var voiceChannel=message.member.voiceChannel;
             if (voiceChannel) {
                 isPlaying=false;
                 voiceChannel.leave();
+                console.log("Disconnected from channel "+voiceChannel.name+".");
             }
             else {
+                console.log("User not in a voice channel.");
                 message.reply("I dunno, I'd prefer if someone in the channel told me to stop.");
             }
         }
         else {
+            console.log("Not currently playing.");
             message.reply("OK, OK, I get it, you don't like me, sheesh!");
         }
     }
     else if (message.content===config.commands.help) {
+        console.log("\nReceived help command.");
         var help="";
         help="I have "+Object.keys(config.commands).length+" commands. They are:\n";
         for (var key in config.commands) {
@@ -59,32 +71,48 @@ bot.on('message', message => {
             }
         }
         message.reply(help);
+        console.log("Issued help message.");
     }
     else if (message.content===config.commands.nowplaying) {
+        console.log("\nReceived nowplaying command.");
         const url="http://cadenceradio.com:8000/now-playing.xsl";
+        console.log("Issuing fetch request to "+url);
         fetch(url).then(response => {
+            console.log("Received response.");
             response.text().then(text => {
+                console.log("Response text:\n\n"+text+"\n\n");
+                console.log("Parsing response...");
                 text=text.substring("parseMusic(".length, text.length-2);
                 var json=JSON.parse(text);
                 var artist=json['/cadence1']['artist_name'].trim();
                 var song=json['/cadence1']['song_title'].trim();
+                console.log("Parse complete: Now playing \""+song+"\" by "+artist);
                 message.reply("Now playing: \""+song+"\" by "+artist);
             });
         });
     }
     else if (message.content.startsWith(config.commands.search)) {
+        console.log("\nReceived search command.");
+        console.log("Received message was \""+message.content+"\"");
         const url='http://cadenceradio.com/search';
         var data={
             search: message.content.substring(config.commands.search.length)
         };
-        
+
+        console.log("Making a request to "+url);
+        console.log("data.search="+data.search);        
         request.post({url, form: data}, function(err, response, body) {
+           console.log("Received response.");
            if (!err && (!response || response.statusCode==200)) {
+               console.log("No error, and either no status code or status code 200.");
+               console.log("Received body:\n\n"+body+"\n\n");
                var songs=JSON.parse(body);
                if (songs.length==0) {
+                   console.log("No results.");
                    message.reply("Cadence has no results for \""+data.search+"\".");
                }
                else {
+                   console.log(songs.length+" results.");
                    lastSearchedSongs=songs;
                    var response="Cadence returned:\n";
                    for (var i=0; i<songs.length; ++i) {
@@ -94,23 +122,32 @@ bot.on('message', message => {
                }
            }
            else {
+               console.log("Response is erroneous. Returned body:\n\n"+body+"\n\n");
                if (response) {
+                   console.log("Returned status code: "+response.statusCode);
                    message.reply("Error "+response.statusCode+". Aria says:\n\n"+body);
                }
                else {
+                   console.log("No status code.");
                    message.reply("Error. Aria says:\n\n"+body);
                }
            }
         });
     }
     else if (message.content.startsWith(config.commands.request)) {
+        console.log("\nReceived song request.");
+        console.log("Received message was \""+message.content+"\"");
+        console.log("Last searched songs:\n\n"+JSON.stringify(lastSearchedSongs)+"\n\n");
         if (lastSearchedSongs.length==0) {
+            console.log("No stored results.");
             message.reply("Please search for your songs before requesting them.");
             return;
         }
         const url='http://cadenceradio.com/request';
         var song=parseInt(message.content.substring(config.commands.request.length))-1;
+        console.log("Prepared to construct request for song at index "+song);
         if (song>=lastSearchedSongs.length) {
+            console.log("Index out-of-bounds.");
             message.reply("Sorry, I can't request song number "+song+" out of a set of "+lastSearchedSongs.length+".");
             return;
         }
@@ -118,20 +155,30 @@ bot.on('message', message => {
         var data={
             path: lastSearchedSongs[song].path
         };
+        console.log("Making a request to "+url);
+        console.log("data.path="+data.path);
         request.post({url, form: data}, function(err, response, body) {
+            console.log("Received response.");
             if (!err && (!response || response.statusCode==200)) {
+                console.log("Request received. Clearing lastSearchedSongs...");
+                console.log("Aria says: "+body);
                 message.reply("Your request has been received.");
                 lastSearchedSongs=[];
             }
             else if (response) {
+                console.log("Request failed with status code "+response.statusCode);
                 if (response.statusCode==429) {
+                    console.log("Issued rate limiting message.");
                     message.reply("Sorry, Cadence limits you to one request every five minutes.");
                 }
                 else {
+                    console.log("Aria says: "+body);
                     message.reply("Error "+response.statusCode+". Aria says:\n\n"+body);
                 }
             }
             else {
+                console.log("Request failed without status code.");
+                console.log("Aria says: "+body);
                 message.reply("Error. Aria says:\n\n"+body);
             }
         });
