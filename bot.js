@@ -12,7 +12,7 @@ var isPlaying=false;
 
 var lastSearchedSongs=[];
 
-bot.on('message', message => {
+function command(message) {
     if (message.content===config.commands.play) {
         console.log("\nReceived play command.");
         if (isPlaying) {
@@ -32,6 +32,14 @@ bot.on('message', message => {
                         isPlaying=false;
                         message.reply("End of Cadence: "+end);
                         voiceChannel.leave();
+                        
+                        // Issue a spurious nowplaying to get it in the log.
+                        // Should remove this before sending to prod, probably
+                        var msg={};
+                        msg.content=config.commands.nowplaying;
+                        msg.reply=function (s) {console.log("Sent message: "+s)};
+                        console.log("Sending false nowplaying command...");
+                        command(msg);
                     });
                 }).catch(err => console.log(err));
             }
@@ -183,6 +191,10 @@ bot.on('message', message => {
             }
         });
     }
-})
+}
+
+bot.on('message', message => {
+    command(message)
+});
 
 bot.login(auth.token);
