@@ -153,6 +153,11 @@ function command(message) {
         }
         const url='http://cadenceradio.com/request';
         var song=parseInt(message.content.substring(config.commands.request.length))-1;
+        if (song<0) {
+            console.log("Non-positive input.");
+            message.reply("Sorry, I cannot request a song with a non-positive number.");
+            return;
+        }
         console.log("Prepared to construct request for song at index "+song);
         if (song>=lastSearchedSongs.length) {
             console.log("Index out-of-bounds.");
