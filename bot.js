@@ -156,7 +156,7 @@ function command(message) {
         console.log("Prepared to construct request for song at index "+song);
         if (song>=lastSearchedSongs.length) {
             console.log("Index out-of-bounds.");
-            message.reply("Sorry, I can't request song number "+song+" out of a set of "+lastSearchedSongs.length+".");
+            message.reply("Sorry, I can't request song number "+(song+1)+" out of a set of "+lastSearchedSongs.length+".");
             return;
         }
 
