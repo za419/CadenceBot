@@ -153,6 +153,11 @@ function command(message) {
         }
         const url='http://cadenceradio.com/request';
         var song=parseInt(message.content.substring(config.commands.request.length))-1;
+        if (isNaN(song)) {
+            console.log("NaN requested:\n"+message.content.substring(config.commands.request.length));
+            message.reply("Please request a number.");
+            return;
+        }
         if (song<0) {
             console.log("Non-positive input.");
             message.reply("Sorry, I cannot request a song with a non-positive number.");
