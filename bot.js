@@ -29,8 +29,9 @@ function command(message) {
                     const dispatch = connection.playArbitraryInput('http://cadenceradio.com:8000/cadence1');
                     dispatch.on("end", end=> {
                         console.log("Stream ended. The current time is "+new Date().toString());
+                        console.log("Error was: "+end);
                         isPlaying=false;
-                        message.reply("End of Cadence: "+end);
+                        message.reply("Hm, I seem to have lost Cadence.\n\nLet me see if I can get it back for you.");
                         voiceChannel.leave();
                         
                         // Issue a spurious nowplaying to get it in the log.
