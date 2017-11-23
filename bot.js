@@ -32,7 +32,6 @@ function command(message) {
                         console.log("Error was: "+end);
                         isPlaying=false;
                         message.reply("Hm, I seem to have lost Cadence.\n\nLet me see if I can get it back for you.");
-                        voiceChannel.leave();
                         
                         // Issue a spurious nowplaying to get it in the log.
                         // Should remove this before sending to prod, probably
@@ -40,6 +39,30 @@ function command(message) {
                         msg.content=config.commands.nowplaying;
                         msg.reply=function (s) {console.log("Sent message: "+s)};
                         console.log("Sending false nowplaying command...");
+                        command(msg);
+                        
+                        // Now, we want to reissue ourselves a play command 
+                        //  equivalent to the original one, to begin playback on 
+                        //  the same channel.
+                        // At a glance, that means reissuing the original message.
+                        // However, if the user has since disconnected...
+                        //  ... We'll generate a spurious error.
+                        // The play code wants to connect to the user's channel:
+                        // It doesn't know what channel to connect to if the user 
+                        //  isn't connected.
+                        // We, however, do.
+                        // So, if there isn't a VC, we need to mock it.
+                        // At the same time, the user could be in the wrong VC.
+                        // That would make us connect to the incorrect channel.
+                        // Basically, we just generally want to mock the VC.
+                        // That's why the naïve implementation (command(message))
+                        //  isn't the one we use here.
+                        msg={};
+                        msg.content=message.content;
+                        msg.reply=message.reply; // I love first-class functions.
+                        msg.member={};
+                        msg.member.voiceChannel=voiceChannel;
+                        console.log("Sending mocked play command...");
                         command(msg);
                     });
                 }).catch(err => console.log(err));
