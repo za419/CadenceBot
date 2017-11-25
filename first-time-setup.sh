@@ -57,3 +57,40 @@ else
     echo "OK"
 fi
 
+read -n 1 -p "Would you like to setup Discord authentication now? (y/N) " authentication
+
+authentication="${authentication,,}"
+
+while [[ "$authentication" != "y" && "$authentication" != "n" && "$authentication" != "" ]]; do
+    read -n 1 -p "Would you like to setup Discord authentication now? (y/N) " authentication
+
+    authentication="${authentication,,}"
+done
+
+if [ "$authentication" == "y" ]; then
+    echo
+
+    token=""
+    while [ "$token" == "" ]; do
+        read -p "Please enter your Discord bot token: " token
+    done
+
+    echo "Creating script..."
+
+    cat >./auth.json <<-EOL
+	{
+	  "token": "$token"
+	}
+EOL
+
+    echo "Done."
+else
+    if [ "$authentication" == "n" ]; then
+        echo
+    fi
+
+    echo "OK."
+fi
+
+echo
+echo "Setup complete."
