@@ -14,3 +14,44 @@ cp auto-setup.sh .git/hooks/post-checkout
 cp auto-setup.sh .git/hooks/post-merge
 
 ./setup.sh
+
+read -n 1 -p "Would you like to setup log emailing on restart now? (y/N) " emailing
+
+emailing="${emailing,,}"
+
+while [[ "$emailing" != "y" && "$emailing" != "n" && "$emailing" != "" ]]; do
+    read -n 1 -p "Would you like to setup log emailing on restart now? (y/N) " emailing
+
+    emailing="${emailing,,}"
+done
+
+if [ "$emailing" == "y" ]; then
+    echo
+
+    address=""
+    while [ "$address" == "" ]; do
+        read -p "Which email address would you like to send emails to? " address
+    done
+
+    read -p "Which subject prefix would you like to use? (press enter for default) " prefix
+    if [ "$prefix" == "" ]; then
+        prefix="CadenceBot prestart log at "
+    fi
+
+    echo "Creating script..."
+
+    cat >./maillog.sh <<-EOL
+	#!/bin/bash
+
+	cat CadenceBot.log | mail -s "$prefix \$(date)" "$address" -aFrom:"$address"
+EOL
+    chmod +x maillog.sh
+
+    echo "Done."
+else
+    if [ "$emailing" != "" ]; then
+        echo
+    fi
+    echo "OK"
+fi
+
