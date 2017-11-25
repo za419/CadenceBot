@@ -2,8 +2,10 @@
 # (or at least platforms that use apt and have the required packages)
 
 # Mostly, this just exists to make sure that the necessary packages are installed.
-# Actually, it doesn't do much of anything else. It's just that and copying hooks.
 # Its here for convenience, so no one struggles to figure out what needs installing.
+# The script can perform more than that, but other parts are optional.
+# It can automatically setup e-mailing of logs before restart
+# And it can automatically create the auth.json file (used for authentication with Discord)
 
 # As you can guess by its placement in the Git repo, this script should be run after clone, in the worktree.
 
