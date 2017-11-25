@@ -12,7 +12,7 @@ var isPlaying=false;
 
 var lastSearchedSongs=[];
 
-bot.on('message', message => {
+function command(message) {
     if (message.content===config.commands.play) {
         console.log("\nReceived play command.");
         if (isPlaying) {
@@ -28,10 +28,42 @@ bot.on('message', message => {
                     console.log("Joined. Beginning playback (channel bitrate="+voiceChannel.bitrate+").");
                     const dispatch = connection.playArbitraryInput('http://cadenceradio.com:8000/cadence1');
                     dispatch.on("end", end=> {
-                        console.log("Stream ended. The current time is "+new Date().toString());
+                        console.log("\nStream ended. The current time is "+new Date().toString());
+                        console.log("Error was: "+end);
                         isPlaying=false;
-                        message.reply("End of Cadence: "+end);
-                        voiceChannel.leave();
+                        message.reply("Hm, I seem to have lost Cadence.\n\nLet me see if I can get it back for you.");
+                        
+                        // Issue a spurious nowplaying to get it in the log.
+                        // Should remove this before sending to prod, probably
+                        var msg={};
+                        msg.content=config.commands.nowplaying;
+                        msg.reply=function (s) {console.log("Sent message: "+s)};
+                        console.log("Sending false nowplaying command...");
+                        command(msg);
+                        
+                        // Now, we want to reissue ourselves a play command 
+                        //  equivalent to the original one, to begin playback on 
+                        //  the same channel.
+                        // At a glance, that means reissuing the original message.
+                        // However, if the user has since disconnected...
+                        //  ... We'll generate a spurious error.
+                        // The play code wants to connect to the user's channel:
+                        // It doesn't know what channel to connect to if the user 
+                        //  isn't connected.
+                        // We, however, do.
+                        // So, if there isn't a VC, we need to mock it.
+                        // At the same time, the user could be in the wrong VC.
+                        // That would make us connect to the incorrect channel.
+                        // Basically, we just generally want to mock the VC.
+                        // That's why the naïve implementation (command(message))
+                        //  isn't the one we use here.
+                        msg={};
+                        msg.content=message.content;
+                        msg.reply=message.reply; // I love first-class functions.
+                        msg.member={};
+                        msg.member.voiceChannel=voiceChannel;
+                        console.log("Sending mocked play command...");
+                        command(msg);
                     });
                 }).catch(err => console.log(err));
             }
@@ -145,10 +177,20 @@ bot.on('message', message => {
         }
         const url='http://cadenceradio.com/request';
         var song=parseInt(message.content.substring(config.commands.request.length))-1;
+        if (isNaN(song)) {
+            console.log("NaN requested:\n"+message.content.substring(config.commands.request.length));
+            message.reply("Please request a number.");
+            return;
+        }
+        if (song<0) {
+            console.log("Non-positive input.");
+            message.reply("Sorry, I cannot request a song with a non-positive number.");
+            return;
+        }
         console.log("Prepared to construct request for song at index "+song);
         if (song>=lastSearchedSongs.length) {
             console.log("Index out-of-bounds.");
-            message.reply("Sorry, I can't request song number "+song+" out of a set of "+lastSearchedSongs.length+".");
+            message.reply("Sorry, I can't request song number "+(song+1)+" out of a set of "+lastSearchedSongs.length+".");
             return;
         }
 
@@ -183,6 +225,10 @@ bot.on('message', message => {
             }
         });
     }
-})
+}
+
+bot.on('message', message => {
+    command(message)
+});
 
 bot.login(auth.token);
