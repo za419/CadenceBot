@@ -29,6 +29,7 @@ function command(message) {
                     const dispatch = connection.playArbitraryInput('http://cadenceradio.com:8000/cadence1');
                     dispatch.on("end", end=> {
                         console.log("\nStream ended. The current time is "+new Date().toString());
+			if (!isPlaying) return;
                         console.log("Error was: "+end);
                         isPlaying=false;
                         message.reply("Hm, I seem to have lost Cadence.\n\nLet me see if I can get it back for you.");
@@ -59,7 +60,7 @@ function command(message) {
                         //  isn't the one we use here.
                         msg={};
                         msg.content=message.content;
-                        msg.reply=message.reply; // I love first-class functions.
+                        msg.reply=function(r) {message.reply(r)};
                         msg.member={};
                         msg.member.voiceChannel=voiceChannel;
                         console.log("Sending mocked play command...");
