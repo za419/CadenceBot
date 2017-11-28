@@ -10,6 +10,9 @@ var bot=new Discord.Client({
 });
 var isPlaying=false;
 
+var reconnectAllowedAt=new Date();
+var reconnectTimeout=30; // Seconds
+
 var lastSearchedSongs=[];
 
 function command(message) {
@@ -30,8 +33,19 @@ function command(message) {
                     dispatch.on("end", end=> {
                         console.log("\nStream ended. The current time is "+new Date().toString());
 			if (!isPlaying) return;
+
                         console.log("Error was: "+end);
+
                         isPlaying=false;
+                        if (new Date()<reconnectAllowedAt) {
+                            console.log("Before reconnect timer. Disconnecting");
+                            message.reply("Since I've already tried to reconnect in the last "+reconnectTimeout+" seconds, I won't try again.\n\nRun \""+config.commands.play+"\" if you want me to try again.");
+                            voiceChannel.leave();
+                            return;
+                        }
+                        reconnectAllowedAt=new Date();
+                        reconnectAllowedAt.setSeconds(reconnectAllowedAt.getSeconds()+reconnectTimeout);
+
                         message.reply("Hm, I seem to have lost Cadence.\n\nLet me see if I can get it back for you.");
                         
                         // Issue a spurious nowplaying to get it in the log.
