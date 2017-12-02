@@ -3,6 +3,9 @@ var auth=require('./auth.json');
 var config=require('./config.json');
 var fetch=require('node-fetch');
 var request=require('request');
+var logger=require('js-logging');
+
+var log=logger.colorConsole(); // Use default colors. Change if necessary
 
 var bot=new Discord.Client({
     token: auth.token,
@@ -16,6 +19,14 @@ var reconnectTimeout=30; // Seconds
 var lastSearchedSongs=[];
 
 function command(message) {
+    log.debug(message.content);
+    log.info(message.content);
+    log.notice(message.content);
+    log.warning(message.content);
+    log.error(message.content);
+    log.critical(message.content);
+    log.alert(message.content);
+    log.emergency(message.content);
     if (message.content===config.commands.play) {
         console.log("\nReceived play command.");
         if (isPlaying) {
