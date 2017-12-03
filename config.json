@@ -17,6 +17,8 @@
   },
   "logging": {
     "format": "${timestamp} <${title}> ${file}:${line} ${message}",
+    "dateformat": "yyyy-mm-dd HH:MM:ss",
+    "level": "info",
     "filters": {
       "debug": "cyan",
       "info": "white",
