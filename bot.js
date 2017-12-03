@@ -70,7 +70,7 @@ function command(message) {
                     log.notice("Joined. Beginning playback (channel bitrate="+voiceChannel.bitrate+").");
                     const dispatch = connection.playArbitraryInput('http://cadenceradio.com:8000/cadence1');
                     dispatch.on("end", end=> {
-                        log.warning("\nStream ended. The current time is "+new Date().toString());
+                        log.warning("Stream ended. The current time is "+new Date().toString());
 			if (!isPlaying) return;
 
                         log.warning("Error was: "+end);
