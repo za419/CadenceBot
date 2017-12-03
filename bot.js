@@ -119,7 +119,7 @@ function command(message) {
                         log.notice("Sending mocked play command...");
                         command(msg);
                     });
-                }).catch(err => log.critical(err)));
+                }).catch(err => log.critical(err));
             }
             else {
                 log.error("User "+message.member.user.tag+" is not in a voice channel.");
