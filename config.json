@@ -21,8 +21,8 @@
     "level": "info",
     "filters": {
       "debug": "cyan",
-      "info": "white",
-      "notice": "green",
+      "info": "green",
+      "notice": "white",
       "warning": "yellow",
       "error": "red",
       "critical": "red",
