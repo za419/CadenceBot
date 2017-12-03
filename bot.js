@@ -287,4 +287,6 @@ bot.on('message', message => {
     command(message)
 });
 
+log.alert("Starting bot");
+
 bot.login(auth.token);
