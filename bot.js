@@ -56,28 +56,28 @@ var lastSearchedSongs=[];
 
 function command(message) {
     if (message.content===config.commands.play) {
-        console.log("\nReceived play command.");
+        log.notice("\nReceived play command.");
         if (isPlaying) {
-            console.log("Already playing.\n");
+            log.info("Already playing.\n");
             message.reply("Don't you have enough Cadence already?");
         }
         else {
             var voiceChannel=message.member.voiceChannel;
             if (voiceChannel) {
-                console.log("Attempting to join voice channel "+voiceChannel.name);
+                log.info("Attempting to join voice channel "+voiceChannel.name);
                 isPlaying=true;
                 voiceChannel.join().then(connection => {
-                    console.log("Joined. Beginning playback (channel bitrate="+voiceChannel.bitrate+").");
+                    log.notice("Joined. Beginning playback (channel bitrate="+voiceChannel.bitrate+").");
                     const dispatch = connection.playArbitraryInput('http://cadenceradio.com:8000/cadence1');
                     dispatch.on("end", end=> {
-                        console.log("\nStream ended. The current time is "+new Date().toString());
+                        log.warning("\nStream ended. The current time is "+new Date().toString());
 			if (!isPlaying) return;
 
-                        console.log("Error was: "+end);
+                        log.warning("Error was: "+end);
 
                         isPlaying=false;
                         if (new Date()<reconnectAllowedAt) {
-                            console.log("Before reconnect timer. Disconnecting");
+                            log.notice("Before reconnect timer. Disconnecting");
                             message.reply("Since I've already tried to reconnect in the last "+reconnectTimeout+" seconds, I won't try again.\n\nRun \""+config.commands.play+"\" if you want me to try again.");
                             voiceChannel.leave();
                             return;
@@ -91,8 +91,8 @@ function command(message) {
                         // Should remove this before sending to prod, probably
                         var msg={};
                         msg.content=config.commands.nowplaying;
-                        msg.reply=function (s) {console.log("Sent message: "+s)};
-                        console.log("Sending false nowplaying command...");
+                        msg.reply=function (s) {log.debug("Sent message: "+s)};
+                        log.notice("Sending false nowplaying command...");
                         command(msg);
                         
                         // Now, we want to reissue ourselves a play command 
@@ -116,39 +116,39 @@ function command(message) {
                         msg.reply=function(r) {message.reply(r)};
                         msg.member={};
                         msg.member.voiceChannel=voiceChannel;
-                        console.log("Sending mocked play command...");
+                        log.notice("Sending mocked play command...");
                         command(msg);
                     });
-                }).catch(err => console.log(err));
+                }).catch(err => log.critical(err)));
             }
             else {
-                console.log("User "+message.member.user.tag+" is not in a voice channel.");
+                log.error("User "+message.member.user.tag+" is not in a voice channel.");
                 message.reply("You need to be in a voice channel for me to play Cadence in it, silly!");
             }
         }
     }
     else if (message.content===config.commands.stop) {
-        console.log("\nReceived stop command.");
+        log.notice("\nReceived stop command.");
         if (isPlaying) {
-            console.log("Attempting to disconnect from channel.");
+            log.info("Attempting to disconnect from channel.");
             var voiceChannel=message.member.voiceChannel;
             if (voiceChannel) {
                 isPlaying=false;
                 voiceChannel.leave();
-                console.log("Disconnected from channel "+voiceChannel.name+".");
+                log.notice("Disconnected from channel "+voiceChannel.name+".");
             }
             else {
-                console.log("User not in a voice channel.");
+                log.notice("User not in a voice channel.");
                 message.reply("I dunno, I'd prefer if someone in the channel told me to stop.");
             }
         }
         else {
-            console.log("Not currently playing.");
+            log.error("Not currently playing.");
             message.reply("OK, OK, I get it, you don't like me, sheesh!");
         }
     }
     else if (message.content===config.commands.help) {
-        console.log("\nReceived help command.");
+        log.notice("\nReceived help command.");
         var help="";
         help="I have "+Object.keys(config.commands).length+" commands. They are:\n";
         for (var key in config.commands) {
@@ -157,93 +157,94 @@ function command(message) {
             }
         }
         message.reply(help);
-        console.log("Issued help message.");
+        log.notice("Issued help message.");
     }
     else if (message.content===config.commands.nowplaying) {
-        console.log("\nReceived nowplaying command.");
+        log.notice("\nReceived nowplaying command.");
         const url="http://cadenceradio.com:8000/now-playing.xsl";
-        console.log("Issuing fetch request to "+url);
+        log.info("Issuing fetch request to "+url);
         fetch(url).then(response => {
-            console.log("Received response.");
+            log.info("Received response.");
             response.text().then(text => {
-                console.log("Response text:\n\n"+text+"\n\n");
-                console.log("Parsing response...");
+                log.info("Response text:\n\n"+text+"\n\n");
+                log.info("Parsing response...");
                 text=text.substring("parseMusic(".length, text.length-2);
                 var json=JSON.parse(text);
                 var artist=json['/cadence1']['artist_name'].trim();
                 var song=json['/cadence1']['song_title'].trim();
-                console.log("Parse complete: Now playing \""+song+"\" by "+artist);
+                log.notice("Parse complete: Now playing \""+song+"\" by "+artist);
                 message.reply("Now playing: \""+song+"\" by "+artist);
             });
         });
     }
     else if (message.content.startsWith(config.commands.search)) {
-        console.log("\nReceived search command.");
-        console.log("Received message was \""+message.content+"\"");
+        log.notice("\nReceived search command.");
+        log.notice("Received message was \""+message.content+"\"");
         const url='http://cadenceradio.com/search';
         var data={
             search: message.content.substring(config.commands.search.length)
         };
 
-        console.log("Making a request to "+url);
-        console.log("data.search="+data.search);        
+        log.info("Making a request to "+url);
+        log.debug("data.search="+data.search);
         request.post({url, form: data}, function(err, response, body) {
-           console.log("Received response.");
+           log.info("Received response.");
            if (!err && (!response || response.statusCode==200)) {
-               console.log("No error, and either no status code or status code 200.");
-               console.log("Received body:\n\n"+body+"\n\n");
+               log.info("No error, and either no status code or status code 200.");
+               log.debug("Received body:\n\n"+body+"\n\n");
                var songs=JSON.parse(body);
                if (songs.length==0) {
-                   console.log("No results.");
+                   log.info("No results.");
                    message.reply("Cadence has no results for \""+data.search+"\".");
                }
                else {
-                   console.log(songs.length+" results.");
+                   log.info(songs.length+" result(s).");
                    lastSearchedSongs=songs;
                    var response="Cadence returned:\n";
                    for (var i=0; i<songs.length; ++i) {
                        response+="  "+(i+1)+")  \""+songs[i].title+"\" by "+songs[i].artist[0]+"\n";
                    }
+                   log.debug("Issuing response:\n\n"+response+"\n\n");
                    message.reply(response);
                }
            }
            else {
-               console.log("Response is erroneous. Returned body:\n\n"+body+"\n\n");
+               log.error("Response is erroneous. Returned body:\n\n"+body+"\n\n");
                if (response) {
-                   console.log("Returned status code: "+response.statusCode);
+                   log.error("Returned status code: "+response.statusCode);
                    message.reply("Error "+response.statusCode+". Aria says:\n\n"+body);
                }
                else {
-                   console.log("No status code.");
+                   log.error("No status code.");
                    message.reply("Error. Aria says:\n\n"+body);
                }
            }
         });
     }
     else if (message.content.startsWith(config.commands.request)) {
-        console.log("\nReceived song request.");
-        console.log("Received message was \""+message.content+"\"");
-        console.log("Last searched songs:\n\n"+JSON.stringify(lastSearchedSongs)+"\n\n");
+        log.notice("\nReceived song request.");
+        log.notice("Received message was \""+message.content+"\"");
+        log.info("Last searched songs:\n\n"+JSON.stringify(lastSearchedSongs)+"\n\n");
         if (lastSearchedSongs.length==0) {
-            console.log("No stored results.");
+            log.error("No stored results.");
             message.reply("Please search for your songs before requesting them.");
             return;
         }
         const url='http://cadenceradio.com/request';
         var song=parseInt(message.content.substring(config.commands.request.length))-1;
         if (isNaN(song)) {
-            console.log("NaN requested:\n"+message.content.substring(config.commands.request.length));
+            log.error("NaN requested:\n"+message.content.substring(config.commands.request.length));
             message.reply("Please request a number.");
             return;
         }
         if (song<0) {
-            console.log("Non-positive input.");
+            log.error("Non-positive input.");
             message.reply("Sorry, I cannot request a song with a non-positive number.");
             return;
         }
-        console.log("Prepared to construct request for song at index "+song);
+        log.notice("Prepared to construct request for song at index "+song);
         if (song>=lastSearchedSongs.length) {
-            console.log("Index out-of-bounds.");
+            log.error("Index out-of-bounds.");
             message.reply("Sorry, I can't request song number "+(song+1)+" out of a set of "+lastSearchedSongs.length+".");
             return;
         }
@@ -251,30 +252,31 @@ function command(message) {
         var data={
             path: lastSearchedSongs[song].path
         };
-        console.log("Making a request to "+url);
-        console.log("data.path="+data.path);
+        log.info("Making a request to "+url);
+        log.debug("data.path="+data.path);
         request.post({url, form: data}, function(err, response, body) {
-            console.log("Received response.");
+            log.info("Received response.");
             if (!err && (!response || response.statusCode==200)) {
-                console.log("Request received. Clearing lastSearchedSongs...");
-                console.log("Aria says: "+body);
+                log.notice("Request received. Clearing lastSearchedSongs...");
+                log.info("Aria says: "+body);
                 message.reply("Your request has been received.");
                 lastSearchedSongs=[];
             }
             else if (response) {
-                console.log("Request failed with status code "+response.statusCode);
                 if (response.statusCode==429) {
-                    console.log("Issued rate limiting message.");
+                    log.warning("Request failed with status code "+response.statusCode);
+                    log.notice("Issued rate limiting message.");
                     message.reply("Sorry, Cadence limits you to one request every five minutes.");
                 }
                 else {
-                    console.log("Aria says: "+body);
+                    log.error("Request failed with status code "+response.statusCode);
+                    log.error("Aria says: "+body);
                     message.reply("Error "+response.statusCode+". Aria says:\n\n"+body);
                 }
             }
             else {
-                console.log("Request failed without status code.");
-                console.log("Aria says: "+body);
+                log.error("Request failed without status code.");
+                log.error("Aria says: "+body);
                 message.reply("Error. Aria says:\n\n"+body);
             }
         });
