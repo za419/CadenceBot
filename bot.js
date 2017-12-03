@@ -19,14 +19,6 @@ var reconnectTimeout=30; // Seconds
 var lastSearchedSongs=[];
 
 function command(message) {
-    log.debug(message.content);
-    log.info(message.content);
-    log.notice(message.content);
-    log.warning(message.content);
-    log.error(message.content);
-    log.critical(message.content);
-    log.alert(message.content);
-    log.emergency(message.content);
     if (message.content===config.commands.play) {
         console.log("\nReceived play command.");
         if (isPlaying) {
