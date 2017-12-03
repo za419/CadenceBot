@@ -56,7 +56,7 @@ var lastSearchedSongs=[];
 
 function command(message) {
     if (message.content===config.commands.play) {
-        log.notice("\nReceived play command.");
+        log.notice("Received play command.");
         if (isPlaying) {
             log.info("Already playing.\n");
             message.reply("Don't you have enough Cadence already?");
@@ -128,7 +128,7 @@ function command(message) {
         }
     }
     else if (message.content===config.commands.stop) {
-        log.notice("\nReceived stop command.");
+        log.notice("Received stop command.");
         if (isPlaying) {
             log.info("Attempting to disconnect from channel.");
             var voiceChannel=message.member.voiceChannel;
@@ -148,7 +148,7 @@ function command(message) {
         }
     }
     else if (message.content===config.commands.help) {
-        log.notice("\nReceived help command.");
+        log.notice("Received help command.");
         var help="";
         help="I have "+Object.keys(config.commands).length+" commands. They are:\n";
         for (var key in config.commands) {
@@ -160,7 +160,7 @@ function command(message) {
         log.notice("Issued help message.");
     }
     else if (message.content===config.commands.nowplaying) {
-        log.notice("\nReceived nowplaying command.");
+        log.notice("Received nowplaying command.");
         const url="http://cadenceradio.com:8000/now-playing.xsl";
         log.info("Issuing fetch request to "+url);
         fetch(url).then(response => {
@@ -178,7 +178,7 @@ function command(message) {
         });
     }
     else if (message.content.startsWith(config.commands.search)) {
-        log.notice("\nReceived search command.");
+        log.notice("Received search command.");
         log.notice("Received message was \""+message.content+"\"");
         const url='http://cadenceradio.com/search';
         var data={
@@ -222,7 +222,7 @@ function command(message) {
         });
     }
     else if (message.content.startsWith(config.commands.request)) {
-        log.notice("\nReceived song request.");
+        log.notice("Received song request.");
         log.notice("Received message was \""+message.content+"\"");
         log.info("Last searched songs:\n\n"+JSON.stringify(lastSearchedSongs)+"\n\n");
         if (lastSearchedSongs.length==0) {
