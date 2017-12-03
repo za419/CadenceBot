@@ -5,6 +5,42 @@ var fetch=require('node-fetch');
 var request=require('request');
 var logger=require('js-logging');
 
+if (config.padLog) {
+    var longestLengthIn=function(array) {
+        var max=-1;
+        for (var i=0; i<array.length; ++i) {
+            if (array[i].length>max) {
+                max=array[i].length;
+            }
+        }
+        return max;
+    }
+
+    // Attempt to pad the log format so that all log entries are the same length
+    // Assumptions and restrictions documented below
+    var logging=config.logging;
+    var string=logging.format;
+    config.logging.preprocess=function(data) {
+        // Pad the level so its centered, surrounded by enough spaces to fit the longest level
+        var longestTitle=longestLengthIn(Object.keys(logging.filters));
+        if (data.title.length<longestTitle) {
+            var diff=longestTitle-data.title.length;
+            var leftPad=Math.floor(diff/2);
+            var rightPad=diff-leftPad;
+            // Account for a misalignment in testing
+            // TODO find out why this is needed
+            leftPad-=1;
+            rightPad-=1;
+            data.title=Array(leftPad+2).join(' ')+data.title+Array(rightPad+2).join(' ');
+        }
+        // Pad the line number so it has spaces to its right until its maximum length
+        var lineLength=4; // The number of digits the line field is allocated. Currently maxes at 9999 lines
+        if (data.line.length<lineLength) {
+            data.line+=Array((lineLength-data.line.length)+2).join(' ');
+        }
+    };
+}
+
 var log=logger.colorConsole(config.logging); // Use default colors. Change if necessary
 
 var bot=new Discord.Client({

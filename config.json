@@ -29,5 +29,6 @@
       "alert": "magenta",
       "emergency": "cyan"
     }
-  }
+  },
+  "padLog": "true"
 }
