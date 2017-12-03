@@ -5,7 +5,7 @@ var fetch=require('node-fetch');
 var request=require('request');
 var logger=require('js-logging');
 
-var log=logger.colorConsole(); // Use default colors. Change if necessary
+var log=logger.colorConsole(config.logging); // Use default colors. Change if necessary
 
 var bot=new Discord.Client({
     token: auth.token,
