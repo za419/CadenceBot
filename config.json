@@ -16,6 +16,7 @@
     "request": "Request a song to be played on Cadence, by its number in the last search. You may request one song every five minutes (limited by Cadence)"
   },
   "logging": {
+    "format": "${timestamp} <${title}> ${file}:${line} ${message}",
     "filters": {
       "debug": "cyan",
       "info": "white",
