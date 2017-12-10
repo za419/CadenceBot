@@ -48,12 +48,12 @@ var bot=new Discord.Client({
     autorun: true
 });
 
-var isPlaying: {};
+var isPlaying={};
 
-var reconnectAllowedAt: {};
+var reconnectAllowedAt={};
 var reconnectTimeout=30; // Seconds
 
-var lastSearchedSongs: {};
+var lastSearchedSongs={};
 
 function command(message) {
     if (message.content===config.commands.play) {
