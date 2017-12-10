@@ -182,7 +182,7 @@ function command(message) {
         });
     }
     else if (message.content.startsWith(config.commands.search)) {
-        log.notice("Received search command in text channel "+message.channel.name", server "+message.guild.name+".");
+        log.notice("Received search command in text channel "+message.channel.name+", server "+message.guild.name+".");
         log.notice("Received message was \""+message.content+"\"");
         const url='http://cadenceradio.com/search';
         var data={
@@ -212,8 +212,8 @@ function command(message) {
                    message.reply(response);
                }
            }
-               log.error("Response is erroneous. Returned body:\n\n"+body+"\n\n");
            else {
+               log.error("Response is erroneous. Returned body:\n\n"+body+"\n\n");
                if (response) {
                    log.error("Returned status code: "+response.statusCode);
                    message.reply("Error "+response.statusCode+". Aria says:\n\n"+body);
@@ -226,7 +226,7 @@ function command(message) {
         });
     }
     else if (message.content.startsWith(config.commands.request)) {
-        log.notice("Received song request in text channel "+message.channel.name", server "+message.guild.name+".");
+        log.notice("Received song request in text channel "+message.channel.name+", server "+message.guild.name+".");
         log.notice("Received message was \""+message.content+"\"");
         log.debug("Last searched songs:\n\n"+JSON.stringify(lastSearchedSongs[message.channel.id])+"\n\n");
         lastSearchedSongs[message.channel.id]=lastSearchedSongs[message.channel.id] || []; // Default to empty array to avoid crash
