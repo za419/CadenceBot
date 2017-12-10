@@ -30,5 +30,6 @@
       "emergency": "cyan"
     }
   },
-  "padLog": "true"
+  "padLog": "true",
+  "bitrate": "96"
 }

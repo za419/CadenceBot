@@ -47,62 +47,65 @@ var bot=new Discord.Client({
     token: auth.token,
     autorun: true
 });
-var isPlaying=false;
 
-var reconnectAllowedAt=new Date();
+var isPlaying={};
+
+var reconnectAllowedAt={};
 var reconnectTimeout=30; // Seconds
 
-var lastSearchedSongs=[];
+var lastSearchedSongs={};
 
 function command(message) {
     if (message.content===config.commands.play) {
         log.notice("Received play command.");
-        if (isPlaying) {
-            log.info("Already playing.\n");
+        if (isPlaying[message.guild.id]) {
+            log.info("Already playing in server "+message.guild.name);
             message.reply("Don't you have enough Cadence already?");
         }
         else {
             var voiceChannel=message.member.voiceChannel;
             if (voiceChannel) {
-                log.info("Attempting to join voice channel "+voiceChannel.name);
-                isPlaying=true;
+                log.info("Attempting to join voice channel "+voiceChannel.name+" in server "+message.guild.name);
+                reconnectAllowedAt[voiceChannel.id]=new Date();
+                isPlaying[message.guild.id]=true;
                 voiceChannel.join().then(connection => {
                     log.notice("Joined. Beginning playback (channel bitrate="+voiceChannel.bitrate+").");
-                    const dispatch = connection.playArbitraryInput('http://cadenceradio.com:8000/cadence1');
+                    const dispatch = connection.playArbitraryInput('http://cadenceradio.com:8000/cadence1', { 'bitrate': config.bitrate });
                     dispatch.on("end", end=> {
-                        log.warning("Stream ended. The current time is "+new Date().toString());
-			if (!isPlaying) return;
+                        log.warning("Stream ended. Playback was in server "+message.guild.name+", channel "+voiceChannel.name);
+                        if (!isPlaying[message.guild.id]) return;
 
                         log.warning("Error was: "+end);
 
-                        isPlaying=false;
-                        if (new Date()<reconnectAllowedAt) {
-                            log.notice("Before reconnect timer. Disconnecting");
+                        isPlaying[message.guild.id]=false;
+                        if (new Date()<reconnectAllowedAt[voiceChannel.id]) {
+                            log.notice("Before reconnect timer for channel "+message.guild.name+":"+voiceChannel.name+". Disconnecting");
                             message.reply("Since I've already tried to reconnect in the last "+reconnectTimeout+" seconds, I won't try again.\n\nRun \""+config.commands.play+"\" if you want me to try again.");
                             voiceChannel.leave();
                             return;
                         }
-                        reconnectAllowedAt=new Date();
-                        reconnectAllowedAt.setSeconds(reconnectAllowedAt.getSeconds()+reconnectTimeout);
+                        var rAA=new Date();
+                        rAA.setSeconds(rAA.getSeconds()+reconnectTimeout);
+                        reconnectAllowedAt[voiceChannel.id]=rAA;
 
                         message.reply("Hm, I seem to have lost Cadence.\n\nLet me see if I can get it back for you.");
-                        
+
                         // Issue a spurious nowplaying to get it in the log.
                         // Should remove this before sending to prod, probably
                         var msg={};
                         msg.content=config.commands.nowplaying;
                         msg.reply=function (s) {log.debug("Sent message: "+s)};
-                        log.notice("Sending false nowplaying command...");
+                        log.notice("Sending false nowplaying command in server "+message.guild.name+"...");
                         command(msg);
-                        
-                        // Now, we want to reissue ourselves a play command 
-                        //  equivalent to the original one, to begin playback on 
+
+                        // Now, we want to reissue ourselves a play command
+                        //  equivalent to the original one, to begin playback on
                         //  the same channel.
                         // At a glance, that means reissuing the original message.
                         // However, if the user has since disconnected...
                         //  ... We'll generate a spurious error.
                         // The play code wants to connect to the user's channel:
-                        // It doesn't know what channel to connect to if the user 
+                        // It doesn't know what channel to connect to if the user
                         //  isn't connected.
                         // We, however, do.
                         // So, if there isn't a VC, we need to mock it.
@@ -116,24 +119,25 @@ function command(message) {
                         msg.reply=function(r) {message.reply(r)};
                         msg.member={};
                         msg.member.voiceChannel=voiceChannel;
-                        log.notice("Sending mocked play command...");
+                        msg.guild=message.guild;
+                        log.notice("Sending mocked play command in server "+message.guild.name+"...");
                         command(msg);
                     });
                 }).catch(err => log.critical(err));
             }
             else {
-                log.error("User "+message.member.user.tag+" is not in a voice channel.");
+                log.error("User "+message.member.user.tag+" is not in a voice channel in server "+message.guild.name+".");
                 message.reply("You need to be in a voice channel for me to play Cadence in it, silly!");
             }
         }
     }
     else if (message.content===config.commands.stop) {
         log.notice("Received stop command.");
-        if (isPlaying) {
-            log.info("Attempting to disconnect from channel.");
+        if (isPlaying[message.guild.id]) {
             var voiceChannel=message.member.voiceChannel;
+            log.info("Attempting to disconnect from channel in "+message.guild.name+".");
             if (voiceChannel) {
-                isPlaying=false;
+                isPlaying[message.guild.id]=false;
                 voiceChannel.leave();
                 log.notice("Disconnected from channel "+voiceChannel.name+".");
             }
@@ -178,7 +182,7 @@ function command(message) {
         });
     }
     else if (message.content.startsWith(config.commands.search)) {
-        log.notice("Received search command.");
+        log.notice("Received search command in text channel "+message.channel.name+", server "+message.guild.name+".");
         log.notice("Received message was \""+message.content+"\"");
         const url='http://cadenceradio.com/search';
         var data={
@@ -199,7 +203,7 @@ function command(message) {
                }
                else {
                    log.info(songs.length+" result(s).");
-                   lastSearchedSongs=songs;
+                   lastSearchedSongs[message.channel.id]=songs;
                    var response="Cadence returned:\n";
                    for (var i=0; i<songs.length; ++i) {
                        response+="  "+(i+1)+")  \""+songs[i].title+"\" by "+songs[i].artist[0]+"\n";
@@ -222,10 +226,11 @@ function command(message) {
         });
     }
     else if (message.content.startsWith(config.commands.request)) {
-        log.notice("Received song request.");
+        log.notice("Received song request in text channel "+message.channel.name+", server "+message.guild.name+".");
         log.notice("Received message was \""+message.content+"\"");
-        log.debug("Last searched songs:\n\n"+JSON.stringify(lastSearchedSongs)+"\n\n");
-        if (lastSearchedSongs.length==0) {
+        log.debug("Last searched songs:\n\n"+JSON.stringify(lastSearchedSongs[message.channel.id])+"\n\n");
+        lastSearchedSongs[message.channel.id]=lastSearchedSongs[message.channel.id] || []; // Default to empty array to avoid crash
+        if (lastSearchedSongs[message.channel.id].length==0) {
             log.error("No stored results.");
             message.reply("Please search for your songs before requesting them.");
             return;
@@ -243,14 +248,14 @@ function command(message) {
             return;
         }
         log.notice("Prepared to construct request for song at index "+song);
-        if (song>=lastSearchedSongs.length) {
+        if (song>=lastSearchedSongs[message.channel.id].length) {
             log.error("Index out-of-bounds.");
-            message.reply("Sorry, I can't request song number "+(song+1)+" out of a set of "+lastSearchedSongs.length+".");
+            message.reply("Sorry, I can't request song number "+(song+1)+" out of a set of "+lastSearchedSongs[message.channel.id].length+".");
             return;
         }
 
         var data={
-            path: lastSearchedSongs[song].path
+            path: lastSearchedSongs[message.channel.id][song].path
         };
         log.info("Making a request to "+url);
         log.debug("data.path="+data.path);
@@ -260,7 +265,7 @@ function command(message) {
                 log.notice("Request received. Clearing lastSearchedSongs...");
                 log.info("Aria says: "+body);
                 message.reply("Your request has been received.");
-                lastSearchedSongs=[];
+                lastSearchedSongs[message.channel.id]=[];
             }
             else if (response) {
                 if (response.statusCode==429) {
@@ -285,6 +290,10 @@ function command(message) {
 
 bot.on('message', message => {
     command(message)
+});
+
+bot.on('guildCreate', guild => {
+    isPlaying[guild.id]=false;
 });
 
 log.alert("Starting bot");
