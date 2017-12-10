@@ -31,5 +31,5 @@
     }
   },
   "padLog": "true",
-  "bitrate": 48000
+  "bitrate": "96"
 }
