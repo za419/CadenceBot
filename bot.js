@@ -119,6 +119,7 @@ function command(message) {
                         msg.reply=function(r) {message.reply(r)};
                         msg.member={};
                         msg.member.voiceChannel=voiceChannel;
+                        msg.guild=message.guild;
                         log.notice("Sending mocked play command...");
                         command(msg);
                     });
