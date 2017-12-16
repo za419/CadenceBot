@@ -88,6 +88,8 @@ function command(message) {
                             voiceChannel.leave();
                             return;
                         }
+                        log.debug("Was allowed to reconnect to channel with id "+voiceChannel.id+" before "+reconnectAllowedAt[voiceChannel.id]);
+
                         message.reply("Hm, I seem to have lost Cadence.\n\nLet me see if I can get it back for you.");
 
                         // Issue a spurious nowplaying to get it in the log.
