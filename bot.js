@@ -66,7 +66,11 @@ function command(message) {
             var voiceChannel=message.member.voiceChannel;
             if (voiceChannel) {
                 log.info("Attempting to join voice channel "+voiceChannel.name+" in server "+message.guild.name);
-                reconnectAllowedAt[voiceChannel.id]=new Date();
+
+                var rAA=new Date();
+                rAA.setSeconds(rAA.getSeconds()+reconnectTimeout);
+                reconnectAllowedAt[voiceChannel.id]=rAA;
+
                 isPlaying[message.guild.id]=true;
                 voiceChannel.join().then(connection => {
                     log.notice("Joined. Beginning playback (channel bitrate="+voiceChannel.bitrate+").");
@@ -84,10 +88,6 @@ function command(message) {
                             voiceChannel.leave();
                             return;
                         }
-                        var rAA=new Date();
-                        rAA.setSeconds(rAA.getSeconds()+reconnectTimeout);
-                        reconnectAllowedAt[voiceChannel.id]=rAA;
-
                         message.reply("Hm, I seem to have lost Cadence.\n\nLet me see if I can get it back for you.");
 
                         // Issue a spurious nowplaying to get it in the log.
