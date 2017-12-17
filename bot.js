@@ -270,8 +270,10 @@ function command(message) {
                     // Now that the song has been requested, log our success in one-step request
                     log.notice("Successfully performed one-step request for: "+song);
 
-                    // And restore lastSearchedSongs
-                    lastSearchedSongs[message.channel.id]=lSS;
+                    // And restore lastSearchedSongs after a short delay (for the request to actually succeed)
+                    setTimeout(function() {
+                        lastSearchedSongs[message.channel.id]=lSS;
+                    }, 1000);
                 }
                 // For the moment, we don't know how to perform one-step request for multiple responses.
                 else {
