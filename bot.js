@@ -97,7 +97,7 @@ function command(message) {
                         var msg={};
                         msg.content=config.commands.nowplaying;
                         msg.reply=function (s) {log.debug("Sent message: "+s)};
-                        log.notice("Sending false nowplaying command in server "+message.guild.name+"...");
+                        log.notice("Sending false nowplaying command in server "+message.guild.name+"...\n");
                         command(msg);
 
                         // Now, we want to reissue ourselves a play command
@@ -122,7 +122,7 @@ function command(message) {
                         msg.member={};
                         msg.member.voiceChannel=voiceChannel;
                         msg.guild=message.guild;
-                        log.notice("Sending mocked play command in server "+message.guild.name+"...");
+                        log.notice("Sending mocked play command in server "+message.guild.name+"...\n");
                         command(msg);
                     });
                 }).catch(err => log.critical(err));
@@ -253,6 +253,7 @@ function command(message) {
             msg.content=config.commands.search+song;
             lSS=lastSearchedSongs[message.channel.id].slice();
 
+            log.notice("Issuing mocked search command in server "+message.guild.name+"...\n");
             command(msg);
 
             // Delay one second to allow search to complete
@@ -265,6 +266,8 @@ function command(message) {
                     msg.guild=message.guild;
                     msg.reply=function(r) { message.reply(r) };
                     msg.content=config.commands.request+"1";
+
+                    log.notice("Issuing mocked request command in server "+message.guild.name+"...\n");
                     command(msg);
 
                     // Now that the song has been requested, log our success in one-step request
