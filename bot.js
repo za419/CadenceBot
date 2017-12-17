@@ -232,16 +232,70 @@ function command(message) {
         log.notice("Received message was \""+message.content+"\"");
         log.debug("Last searched songs:\n\n"+JSON.stringify(lastSearchedSongs[message.channel.id])+"\n\n");
         lastSearchedSongs[message.channel.id]=lastSearchedSongs[message.channel.id] || []; // Default to empty array to avoid crash
-        if (lastSearchedSongs[message.channel.id].length==0) {
-            log.error("No stored results.");
-            message.reply("Please search for your songs before requesting them.");
-            return;
-        }
+
         const url='http://cadenceradio.com/request';
         var song=parseInt(message.content.substring(config.commands.request.length))-1;
         if (isNaN(song)) {
-            log.error("NaN requested:\n"+message.content.substring(config.commands.request.length));
-            message.reply("Please request a number.");
+            // Try to conduct a search, to see if we can perform a one-step request
+            song=message.content.substring(config.commands.request.length);
+            log.warning(song+" is not a number. Attempting one-step request.");
+
+            // First, perform a mocked search, backing up lastSearchedSongs and saving the result string
+            var response;
+            var msg={};
+            msg.channel=message.channel;
+            msg.guild=message.guild;
+            msg.reply=function(r) {
+                log.notice("Mocked search returned:\n\n");
+                log.notice(r+"\n\n");
+                response=r;
+            };
+            msg.content=config.commands.search+song;
+            lSS=lastSearchedSongs[message.channel.id].slice();
+
+            command(msg);
+
+            // Delay one second to allow search to complete
+            setTimeout(function() {
+                // Now, if lastSearchedSongs only contains one result (trivial case), set it to be requested
+                if (lastSearchedSongs[message.channel.id].length==1) {
+                    // Generate a mocked request call, now requesting the only result
+                    var msg={};
+                    msg.channel=message.channel;
+                    msg.guild=message.guild;
+                    msg.reply=function(r) { message.reply(r) };
+                    msg.content=config.commands.request+"1";
+                    command(msg);
+
+                    // Now that the song has been requested, log our success in one-step request
+                    log.notice("Successfully performed one-step request for: "+song);
+
+                    // And restore lastSearchedSongs
+                    lastSearchedSongs[message.channel.id]=lSS;
+                }
+                // For the moment, we don't know how to perform one-step request for multiple responses.
+                else {
+                    log.error("Could not perform one-step request for "+song);
+                    if (lastSearchedSongs[message.channel.id].length==0) {
+                        // For no results, assume the user meant to perform a normal (two-step) request
+                        // (consider changing this later)
+                        message.reply("Please request a number.");
+
+                        // Since lastSearchedSongs is now empty, restore it.
+                        lastSearchedSongs[message.channel.id]=lSS;
+                    }
+                    else {
+                        message.reply("I'm sorry, I couldn't discriminate between "+lastSearchedSongs[message.channel.id].length+" songs.\n\n"+
+                                      "Please run \""+config.commands.request+"\" with the number of the song you'd like to request.\n\n"+response);
+                        // Since we instruct the user to use lastSearchedSongs, we overwrite the old copy.
+                    }
+                }
+            }, 1000);
+            return;
+        }
+        if (lastSearchedSongs[message.channel.id].length==0) {
+            log.error("No stored results.");
+            message.reply("Please search for your songs before requesting them.");
             return;
         }
         if (song<0) {
