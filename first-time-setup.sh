@@ -9,8 +9,13 @@
 
 # As you can guess by its placement in the Git repo, this script should be run after clone, in the worktree.
 
-curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -c "sudo apt-get install -y nodejs"
-sudo apt-get install -y ffmpeg gcc g++
+sudo apt update
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+sudo apt install -y nodejs
+sudo apt install -y ffmpeg
+sudo apt install -y build-essentials
+sudo apt install -y gcc g++
+sudo apt install -y make
 
 cp auto-setup.sh .git/hooks/post-checkout
 cp auto-setup.sh .git/hooks/post-merge
