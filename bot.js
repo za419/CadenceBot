@@ -55,6 +55,27 @@ var reconnectTimeout=30; // Seconds
 
 var lastSearchedSongs={};
 
+// Defined later: Filters that one-step-request attempts to use to choose a song to request
+// Filters are queried one at a time, in order of appearance (by iterating over the keys)
+// They are stored as an associative array "name": filter, where the name will be used for logging
+// Each filter is a function, accepting an array of songs (the lastSearchedSongs entry for the current channel during one-step-request),
+//  and returning an integer (the number to pass to a mock request - one plus the index of the target song)
+// If the filter cannot choose a single song to request, it may return the subset of results which pass the filter
+//  The implementation should replace the array being searched with this subset
+// These filters should, however, come as late as reasonable, so as to not filter out results another filter would select unless these are incorrect
+// If the filter cannot choose a single song to request, but would not like to narrow the search space, it should return a falsy value (0).
+// If the implementation passes all filters without selecting a result,
+// It will present the remaining options to the user as if it was `search`, and have them choose a request normally (manual selection filter)
+var oneStepRequestFilters;
+// OK, so I sorta lied. The implementation does not currently support narrowing filters.
+// Attempting to use one will crash the bot.
+// This is because I can't think of a narrowing filter at the moment.
+// Once someone wants to implement it...
+// The implementation can be changed easily to support narrowing the array
+// But some refactoring will have to be done to allow a narrowed array to work with manual selection
+//  (as the prompt is saved from the mock search).
+// This will require refactoring the code for search result formatting into a helper function, and using it for the manual selection instead of the saved string.
+
 function command(message) {
     if (message.content===config.commands.play) {
         log.notice("Received play command.");
