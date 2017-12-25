@@ -280,13 +280,20 @@ function command(message) {
             // Delay one second to allow search to complete
             setTimeout(function() {
                 // Now, if lastSearchedSongs only contains one result (trivial case), set it to be requested
-                if (lastSearchedSongs[message.channel.id].length==1) {
+                var request=0;
+                var keys=Object.keys(oneStepRequestFilters);
+                for (var i=0; i<keys.length; ++i) {
+                    request=oneStepRequestFilters[keys[i]](lastSearchedSongs[message.channel.id]);
+                    if (request)
+                        break;
+                }
+                if (request>0) {
                     // Generate a mocked request call, now requesting the only result
                     var msg={};
                     msg.channel=message.channel;
                     msg.guild=message.guild;
                     msg.reply=function(r) { message.reply(r) };
-                    msg.content=config.commands.request+"1";
+                    msg.content=config.commands.request+request;
 
                     log.notice("Issuing mocked request command in server "+message.guild.name+"...\n");
                     command(msg);
@@ -377,6 +384,15 @@ bot.on('message', message => {
 bot.on('guildCreate', guild => {
     isPlaying[guild.id]=false;
 });
+
+oneStepRequestFilters={
+    "trivial-filter": function(songs) {
+        if (songs.length==1)
+            return 1;
+        else
+            return 0;
+    }
+}
 
 log.alert("Starting bot");
 
