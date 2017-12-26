@@ -315,7 +315,9 @@ function command(message) {
 
                     // And restore lastSearchedSongs after a short delay (for the request to actually succeed)
                     setTimeout(function() {
+                        log.info("Restoring lastSearchedSongs...");
                         lastSearchedSongs[message.channel.id]=lSS;
+                        log.debug("lastSearchedSongs restored to:\n\n"+JSON.stringify(lastSearchedSongs[message.channel.id])+"\n\n")
                     }, 1000);
                 }
                 // For the moment, we don't know how to perform one-step request for this set of responses
@@ -323,6 +325,7 @@ function command(message) {
                     log.error("Could not perform one-step request for "+song);
                     if (lastSearchedSongs[message.channel.id].length==0) {
                         // For no results, assume the user meant to perform a normal (two-step) request
+                        log.info("Zero length results (assuming inadvertent request");
                         // (consider changing this later)
                         message.reply("Please request a number.");
 
