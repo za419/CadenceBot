@@ -279,16 +279,20 @@ function command(message) {
 
             // Delay one second to allow search to complete
             setTimeout(function() {
-                // Now, if lastSearchedSongs only contains one result (trivial case), set it to be requested
+                // Now, if any filter can select one song out of lastSearchedSongs, request it.
                 var request=0;
                 var keys=Object.keys(oneStepRequestFilters);
+                var key;
                 for (var i=0; i<keys.length; ++i) {
                     request=oneStepRequestFilters[keys[i]](lastSearchedSongs[message.channel.id]);
-                    if (request)
+                    if (request) {
+                        key=keys[i];
+                        log.notice(key+" chose song "+i);
                         break;
+                    }
                 }
                 if (request>0) {
-                    // Generate a mocked request call, now requesting the only result
+                    // Generate a mocked request call, now requesting the filter's result
                     var msg={};
                     msg.channel=message.channel;
                     msg.guild=message.guild;
@@ -299,14 +303,14 @@ function command(message) {
                     command(msg);
 
                     // Now that the song has been requested, log our success in one-step request
-                    log.notice("Successfully performed one-step request for: "+song);
+                    log.notice("Successfully performed one-step request for: "+song+" using the \""+key+"\" filter.");
 
                     // And restore lastSearchedSongs after a short delay (for the request to actually succeed)
                     setTimeout(function() {
                         lastSearchedSongs[message.channel.id]=lSS;
                     }, 1000);
                 }
-                // For the moment, we don't know how to perform one-step request for multiple responses.
+                // For the moment, we don't know how to perform one-step request for this set of responses
                 else {
                     log.error("Could not perform one-step request for "+song);
                     if (lastSearchedSongs[message.channel.id].length==0) {
