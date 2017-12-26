@@ -58,7 +58,7 @@ var lastSearchedSongs={};
 // Defined later: Filters that one-step-request attempts to use to choose a song to request
 // Filters are queried one at a time, in order of appearance (by iterating over the keys)
 // They are stored as an associative array "name": filter, where the name will be used for logging
-// Each filter is a function, accepting an array of songs (the lastSearchedSongs entry for the current channel during one-step-request),
+// Each filter is a function, accepting an array of songs (the lastSearchedSongs entry for the current channel during one-step-request), plus the request string,
 //  and returning an integer (the number to pass to a mock request - one plus the index of the target song)
 // If the filter cannot choose a single song to request, it may return the subset of results which pass the filter
 //  The implementation should replace the array being searched with this subset
@@ -284,7 +284,7 @@ function command(message) {
                 var keys=Object.keys(oneStepRequestFilters);
                 var key;
                 for (var i=0; i<keys.length; ++i) {
-                    request=oneStepRequestFilters[keys[i]](lastSearchedSongs[message.channel.id]);
+                    request=oneStepRequestFilters[keys[i]](lastSearchedSongs[message.channel.id], song);
                     if (request) {
                         key=keys[i];
                         log.notice(key+" chose song "+i);
@@ -389,12 +389,33 @@ bot.on('guildCreate', guild => {
     isPlaying[guild.id]=false;
 });
 
+// Returns whether the two string parameters are the same-ish
+function caselessCompare (a, b) {
+    return !a.localeCompare(b, "en-US", {
+        "usage": "search",
+        "sensitivity": "base",
+        "ignorePunctuation": "true"
+    });
+}
+
 oneStepRequestFilters={
     "trivial-filter": function(songs) {
         if (songs.length==1)
             return 1;
         else
             return 0;
+    },
+    "title-filter": function(songs, request) {
+        var result=0;
+        for (var i=0; i<songs.length; ++i) {
+            if (caselessCompare(songs[i].title, request)) {
+                if (result) { // Non-unique result
+                    return 0;
+                }
+                result=i+1;
+            }
+        }
+        return result;
     }
 }
 
