@@ -391,6 +391,8 @@ bot.on('guildCreate', guild => {
 
 // Returns whether the two string parameters are the same-ish
 function caselessCompare (a, b) {
+    a=''+a;
+    b=''+b;
     return !a.localeCompare(b, "en-US", {
         "usage": "search",
         "sensitivity": "base",
