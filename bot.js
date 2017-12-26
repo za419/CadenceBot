@@ -269,7 +269,7 @@ function command(message) {
             log.warning(song+" is not a number. Attempting one-step request.");
 
             // First, perform a mocked search, backing up lastSearchedSongs and saving the result string
-            var response;
+            var response=false;
             var msg={};
             msg.channel=message.channel;
             msg.guild=message.guild;
@@ -278,6 +278,10 @@ function command(message) {
                 log.notice("Mocked search returned:\n\n");
                 log.notice(r+"\n\n");
                 response=r;
+                // Make response false if we have no results, to avoid bugs later
+                if (response.includes("no results")) {
+                    response=false;
+                }
             };
             msg.content=config.commands.search+song;
             lSS=lastSearchedSongs[message.channel.id].slice();
@@ -323,7 +327,7 @@ function command(message) {
                 // For the moment, we don't know how to perform one-step request for this set of responses
                 else {
                     log.error("Could not perform one-step request for "+song);
-                    if (lastSearchedSongs[message.channel.id].length==0) {
+                    if (lastSearchedSongs[message.channel.id].length==0 || !response) {
                         // For no results, assume the user meant to perform a normal (two-step) request
                         log.info("Zero length results (assuming inadvertent request");
                         // (consider changing this later)
