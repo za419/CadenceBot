@@ -231,8 +231,15 @@ function command(message) {
                    for (var i=0; i<songs.length; ++i) {
                        response+="  "+(i+1)+")  \""+songs[i].title+"\" by "+songs[i].artist[0]+"\n";
                    }
-                   log.debug("Issuing response:\n\n"+response+"\n\n");
-                   message.reply(response);
+                   if ((response+message.client.user.tag).length>2000) {
+                       log.info("Message length was longer than 2000. Could not send.");
+                       message.reply("That query had "+songs.length+" results.\n\n"+
+                       "Unfortunately, that means that search term was too broad. Please narrow it down and try again.");
+                   }
+                   else {
+                       log.debug("Issuing response:\n\n"+response+"\n\n");
+                       message.reply(response);
+                   }
                }
            }
            else {
@@ -322,8 +329,17 @@ function command(message) {
                         lastSearchedSongs[message.channel.id]=lSS;
                     }
                     else {
-                        message.reply("I'm sorry, I couldn't discriminate between "+lastSearchedSongs[message.channel.id].length+" songs.\n\n"+
-                                      "Please run \""+config.commands.request+"\" with the number of the song you'd like to request.\n\n"+response);
+                        string="I'm sorry, I couldn't discriminate between "+lastSearchedSongs[message.channel.id].length+" songs.\n\n"+
+                                      "Please run \""+config.commands.request+"\" with the number of the song you'd like to request.\n\n"+response;
+                        if ((string+message.client.user.tag).length>2000) {
+                            log.notice("Message length longer than 2000. Could not issue response.");
+                            message.reply("Sorry, I couldn't discriminate between "+lastSearchedSongs[message.channel.id].length+" songs, and that search term was too broad for me to display the results.\n\n"+
+                                "Please narrow your search term and try again.");
+                        }
+                        else {
+                            log.debug("Issuing response:\n\n"+string+"\n\n");
+                            message.reply(string);
+                        }
                         // Since we instruct the user to use lastSearchedSongs, we overwrite the old copy.
                     }
                 }
