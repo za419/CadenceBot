@@ -273,6 +273,7 @@ function command(message) {
             var msg={};
             msg.channel=message.channel;
             msg.guild=message.guild;
+            msg.client=message.client;
             msg.reply=function(r) {
                 log.notice("Mocked search returned:\n\n");
                 log.notice(r+"\n\n");
