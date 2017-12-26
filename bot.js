@@ -430,6 +430,25 @@ oneStepRequestFilters={
             }
         }
         return result;
+    },
+    "title+artist-filter": function(songs, request) {
+        var result=0;
+        var condition=function(req, title, artist) {
+            req=''+req;
+            title=''+title;
+            artist=''+artist;
+            return caselessCompare(req.substring(0, title.length), title)
+                && caselessCompare(req.substring(req.length-artist.length), artist);
+        };
+        for (var i=0; i<songs.length; ++i) {
+            if (condition(request, songs[i].title, songs[i].artist)) {
+                if (result) { // Non-unique result
+                    return 0;
+                }
+                result=i+1;
+            }
+        }
+        return result;
     }
 }
 
