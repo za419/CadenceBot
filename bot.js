@@ -287,7 +287,7 @@ function command(message) {
                     request=oneStepRequestFilters[keys[i]](lastSearchedSongs[message.channel.id], song);
                     if (request) {
                         key=keys[i];
-                        log.notice(key+" chose song "+i);
+                        log.notice(key+" chose song "+request);
                         break;
                     }
                 }
