@@ -308,13 +308,19 @@ function command(message) {
                     var msg={};
                     msg.channel=message.channel;
                     msg.guild=message.guild;
-                    msg.reply=function(r) { message.reply(r) };
+                    msg.reply=function(r) {
+                        // Custom message for successful requests
+                        if (r.includes("received") && !r.includes("Aria says")) {
+                            var song=lastSearchedSongs[message.channel.id][request-1];
+                            message.reply("Requested \""+song.title+"\" by "+song.artist+".");
+                        }
+                        else {
+                            message.reply(r);
+                        }
+                    };
                     msg.content=config.commands.request+request;
 
                     log.notice("Issuing mocked request command in server "+message.guild.name+"...\n");
-
-                    var song=lastSearchedSongs[message.channel.id][request-1];
-                    message.reply("Requesting \""+song.title+"\" by "+song.artist+".");
                     command(msg);
 
                     // Now that the song has been requested, log our success in one-step request
