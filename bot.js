@@ -1,9 +1,14 @@
 var Discord=require('discord.js');
 var auth=require('./auth.json');
-var config=require('./config.json');
 var fetch=require('node-fetch');
 var request=require('request');
 var logger=require('js-logging');
+var defaultTo=require('object.defaults');
+var config={};
+try {
+    config=require('./config.json');
+} catch (e) {}
+defaultTo(config, require('./default-config.json'));
 
 if (config.padLog) {
     var longestLengthIn=function(array) {
