@@ -68,10 +68,14 @@ var lastSearchedSongs={};
 // It will present the remaining options to the user as if it was `search`, and have them choose a request normally (manual selection filter)
 var oneStepRequestFilters;
 
+function songFormat(song) {
+    return "\""+song.title+"\" by "+song.artist;
+}
+
 function searchResultsFormat(songs) {
     var response="";
     for (var i=0; i<songs.length; ++i) {
-        response+="  "+(i+1)+")  \""+songs[i].title+"\" by "+songs[i].artist[0]+"\n";
+        response+="  "+(i+1)+")  "+songFormat(songs[i])+"\n";
     }
     return response;
 }
@@ -320,7 +324,7 @@ function command(message) {
                         // Custom message for successful requests
                         if (r.includes("received") && !r.includes("Aria says")) {
                             var song=lastSearchedSongs[message.channel.id][request-1];
-                            message.reply("Requested \""+song.title+"\" by "+song.artist+".");
+                            message.reply("Requested "+songFormat(song)+".");
                         }
                         else {
                             message.reply(r);
