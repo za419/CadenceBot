@@ -15,7 +15,7 @@ function recursiveDefault(obj, def) {
     var keys=Object.keys(obj);
     for (var i=0; i<keys.length; ++i) {
         var key=keys[i];
-        if (config[key] instanceof Object) {
+        if (obj[key] instanceof Object) {
             recursiveDefault(obj[key], def[key]);
         }
     }
