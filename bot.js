@@ -480,8 +480,11 @@ oneStepRequestFilters={
         var result=0;
         var condition=function(req, title, artist) {
             req=''+req;
+            req=req.replace(/[&\/\\#,+\(\)$~%\.!^'"\;:*?\[\]<>{}]/g, '');
             title=''+title;
+            title=title.replace(/[&\/\\#,+\(\)$~%\.!^'"\;:*?\[\]<>{}]/g, '');
             artist=''+artist;
+            artist=artist.replace(/[&\/\\#,+\(\)$~%\.!^'"\;:*?\[\]<>{}]/g, '');
             return caselessCompare(req.substring(0, title.length), title)
                 && caselessCompare(req.substring(req.length-artist.length), artist);
         };
@@ -499,8 +502,11 @@ oneStepRequestFilters={
         var result=0;
         var condition=function(req, title, artist) {
             req=''+req;
+            req=req.replace(/[&\/\\#,+\(\)$~%\.!^'"\;:*?\[\]<>{}]/g, '');
             title=''+title;
+            title=title.replace(/[&\/\\#,+\(\)$~%\.!^'"\;:*?\[\]<>{}]/g, '');
             artist=''+artist;
+            artist=artist.replace(/[&\/\\#,+\(\)$~%\.!^'"\;:*?\[\]<>{}]/g, '');
             return caselessCompare(req.substring(0, artist.length), artist)
                 && caselessCompare(req.substring(req.length-title.length), title);
         };
