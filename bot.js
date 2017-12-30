@@ -339,7 +339,7 @@ function command(message) {
                         log.info("Restoring lastSearchedSongs...");
                         lastSearchedSongs[message.channel.id]=lSS;
                         log.debug("lastSearchedSongs restored to:\n\n"+JSON.stringify(lastSearchedSongs[message.channel.id])+"\n\n")
-                    }, 1000);
+                    }, config.roundtripDelayMs);
                 }
                 // For the moment, we don't know how to perform one-step request for this set of responses
                 else {
@@ -368,7 +368,7 @@ function command(message) {
                         // Since we instruct the user to use lastSearchedSongs, we overwrite the old copy.
                     }
                 }
-            }, 1000);
+            }, config.roundtripDelayMs);
             return;
         }
         if (lastSearchedSongs[message.channel.id].length==0) {
