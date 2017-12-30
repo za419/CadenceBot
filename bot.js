@@ -76,6 +76,14 @@ var oneStepRequestFilters;
 //  (as the prompt is saved from the mock search).
 // This will require refactoring the code for search result formatting into a helper function, and using it for the manual selection instead of the saved string.
 
+function searchResultsFormat(songs) {
+    var response="";
+    for (var i=0; i<songs.length; ++i) {
+        response+="  "+(i+1)+")  \""+songs[i].title+"\" by "+songs[i].artist[0]+"\n";
+    }
+    return response;
+}
+
 function command(message) {
     if (message.content===config.commands.play) {
         log.notice("Received play command.");
@@ -228,9 +236,7 @@ function command(message) {
                    log.info(songs.length+" result(s).");
                    lastSearchedSongs[message.channel.id]=songs;
                    var response="Cadence returned:\n";
-                   for (var i=0; i<songs.length; ++i) {
-                       response+="  "+(i+1)+")  \""+songs[i].title+"\" by "+songs[i].artist[0]+"\n";
-                   }
+                   response+=searchResultsFormat(songs);
                    if ((response+message.client.user.tag).length>2000) {
                        log.info("Message length was longer than 2000. Could not send.");
                        message.reply("That query had "+songs.length+" results.\n\n"+
