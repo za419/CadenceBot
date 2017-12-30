@@ -283,11 +283,8 @@ function command(message) {
             msg.reply=function(r) {
                 log.notice("Mocked search returned:\n\n");
                 log.notice(r+"\n\n");
-                response=r;
                 // Make response false if we have no results, to avoid bugs later
-                if (response.includes("no results")) {
-                    response=false;
-                }
+                response=!r.includes("no results");
             };
             msg.content=config.commands.search+song;
             lSS=lastSearchedSongs[message.channel.id].slice();
@@ -353,7 +350,7 @@ function command(message) {
                     }
                     else {
                         string="I'm sorry, I couldn't discriminate between "+lastSearchedSongs[message.channel.id].length+" songs.\n\n"+
-                                      "Please run \""+config.commands.request+"\" with the number of the song you'd like to request.\n\n"+response;
+                                      "Please run \""+config.commands.request+"\" with the number of the song you'd like to request.\n\n"+searchResultsFormat(lastSearchedSongs[message.channel.id]);
                         if ((string+message.client.user.tag).length>2000) {
                             log.notice("Message length longer than 2000. Could not issue response.");
                             message.reply("Sorry, I couldn't discriminate between "+lastSearchedSongs[message.channel.id].length+" songs, and that search term was too broad for me to display the results.\n\n"+
