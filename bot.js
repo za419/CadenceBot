@@ -295,7 +295,12 @@ function command(message) {
                     if (request) {
                         if (Array.isArray(request)) {
                             if (request.length>0) { // Prevent narrowing to empty results
+                                log.notice(keys[i]+" elected to narrow from "+lastSearchedSongs[message.channel.id].length+" to "+request.length);
+                                log.debug("Previous values:\n\n"+JSON.stringify(lastSearchedSongs[message.channel.id])+"\n\n");
+
                                 lastSearchedSongs[message.channel.id]=request;
+
+                                log.debug("Narrowed values:\n\n"+JSON.stringify(request)+"\n\n");
                                 request=0;
                             }
                         }
