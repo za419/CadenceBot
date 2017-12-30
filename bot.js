@@ -301,9 +301,17 @@ function command(message) {
                 for (var i=0; i<keys.length; ++i) {
                     request=oneStepRequestFilters[keys[i]](lastSearchedSongs[message.channel.id], song);
                     if (request) {
-                        key=keys[i];
-                        log.notice(key+" chose song "+request);
-                        break;
+                        if (Array.isArray(request)) {
+                            if (request.length>0) { // Prevent narrowing to empty results
+                                lastSearchedSongs[message.channel.id]=request;
+                                request=0;
+                            }
+                        }
+                        else {
+                            key=keys[i];
+                            log.notice(key+" chose song "+request);
+                            break;
+                        }
                     }
                 }
                 if (request>0) {
