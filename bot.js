@@ -512,6 +512,18 @@ oneStepRequestFilters={
             }
         }
         return result;
+    },
+    "artists-narrowing-filter": function(songs, request) {
+        var output=[];
+        for (var i=0; i<songs.length; ++i) {
+            if (caselessCompare(songs[i].artist, request)) {
+                output.push(songs[i]);
+            }
+        }
+        if (output.length==0) {
+            return 0;
+        }
+        return output;
     }
 }
 
