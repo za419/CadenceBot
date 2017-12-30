@@ -67,14 +67,6 @@ var lastSearchedSongs={};
 // If the implementation passes all filters without selecting a result,
 // It will present the remaining options to the user as if it was `search`, and have them choose a request normally (manual selection filter)
 var oneStepRequestFilters;
-// OK, so I sorta lied. The implementation does not currently support narrowing filters.
-// Attempting to use one will crash the bot.
-// This is because I can't think of a narrowing filter at the moment.
-// Once someone wants to implement it...
-// The implementation can be changed easily to support narrowing the array
-// But some refactoring will have to be done to allow a narrowed array to work with manual selection
-//  (as the prompt is saved from the mock search).
-// This will require refactoring the code for search result formatting into a helper function, and using it for the manual selection instead of the saved string.
 
 function searchResultsFormat(songs) {
     var response="";
