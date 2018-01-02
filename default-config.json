@@ -31,5 +31,6 @@
     }
   },
   "padLog": "true",
-  "bitrate": "96"
+  "bitrate": "96",
+  "roundtripDelayMs": 500
 }

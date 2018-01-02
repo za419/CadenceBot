@@ -5,3 +5,4 @@ login.sh
 dev-login.sh
 maillog.sh
 CadenceBot.log
+config.json
