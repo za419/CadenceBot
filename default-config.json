@@ -13,7 +13,7 @@
     "help": "Generates this help message",
     "nowplaying": "Displays now playing information from Cadence",
     "search": "Search the Cadence database using the remainder of the given message as a query.",
-    "request": "Request a song to be played on Cadence, by its number in the last search. You may request one song every five minutes (limited by Cadence)"
+    "request": "Request a song to be played on Cadence. You may request one song every five minutes (limited by Cadence)"
   },
   "logging": {
     "format": "${timestamp} <${title}> ${file}:${line} ${message}",
