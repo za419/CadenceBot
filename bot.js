@@ -458,7 +458,7 @@ function updatePresence() {
             text=text.substring("parseMusic(".length, text.length-2);
             var json=JSON.parse(text);
             bot.user.setPresence({ game:
-                                     { name: "\""+json['/cadence1']['artist_name'].trim()+"\" by "+json['/cadence1']['song_title'].trim() }
+                                     { name: "\""+json['/cadence1']['song_title'].trim()+"\" by "+json['/cadence1']['artist_name'].trim() }
             });
             bot.setTimeout(updatePresence, 10000);
         });
