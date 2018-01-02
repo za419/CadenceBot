@@ -368,8 +368,9 @@ function command(message) {
                     if (lastSearchedSongs[message.channel.id].length==0 || !response) {
                         // For no results, assume the user meant to perform a normal (two-step) request
                         log.info("Zero length results (assuming inadvertent request");
-                        // (consider changing this later)
-                        message.reply("Please request a number.");
+
+                        // Message recommended by Ken Ellorando
+                        message.channel.send("Sorry, <@"+message.author.id+">, I couldn't find any matching songs to fit your request \'"+song+"\'.");
 
                         // Since lastSearchedSongs is now empty, restore it.
                         lastSearchedSongs[message.channel.id]=lSS;
