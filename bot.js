@@ -458,22 +458,29 @@ bot.on('guildCreate', guild => {
 });
 
 function updatePresence() {
+    log.notice("Setting status message...");
+
     // Allow disable of presence feature
     // (also preventing crashes from bad interval settings
     if (config.statusUpdateIntervalMs<0) {
+        log.info("Interval set to "+config.statusUpdateIntervalMs+". Setting disabled-update message.");
         bot.user.setPresence({ game:
                                  { name: "Cadence Radio" }
         });
         return;
     }
 
+    log.debug("Fetching nowplaying information...");
     fetch('http://cadenceradio.com:8000/now-playing.xsl').then(response => {
         response.text().then(text => {
+            log.debug("Received response:\n\n"+text+"\n\n");
             song=nowPlayingFormat(text);
+            log.debug("Now playing:\n\n"+song+"\n\n");
             bot.user.setPresence({ game:
                                      { name: song }
             });
             bot.setTimeout(updatePresence, config.statusUpdateIntervalMs);
+            log.debug("Set timeout to be called again");
         });
     });
 }
