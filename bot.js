@@ -452,6 +452,30 @@ bot.on('guildCreate', guild => {
     isPlaying[guild.id]=false;
 });
 
+function updatePresence() {
+    // Allow disable of presence feature
+    // (also preventing crashes from bad interval settings
+    if (config.statusUpdateIntervalMs<0) {
+        bot.user.setPresence({ game:
+                                 { name: "Cadence Radio" }
+        });
+        return;
+    }
+
+    fetch('http://cadenceradio.com:8000/now-playing.xsl').then(response => {
+        response.text().then(text => {
+            text=text.substring("parseMusic(".length, text.length-2);
+            var json=JSON.parse(text);
+            bot.user.setPresence({ game:
+                                     { name: "\""+json['/cadence1']['song_title'].trim()+"\" by "+json['/cadence1']['artist_name'].trim() }
+            });
+            bot.setTimeout(updatePresence, config.statusUpdateIntervalMs);
+        });
+    });
+}
+
+bot.on('ready', updatePresence);
+
 // Returns whether the two string parameters are the same-ish
 function caselessCompare (a, b) {
     a=''+a;
