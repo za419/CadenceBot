@@ -460,7 +460,7 @@ function updatePresence() {
             bot.user.setPresence({ game:
                                      { name: "\""+json['/cadence1']['song_title'].trim()+"\" by "+json['/cadence1']['artist_name'].trim() }
             });
-            bot.setTimeout(updatePresence, 10000);
+            bot.setTimeout(updatePresence, config.statusUpdateIntervalMs);
         });
     });
 }
