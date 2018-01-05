@@ -456,6 +456,9 @@ function updatePresence() {
     // Allow disable of presence feature
     // (also preventing crashes from bad interval settings
     if (config.statusUpdateIntervalMs<0) {
+        bot.user.setPresence({ game:
+                                 { name: "Cadence Radio" }
+        });
         return;
     }
 
