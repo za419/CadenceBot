@@ -453,6 +453,12 @@ bot.on('guildCreate', guild => {
 });
 
 function updatePresence() {
+    // Allow disable of presence feature
+    // (also preventing crashes from bad interval settings
+    if (config.statusUpdateIntervalMs<0) {
+        return;
+    }
+
     fetch('http://cadenceradio.com:8000/now-playing.xsl').then(response => {
         response.text().then(text => {
             text=text.substring("parseMusic(".length, text.length-2);
