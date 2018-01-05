@@ -97,6 +97,14 @@ function searchResultsFormat(songs) {
     return response;
 }
 
+function nowPlayingFormat(text) {
+    text=text.substring("parseMusic(".length, text.length-2);
+    var json=JSON.parse(text);
+    var artist=json['/cadence1']['artist_name'].trim();
+    var song=json['/cadence1']['song_title'].trim();
+    return "\""+song+"\" by "+artist;
+}
+
 function command(message) {
     if (message.content===config.commands.play) {
         log.notice("Received play command.");
@@ -216,12 +224,9 @@ function command(message) {
             response.text().then(text => {
                 log.info("Response text:\n\n"+text+"\n\n");
                 log.info("Parsing response...");
-                text=text.substring("parseMusic(".length, text.length-2);
-                var json=JSON.parse(text);
-                var artist=json['/cadence1']['artist_name'].trim();
-                var song=json['/cadence1']['song_title'].trim();
-                log.notice("Parse complete: Now playing \""+song+"\" by "+artist);
-                message.reply("Now playing: \""+song+"\" by "+artist);
+                song=nowPlayingFormat(text);
+                log.notice("Parse complete: Now playing "+song);
+                message.reply("Now playing: "+song);
             });
         });
     }
@@ -464,10 +469,9 @@ function updatePresence() {
 
     fetch('http://cadenceradio.com:8000/now-playing.xsl').then(response => {
         response.text().then(text => {
-            text=text.substring("parseMusic(".length, text.length-2);
-            var json=JSON.parse(text);
+            song=nowPlayingFormat(text);
             bot.user.setPresence({ game:
-                                     { name: "\""+json['/cadence1']['song_title'].trim()+"\" by "+json['/cadence1']['artist_name'].trim() }
+                                     { name: song }
             });
             bot.setTimeout(updatePresence, config.statusUpdateIntervalMs);
         });
