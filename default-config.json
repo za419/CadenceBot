@@ -33,5 +33,5 @@
   "padLog": "true",
   "bitrate": "96",
   "roundtripDelayMs": 500,
-  "statusUpdateIntervalMs": 10000
+  "statusUpdateIntervalMs": 3000
 }
