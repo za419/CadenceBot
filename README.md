@@ -106,3 +106,21 @@ Branch names should avoid uppercase characters where reasonable.
   - These branches should be merged into `dev-master` as soon as they are in an 'operational' state
     - That is, as soon as the feature can be activated and can run on the development server (it might not work, or it might occasionally crash the bot, but it does not always crash, even when the feature is triggered), and when the feature is set to go into production (when it is deemed likely to be practical and likely to be a wanted addition to the bot).
     - The feature branch should then be deleted.
+
+## Release procedure
+
+A new release is made whenever `dev-master` is merged into `master`, which is to say whenever a feature is moved from "development" or "testing" to "production". Releases should follow [Semantic versioning](https://semver.org/) (with the difference that, occasionally, I refer to releases which increment patch version as 'minor releases', those which increment minor version as 'releases' and those which increment major version as 'major releases'). Since CadenceBot does not deliver much of an API (it can be used as one, interacting with `command` by mocked messages as is done somewhat often in the bot itself, but this is not the intended use of the bot, and the specifics of what fields the mocked message must define are undocumented, must be found by inspecting the code, and are under no obligation not to change at any time), CadenceBot follows different rules for when version numbers are incremented - Semver compliance is mostly for rigidly formatted versioning which can be automatically parsed.
+
+Version numbers are incremented as follows:
+
+- Major numbers are incremented when the bot appears widely different - A layperson should be able to distinguish CadenceBot v1.x and CadenceBot v2.x as different programs at a glance.
+  - I may break this rule later, at my own discretion, if minor numbers become unreasonably large.
+- Minor numbers are incremented for significant features - Features on the scale of adding a new command.
+  - Examples are [v1.1](https://github.com/za419/CadenceBot/releases/tag/v1.1) (adding `search`), [v1.3](https://github.com/za419/CadenceBot/releases/tag/v1.3.0) (adding multi-server support), and [v1.4](https://github.com/za419/CadenceBot/releases/tag/v1.4.0) (adding one-step request)
+- Patch numbers are incremented for smaller features - Those on the scale of extending an existing command in a way that makes new usage entirely backwards compatible with old usage
+  - Examples are [v1.3.1](https://github.com/za419/CadenceBot/releases/tag/v1.3.1) (a bugfix for a bug which made the bot unusable), or [v1.4.1](https://github.com/za419/CadenceBot/releases/tag/v1.4.1) (adding the nowplaying status)
+- Beyond-patch numbers are incremented for small bugfixes which amount to quality-of-life fixes - An example might be fixing the format `search` provides results in.
+
+The version number in `package.json` should be incremented when a feature is ready for release. The number should be incremented in compliance with the above guidelines. This change should occur in its own commit, which should include a short version description in its commit description. This commit should have a Sign-off (Signed-off-by), and should be signed with a GPG key if possible.
+
+The commit in which `package.json` it updated is considered to be the one assigned to that version number. Therefore, that commit should be tagged in `git` with the version number (as in `v1.4.1`). This tag should be an annotated tag, with full patch notes, and signed with a GPG key if possible. This tag should then be made a release on GitHub, with the same (or equivalent) patch notes.
