@@ -168,6 +168,14 @@ function command(message) {
         }
         else {
             var voiceChannel=message.member.voiceChannel;
+            if (!voiceChannel) {
+                log.warning("User "+message.member.user.tag+" is not in a voice channel in server "+message.guild.name+".");
+                log.warning("Performing connection to autoselected channel.");
+                voiceChannel=playChannelSelector(Object.values(message.guild.channels));
+                if (voiceChannel) {
+                    log.notice("Selected channel "+voiceChannel.name+".");
+                }
+            }
             if (voiceChannel) {
                 log.info("Attempting to join voice channel "+voiceChannel.name+" in server "+message.guild.name);
 
@@ -232,8 +240,8 @@ function command(message) {
                 }).catch(err => log.critical(err));
             }
             else {
-                log.error("User "+message.member.user.tag+" is not in a voice channel in server "+message.guild.name+".");
-                message.reply("You need to be in a voice channel for me to play Cadence in it, silly!");
+                log.error("Could not autoselect a voice channel.");
+                message.reply("Sorry, I can't find a voice channel to play in.");
             }
         }
     }
