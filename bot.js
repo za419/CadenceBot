@@ -105,6 +105,17 @@ function nowPlayingFormat(text) {
     return "\""+song+"\" by "+artist;
 }
 
+// Returns whether the two string parameters are the same-ish
+function caselessCompare (a, b) {
+    a=''+a;
+    b=''+b;
+    return !a.localeCompare(b, "en-US", {
+        "usage": "search",
+        "sensitivity": "base",
+        "ignorePunctuation": "true"
+    });
+}
+
 function command(message) {
     if (message.content===config.commands.play) {
         log.notice("Received play command.");
@@ -486,17 +497,6 @@ function updatePresence() {
 }
 
 bot.on('ready', updatePresence);
-
-// Returns whether the two string parameters are the same-ish
-function caselessCompare (a, b) {
-    a=''+a;
-    b=''+b;
-    return !a.localeCompare(b, "en-US", {
-        "usage": "search",
-        "sensitivity": "base",
-        "ignorePunctuation": "true"
-    });
-}
 
 oneStepRequestFilters={
     "trivial-filter": function(songs) {
