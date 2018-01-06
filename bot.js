@@ -120,27 +120,34 @@ function caselessCompare (a, b) {
 // Accepts an array of Discord.js GuildChannels
 // That is, Object.values(guild.channels)
 function playChannelSelector(guildChannels) {
+    log.debug("Searching through channels object:\n\n"+JSON.stringify(guildChannels)+"\n\n");
     var startsWith=false;
     var includes=false;
 
     for (var channel in guildChannels) {
+        log.debug("Trying channel "+channel.name);
         if (channel.type!="voice") {
+            log.debug("Channel type \'"+channel.type+"\' is not voice: Skipping.");
             continue;
         }
 
         for (var i=0; i<config.playAutoselectChannels.length; ++i) {
             var name=config.playAutoselectChannels[i];
+            log.debug("Comparing against configured test name "+name);
             if (caselessCompare(channel.name, name)) {
+                log.debug("Full match. Returning");
                 return channel;
             }
 
             if (startsWith===false) {
                 if (caselessCompare(channel.name.substring(0, name.length), name)) {
+                    log.debug("Prefix match. Storing for later use.");
                     startsWith=channel;
                 }
 
                 if (includes===false) {
                     if (channel.name.toLocaleUpperCase().includes(name.toLocaleUpperCase())) {
+                        log.debug("Inclusion match. Storing for later use.");
                         includes=channel;
                     }
                 }
@@ -149,13 +156,16 @@ function playChannelSelector(guildChannels) {
     }
 
     if (startsWith!==false) {
+        log.debug("Found a prefix match. Returning channel "+startsWith.name);
         return startsWith;
     }
 
     if (includes!==false) {
+        log.debug("Found an inclusion match. Returning channel "+includes.name);
         return includes;
     }
 
+    log.debug("No matches found. Returning default match (first channel): "+guildChannels[0].name);
     return guildChannels[0];
 }
 
