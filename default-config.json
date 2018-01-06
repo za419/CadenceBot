@@ -30,6 +30,10 @@
       "emergency": "cyan"
     }
   },
+  "playAutoselectChannels": [
+    "cadencebot",
+    "cadence"
+  ],
   "padLog": "true",
   "bitrate": "96",
   "roundtripDelayMs": 500,
