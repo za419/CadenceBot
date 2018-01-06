@@ -116,6 +116,49 @@ function caselessCompare (a, b) {
     });
 }
 
+// Does the leg work of choosing a voice channel for play to default to
+// Accepts an array of Discord.js GuildChannels
+// That is, Object.values(guild.channels)
+function playChannelSelector(guildChannels) {
+    var startsWith=false;
+    var includes=false;
+
+    for (var channel in guildChannels) {
+        if (channel.type!="voice") {
+            continue;
+        }
+
+        for (var i=0; i<config.playAutoselectChannels.length; ++i) {
+            var name=config.playAutoselectChannels[i];
+            if (caselessCompare(channel.name, name)) {
+                return channel;
+            }
+
+            if (startsWith===false) {
+                if (caselessCompare(channel.name.substring(0, name.length), name)) {
+                    startsWith=channel;
+                }
+
+                if (includes===false) {
+                    if (channel.name.toLocaleUpperCase().includes(name.toLocaleUpperCase())) {
+                        includes=channel;
+                    }
+                }
+            }
+        }
+    }
+
+    if (startsWith!==false) {
+        return startsWith;
+    }
+
+    if (includes!==false) {
+        return includes;
+    }
+
+    return guildChannels[0];
+}
+
 function command(message) {
     if (message.content===config.commands.play) {
         log.notice("Received play command.");
