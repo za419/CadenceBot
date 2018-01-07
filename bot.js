@@ -120,6 +120,12 @@ function caselessCompare (a, b) {
 // Accepts an array of Discord.js GuildChannels
 // That is, Object.values(guild.channels)
 function playChannelSelector(guildChannels) {
+    if (!(guildChannels instanceof Array) || guildChannels.length==0) {
+        log.error("Channel selector was either not given an array or was given an empty array.");
+        log.info("Was given:\n\n"+JSON.stringify(guildChannels)+"\n\n");
+        return null;
+    }
+
     log.debug("Searching through channels object:\n\n"+JSON.stringify(guildChannels)+"\n\n");
     var startsWith=false;
     var includes=false;
