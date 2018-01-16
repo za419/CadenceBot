@@ -458,12 +458,12 @@ bot.on('guildCreate', guild => {
 });
 
 function updatePresence() {
-    log.notice("Setting status message...");
+    log.debug("Setting status message...");
 
     // Allow disable of presence feature
     // (also preventing crashes from bad interval settings
     if (config.statusUpdateIntervalMs<0) {
-        log.info("Interval set to "+config.statusUpdateIntervalMs+". Setting disabled-update message.");
+        log.info("Status update interval set to "+config.statusUpdateIntervalMs+". Setting disabled-update message.");
         bot.user.setPresence({ game:
                                  { name: "Cadence Radio" }
         });
