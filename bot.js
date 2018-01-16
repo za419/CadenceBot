@@ -97,6 +97,14 @@ function searchResultsFormat(songs) {
     return response;
 }
 
+function nowPlayingFormat(text) {
+    text=text.substring("parseMusic(".length, text.length-2);
+    var json=JSON.parse(text);
+    var artist=json['/cadence1']['artist_name'].trim();
+    var song=json['/cadence1']['song_title'].trim();
+    return "\""+song+"\" by "+artist;
+}
+
 function command(message) {
     if (message.content===config.commands.play) {
         log.notice("Received play command.");
@@ -216,12 +224,9 @@ function command(message) {
             response.text().then(text => {
                 log.info("Response text:\n\n"+text+"\n\n");
                 log.info("Parsing response...");
-                text=text.substring("parseMusic(".length, text.length-2);
-                var json=JSON.parse(text);
-                var artist=json['/cadence1']['artist_name'].trim();
-                var song=json['/cadence1']['song_title'].trim();
-                log.notice("Parse complete: Now playing \""+song+"\" by "+artist);
-                message.reply("Now playing: \""+song+"\" by "+artist);
+                song=nowPlayingFormat(text);
+                log.notice("Parse complete: Now playing "+song);
+                message.reply("Now playing: "+song);
             });
         });
     }
@@ -453,23 +458,29 @@ bot.on('guildCreate', guild => {
 });
 
 function updatePresence() {
+    log.debug("Setting status message...");
+
     // Allow disable of presence feature
     // (also preventing crashes from bad interval settings
     if (config.statusUpdateIntervalMs<0) {
+        log.info("Status update interval set to "+config.statusUpdateIntervalMs+". Setting disabled-update message.");
         bot.user.setPresence({ game:
                                  { name: "Cadence Radio" }
         });
         return;
     }
 
+    log.debug("Fetching nowplaying information...");
     fetch('http://cadenceradio.com:8000/now-playing.xsl').then(response => {
         response.text().then(text => {
-            text=text.substring("parseMusic(".length, text.length-2);
-            var json=JSON.parse(text);
+            log.debug("Received response:\n\n"+text+"\n\n");
+            song=nowPlayingFormat(text);
+            log.debug("Now playing:\n\n"+song+"\n\n");
             bot.user.setPresence({ game:
-                                     { name: "\""+json['/cadence1']['song_title'].trim()+"\" by "+json['/cadence1']['artist_name'].trim() }
+                                     { name: song }
             });
             bot.setTimeout(updatePresence, config.statusUpdateIntervalMs);
+            log.debug("Set timeout to be called again");
         });
     });
 }
