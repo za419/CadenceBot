@@ -342,6 +342,7 @@ function command(message) {
                     var msg={};
                     msg.channel=message.channel;
                     msg.guild=message.guild;
+                    msg.author={tag: message.author.tag};
                     msg.reply=function(r) {
                         // Custom message for successful requests
                         if (r.includes("received") && !r.includes("Aria says")) {
@@ -415,9 +416,16 @@ function command(message) {
             return;
         }
 
+
         var data={
             path: lastSearchedSongs[message.channel.id][song].path
         };
+
+        // If support is enabled, set the tag to the user's Discord tag
+        if (config.enableRequestTags) {
+            data.tag=message.author.tag
+        }
+
         log.info("Making a request to "+url);
         log.debug("data.path="+data.path);
         request.post({url, form: data}, function(err, response, body) {
