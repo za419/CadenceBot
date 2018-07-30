@@ -124,7 +124,7 @@ function command(message) {
                 isPlaying[message.guild.id]=true;
                 voiceChannel.join().then(connection => {
                     log.notice("Joined. Beginning playback (channel bitrate="+voiceChannel.bitrate+").");
-                    const dispatch = connection.playArbitraryInput('http://cadenceradio.com:8000/cadence1', { 'bitrate': config.bitrate });
+                    const dispatch = connection.playArbitraryInput('http://stream.cadenceradio.com:8000/cadence1', { 'bitrate': config.bitrate });
                     dispatch.on("end", end=> {
                         log.warning("Stream ended. Playback was in server "+message.guild.name+", channel "+voiceChannel.name);
                         if (!isPlaying[message.guild.id]) return;
@@ -217,7 +217,7 @@ function command(message) {
     }
     else if (message.content===config.commands.nowplaying) {
         log.notice("Received nowplaying command.");
-        const url="http://cadenceradio.com:8000/now-playing.xsl";
+        const url="http://stream.cadenceradio.com:8000/now-playing.xsl";
         log.info("Issuing fetch request to "+url);
         fetch(url).then(response => {
             log.info("Received response.");
@@ -471,7 +471,7 @@ function updatePresence() {
     }
 
     log.debug("Fetching nowplaying information...");
-    fetch('http://cadenceradio.com:8000/now-playing.xsl').then(response => {
+    fetch('http://stream.cadenceradio.com:8000/now-playing.xsl').then(response => {
         response.text().then(text => {
             log.debug("Received response:\n\n"+text+"\n\n");
             song=nowPlayingFormat(text);
