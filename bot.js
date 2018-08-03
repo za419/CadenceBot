@@ -475,6 +475,51 @@ function command(message) {
                 return str.replace(re, ' '+replace).replace("%%"+chr, "%"+chr)
             };
 
+            // Now, process targeted custom sequences
+            for (var i in Object.keys(config.customCommands.targeted)) {
+                var key = Object.keys(config.customCommands.targeted)[i];
+
+                if (message.content.startsWith(key) && config.customCommands.targeted[key].format.length!==0) {
+                    log.info("Command "+message.content+" matched targeted custom command "+key);
+
+                    // Make sure we have a mention
+                    if (message.mentions.size==0) {
+                        log.debug("Zero mentions.")
+                        message.reply("I'm sorry, I don't know who you want me to direct that to - Could you ask me again and mention them?");
+                        return
+                    }
+                    else {
+                        var target=message.mentions.first();
+                        log.debug("Sent reply to "+target.tag)
+
+                        // Reply with user mention
+                        var mentioned=format(config.customCommands.targeted[key].format, 'u', target.toString());
+
+                        // If the format wants content added, strip mentions and add the content.
+                        // Strip multiple spaces so that tag artifacts aren't left behind
+                        // This might look weird if the mention is in the middle. Don't use patterns that encourage that.
+                        if (config.customCommands.targeted[key].continues) {
+                            // Strip mentions
+                            var content=message.content.substring(key.length);
+                            var mentions=new RegExp("\\?<([^>]+)>", "g")
+                            content=content.replace(mentions, '');
+
+                            // Now collapse multiple spaces
+                            content=content.replace(new RegExp("\s+", "g"), " ");
+
+                            // Now format that content string into the message and send.
+                            message.channel.send(format(mentioned, 's', content));
+                        }
+                        else {
+                            // Just send the mentioned reply
+                            message.channel.send(mentioned)
+                        }
+                        return;
+                    }
+                }
+            }
+
+            // Finally, the startsWith set
             for (var i in Object.keys(config.customCommands.startsWith)) {
                 var key = Object.keys(config.customCommands.startsWith)[i];
 
