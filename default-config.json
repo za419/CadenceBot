@@ -20,7 +20,10 @@
       "Cadence introduce yourself": "Hi, I'm CadenceBot."
     },
     "targeted": {
-      "Cadence introduce yourself to ": "Hi %u, I'm CadenceBot."
+      "Cadence introduce yourself to ": {
+        "format": "Hi %u, I'm CadenceBot.",
+        "continues": false
+      }
     },
     "startsWith": {
       "Cadence please don't ": "You won't be able to tell, but in a moment I won't even try to %s.",
@@ -42,9 +45,9 @@
       "emergency": "cyan"
     }
   },
-  "padLog": "true",
+  "padLog": true,
   "bitrate": "96",
   "roundtripDelayMs": 500,
   "statusUpdateIntervalMs": 3000,
-  "enableRequestTags": "true"
+  "enableRequestTags": true
 }
