@@ -455,6 +455,13 @@ function command(message) {
             }
         });
     }
+    // If none of those, check custom commands
+    else {
+        // equalTo check is easy
+        if (config.customCommands.equalTo.hasOwnProperty(message.content)) {
+            message.reply(config.customCommands.equalTo[message.content];
+        }
+    }
 }
 
 bot.on('message', message => {
