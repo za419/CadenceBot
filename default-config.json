@@ -23,6 +23,10 @@
       "Cadence introduce yourself to ": {
         "format": "Hi %u, I'm CadenceBot.",
         "continues": false
+      },
+      "Cadence echo to ": {
+        "format": "%u, %s",
+        "continues": true
       }
     },
     "startsWith": {
