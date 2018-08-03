@@ -20,6 +20,7 @@
       "Cadence introduce yourself": "Hi, I'm CadenceBot."
     },
     "startsWith": {
+      "Cadence please don't ": "You won't be able to tell, but in a moment I won't even try to %s.",
       "Cadence please ": "You won't be able to tell, but in a moment I'll begin to %s."
     }
   },
