@@ -466,13 +466,21 @@ function command(message) {
             }
         }
         else {
-            // startsWith is harder.
+            // startsWith and targeted are harder.
+            // First, the escaping function.
+            var format = function(str, chr, replace) {
+                // Escape chr so no regex funny business can happen
+                chr = chr.replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
+                var re = new RegExp("[^%]%"+chr, "g");
+                return str.replace(re, ' '+replace).replace("%%"+chr, "%"+chr)
+            };
+
             for (var i in Object.keys(config.customCommands.startsWith)) {
                 var key = Object.keys(config.customCommands.startsWith)[i];
 
                 if (message.content.startsWith(key) && config.customCommands.startsWith[key].length!==0) {
                     log.info("Command "+message.content+" matched startsWith custom command "+key);
-                    message.reply(config.customCommands.startsWith[key].replace(/[^%]%s/, ' '+message.content.substring(key.length)).replace("%%s", "%s"));
+                    message.reply(format(config.customCommands.startsWith[key], 's', message.content.substring(key.length)));
                     return;
                 }
             }
