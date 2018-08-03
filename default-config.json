@@ -15,6 +15,14 @@
     "search": "Search the Cadence database using the remainder of the given message as a query.",
     "request": "Request a song to be played on Cadence. You may request one song every five minutes (limited by Cadence)"
   },
+  "customCommands": {
+    "equalTo": {
+      "Cadence introduce yourself": "Hi, I'm CadenceBot."
+    },
+    "startsWith": {
+      "Cadence please ": "You won't be able to tell, but in a moment I'll begin to %s."
+    }
+  },
   "logging": {
     "format": "${timestamp} <${title}> ${file}:${line} ${message}",
     "dateformat": "yyyy-mm-dd HH:MM:ss",
