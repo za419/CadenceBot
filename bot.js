@@ -471,7 +471,7 @@ function command(message) {
             var format = function(str, chr, replace) {
                 // Escape chr so no regex funny business can happen
                 chr = chr.replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
-                var re = new RegExp("[^%]%"+chr, "g");
+                var re = new RegExp("[^%]?%"+chr, "g");
                 return str.replace(re, ' '+replace).replace("%%"+chr, "%"+chr)
             };
 
@@ -489,7 +489,7 @@ function command(message) {
                         return
                     }
                     else {
-                        var target=message.mentions.first();
+                        var target=message.mentions.users.first();
                         log.debug("Sent reply to "+target.tag)
 
                         // Reply with user mention
@@ -501,12 +501,11 @@ function command(message) {
                         if (config.customCommands.targeted[key].continues) {
                             // Strip mentions
                             var content=message.content.substring(key.length);
-                            var mentions=new RegExp("\\?<([^>]+)>", "g")
+                            var mentions=new RegExp("\\\\?<([^>]+)>", "g")
                             content=content.replace(mentions, '');
 
                             // Now collapse multiple spaces
-                            content=content.replace(new RegExp("\s+", "g"), " ");
-
+                            content=content.replace(new RegExp("  +", "g"), " ");
                             // Now format that content string into the message and send.
                             message.channel.send(format(mentioned, 's', content));
                         }
