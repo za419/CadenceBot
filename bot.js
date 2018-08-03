@@ -470,7 +470,7 @@ function command(message) {
 
                 if (message.content.startsWith(key)) {
                     log.info("Command "+message.content+" matched startsWith custom command "+key);
-                    message.reply(config.customCommands.startsWith[key].replace(/[^%]%s/, message.content.substring(key.length)).replace("%%s", "%s"));
+                    message.reply(config.customCommands.startsWith[key].replace(/[^%]%s/, ' '+message.content.substring(key.length)).replace("%%s", "%s"));
                     return;
                 }
             }
