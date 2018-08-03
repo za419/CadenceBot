@@ -465,7 +465,9 @@ function command(message) {
         }
         else {
             // startsWith is harder.
-            for (var key in Object.keys(config.customCommands.startsWith)) {
+            for (var i in Object.keys(config.customCommands.startsWith)) {
+                var key = Object.keys(config.customCommands.startsWith)[i];
+
                 if (message.content.startsWith(key)) {
                     log.info("Command "+message.content+" matched startsWith custom command "+key);
                     message.reply(config.customCommands.startsWith[key].replace(/[^%]%s/, message.content.substring(key.length)).replace("%%s", "%s"));
