@@ -461,6 +461,14 @@ function command(message) {
         if (config.customCommands.equalTo.hasOwnProperty(message.content)) {
             message.reply(config.customCommands.equalTo[message.content];
         }
+        else {
+            // startsWith is harder.
+            for (var key in Object.keys(config.customCommands.startsWith) {
+                if (message.content.startsWith(key)) {
+                    message.reply(config.customCommands.startsWith[key].replace(/[^%]%s/, message.content.substring(key.length)).replace("%%s", "%s"));
+                }
+            }
+        }
     }
 }
 
