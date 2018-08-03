@@ -460,15 +460,17 @@ function command(message) {
         log.debug("Checking custom commands.");
         // equalTo check is easy
         if (config.customCommands.equalTo.hasOwnProperty(message.content)) {
-            log.info("Command "+message.content+" matched an equalTo custom command.")
-            message.reply(config.customCommands.equalTo[message.content]);
+            if (config.customCommands.equalTo[message.content].length!==0) {
+                log.info("Command "+message.content+" matched an equalTo custom command.")
+                message.reply(config.customCommands.equalTo[message.content]);
+            }
         }
         else {
             // startsWith is harder.
             for (var i in Object.keys(config.customCommands.startsWith)) {
                 var key = Object.keys(config.customCommands.startsWith)[i];
 
-                if (message.content.startsWith(key)) {
+                if (message.content.startsWith(key) && config.customCommands.startsWith[key].length!==0) {
                     log.info("Command "+message.content+" matched startsWith custom command "+key);
                     message.reply(config.customCommands.startsWith[key].replace(/[^%]%s/, ' '+message.content.substring(key.length)).replace("%%s", "%s"));
                     return;
