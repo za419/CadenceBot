@@ -423,7 +423,10 @@ function command(message) {
 
         // If support is enabled, set the tag to the user's Discord tag
         if (config.enableRequestTags) {
-            data.tag=message.author.tag
+            if (config.useGuildTagsForRequests)
+                data.tag=message.guild.id
+            else
+                data.tag=message.author.tag
         }
 
         log.info("Making a request to "+url);
