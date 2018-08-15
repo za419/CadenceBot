@@ -179,7 +179,7 @@ function command(message) {
             }
             else {
                 log.error("User "+message.member.user.tag+" is not in a voice channel in server "+message.guild.name+".");
-                message.reply("You need to be in a voice channel for me to play Cadence in it, silly!");
+                message.reply("You need to be in a voice channel for me to play Cadence in it, この馬鹿!");
             }
         }
     }
