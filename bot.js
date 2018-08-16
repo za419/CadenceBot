@@ -507,10 +507,10 @@ function command(message) {
                             var mentions=new RegExp("\\\\?<([^>]+)>", "g")
                             content=content.replace(mentions, '');
 
-                            // Now collapse multiple spaces
-                            content=content.replace(new RegExp("  +", "g"), " ");
-                            // Now format that content string into the message and send.
-                            message.channel.send(format(mentioned, 's', content));
+                            // Now format that content string into the message.
+                            content=format(mentioned, 's', content);
+                            // Now collapse multiple spaces and send
+                            message.channel.send(content=content.replace(new RegExp("  +", "g"), " "));
                         }
                         else {
                             // Just send the mentioned reply
