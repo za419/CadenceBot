@@ -461,6 +461,51 @@ function command(message) {
             }
         });
     }
+    else if (message.content===config.commands.library) {
+        log.notice("Received library listing command in text channel "+message.channel.name+", server "+message.guild.name+".");
+        log.notice("Received message was \""+message.content+"\"");
+        const url=config.API.aria.prefix+config.API.aria.library;
+
+        log.info("Making a request to "+url);
+        request.post({url, form: {}}, function(err, response, body) {
+           log.info("Received response.");
+           if (!err && (!response || response.statusCode==200)) {
+               log.info("No error, and either no status code or status code 200.");
+               log.debug("Received body:\n\n"+body+"\n\n");
+               var songs=JSON.parse(body);
+               if (songs.length==0) {
+                   log.warning("Empty library results.");
+                   message.reply("Cadence returned no library contents.");
+               }
+               else {
+                   log.info(songs.length+" result(s).");
+                   lastSearchedSongs[message.channel.id]=songs;
+                   var response="Cadence returned:\n";
+                   response+=searchResultsFormat(songs);
+                   if ((response+message.client.user.tag).length>2000) {
+                       log.info("Message length was longer than 2000. Could not send.");
+                       message.reply("That query had "+songs.length+" results.\n\n"+
+                       "Unfortunately, that means that search term was too broad. Please narrow it down and try again.");
+                   }
+                   else {
+                       log.debug("Issuing response:\n\n"+response+"\n\n");
+                       message.reply(response);
+                   }
+               }
+           }
+           else {
+               log.error("Response is erroneous. Returned body:\n\n"+body+"\n\n");
+               if (response) {
+                   log.error("Returned status code: "+response.statusCode);
+                   message.reply("Error "+response.statusCode+". Aria says:\n\n"+body);
+               }
+               else {
+                   log.error("No status code.");
+                   message.reply("Error. Aria says:\n\n"+body);
+               }
+           }
+        });
+    }
     // If none of those, check custom commands
     else {
         log.debug("Checking custom commands.");

@@ -5,7 +5,8 @@
     "help": "Cadence help",
     "nowplaying": "Cadence now playing",
     "search": "Cadence search ",
-    "request": "Cadence request "
+    "request": "Cadence request ",
+    "library": "Cadence library"
   },
   "commandDescriptions": {
     "play": "Starts playing Cadence in your voice channel",
@@ -38,7 +39,8 @@
     "aria": {
       "prefix": "http://cadenceradio.com",
       "search": "/api/aria1/search",
-      "request": "/api/aria1/request"
+      "request": "/api/aria1/request",
+      "library": "/api/aria1/library"
     },
     "stream": {
       "prefix": "http://stream.cadenceradio.com:8000",
