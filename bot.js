@@ -467,7 +467,7 @@ function command(message) {
         const url=config.API.aria.prefix+config.API.aria.library;
 
         log.info("Making a request to "+url);
-        request.post({url, form: {}}, function(err, response, body) {
+        request.get({url, form: {}}, function(err, response, body) {
            log.info("Received response.");
            if (!err && (!response || response.statusCode==200)) {
                log.info("No error, and either no status code or status code 200.");
