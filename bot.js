@@ -86,7 +86,7 @@ var lastSearchedSongs={};
 var oneStepRequestFilters;
 
 function songFormat(song) {
-    return "\""+song.title+"\" by "+song.artist;
+    return "\""+(song.title || song.Title)+"\" by "+(song.artist || song.Artist);
 }
 
 function searchResultsFormat(songs) {
