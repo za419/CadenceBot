@@ -225,6 +225,9 @@ function command(message) {
                 log.info("Response text:\n\n"+text+"\n\n");
                 log.info("Parsing response...");
                 song=nowPlayingFormat(text);
+                bot.user.setPresence({ game:
+                                         { name: song }
+                });
                 log.notice("Parse complete: Now playing "+song);
                 message.reply("Now playing: "+song);
             });
