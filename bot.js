@@ -124,7 +124,7 @@ function command(message) {
                 isPlaying[message.guild.id]=true;
                 voiceChannel.join().then(connection => {
                     log.notice("Joined. Beginning playback (channel bitrate="+voiceChannel.bitrate+").");
-                    const dispatch = connection.playArbitraryInput('http://stream.cadenceradio.com:8000/cadence1', { 'bitrate': config.bitrate });
+                    const dispatch = connection.playArbitraryInput(config.API.stream.prefix+config.API.stream.stream, { 'bitrate': config.bitrate });
                     dispatch.on("end", end=> {
                         log.warning("Stream ended. Playback was in server "+message.guild.name+", channel "+voiceChannel.name);
                         if (!isPlaying[message.guild.id]) return;
@@ -217,7 +217,7 @@ function command(message) {
     }
     else if (message.content===config.commands.nowplaying) {
         log.notice("Received nowplaying command.");
-        const url="http://stream.cadenceradio.com:8000/now-playing.xsl";
+        const url=config.API.stream.prefix+config.API.stream.nowplaying;
         log.info("Issuing fetch request to "+url);
         fetch(url).then(response => {
             log.info("Received response.");
@@ -233,7 +233,7 @@ function command(message) {
     else if (message.content.startsWith(config.commands.search)) {
         log.notice("Received search command in text channel "+message.channel.name+", server "+message.guild.name+".");
         log.notice("Received message was \""+message.content+"\"");
-        const url='http://cadenceradio.com/search';
+        const url=config.API.aria.prefix+config.API.aria.search;
         var data={
             search: message.content.substring(config.commands.search.length)
         };
@@ -285,7 +285,7 @@ function command(message) {
         log.debug("Last searched songs:\n\n"+JSON.stringify(lastSearchedSongs[message.channel.id])+"\n\n");
         lastSearchedSongs[message.channel.id]=lastSearchedSongs[message.channel.id] || []; // Default to empty array to avoid crash
 
-        const url='http://cadenceradio.com/request';
+        const url=config.API.aria.prefix+config.API.aria.request;
         var song=parseInt(message.content.substring(config.commands.request.length))-1;
         if (isNaN(song)) {
             // Try to conduct a search, to see if we can perform a one-step request
@@ -558,7 +558,7 @@ function updatePresence() {
     }
 
     log.debug("Fetching nowplaying information...");
-    fetch('http://stream.cadenceradio.com:8000/now-playing.xsl').then(response => {
+    fetch(config.API.stream.prefix+config.API.stream.nowplaying).then(response => {
         response.text().then(text => {
             log.debug("Received response:\n\n"+text+"\n\n");
             song=nowPlayingFormat(text);

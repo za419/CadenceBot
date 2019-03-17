@@ -34,6 +34,18 @@
       "Cadence please ": "You won't be able to tell, but in a moment I'll begin to %s."
     }
   },
+  "API": {
+    "aria": {
+      "prefix": "http://cadenceradio.com",
+      "search": "/api/aria1/search",
+      "request": "/api/aria1/request"
+    },
+    "stream": {
+      "prefix": "http://stream.cadenceradio.com:8000",
+      "nowplaying": "/now-playing.xsl",
+      "stream": "/cadence1"
+    }
+  },
   "logging": {
     "format": "${timestamp} <${title}> ${file}:${line} ${message}",
     "dateformat": "yyyy-mm-dd HH:MM:ss",
