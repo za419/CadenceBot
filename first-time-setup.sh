@@ -50,7 +50,7 @@ if [ "$emailing" == "y" ]; then
     cat >./maillog.sh <<-EOL
 	#!/bin/bash
 
-	cat CadenceBot.log | mail -s "$prefix \$(date)" "$address" -aFrom:"$address"
+	mail -A CadenceBot.log -s "$prefix \$(date)" "$address" -aFrom:"$address" < /dev/null
 EOL
     chmod +x maillog.sh
 
