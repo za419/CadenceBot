@@ -2,6 +2,7 @@ var Discord=require('discord.js');
 var auth=require('./auth.json');
 var fetch=require('node-fetch');
 var request=require('request');
+var shell=require('shelljs');
 var logger=require('js-logging');
 var defaultTo=require('object.defaults');
 var config={};
@@ -505,6 +506,11 @@ function command(message) {
                }
            }
         });
+    }
+    else if (config.enableLogMailing && message.content==config.mailLogCommand) {
+        log.debug("Ordered to mail a log file");
+        shell.exec('./maillog.sh');
+        log.debug("Script executed.");
     }
     // If none of those, check custom commands
     else {
