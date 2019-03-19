@@ -9,7 +9,6 @@ npm install --save libsodium-wrappers@^0.5.4
 npm install --save uws@^0.14.5
 npm install --save node-fetch
 npm install --save request
-npm install --save shelljs
 npm install --save node-opus
 npm install --save erlpack@hammerandchisel/erlpack
 
