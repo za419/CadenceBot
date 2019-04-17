@@ -44,7 +44,7 @@
       "library": "/api/aria1/library"
     },
     "stream": {
-      "prefix": "http://stream.cadenceradio.com:8000",
+      "prefix": "https://stream.cadenceradio.com",
       "nowplaying": "/now-playing.xsl",
       "stream": "/cadence1"
     }
