@@ -454,7 +454,7 @@ function command(message) {
         };
 
         log.info("Making a request to "+url);
-        log.debug("data.ID="+data.ID);
+        log.debug("body="+post.body);
         request.post(post, function(err, response, body) {
             log.info("Received response.");
             if (!err && (!response || response.statusCode==200)) {
