@@ -23,6 +23,11 @@ function recursiveDefault(obj, def) {
 }
 recursiveDefault(config, defaultConfig);
 
+// Check if we should set node to permit insecure TLS
+if (config.allowInsecure) {
+    require('process').env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+}
+
 if (config.padLog) {
     var longestLengthIn=function(array) {
         var max=-1;
