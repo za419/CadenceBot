@@ -249,7 +249,7 @@ function command(message) {
 
         log.info("Making a request to "+url);
         log.debug("data.search="+data.search);
-        var config = {
+        var post = {
             url,
             body: data,
             json: true,
@@ -257,7 +257,7 @@ function command(message) {
             followOriginalHttpMethod: true,
             gzip: true
         };
-        request.post(config, function(err, response, body) {
+        request.post(post, function(err, response, body) {
            log.info("Received response.");
            if (!err && (!response || response.statusCode==200)) {
                log.info("No error, and either no status code or status code 200.");
