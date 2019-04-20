@@ -249,7 +249,15 @@ function command(message) {
 
         log.info("Making a request to "+url);
         log.debug("data.search="+data.search);
-        request.post({url, form: data}, function(err, response, body) {
+        var config = {
+            url,
+            body: data,
+            json: true,
+            followAllRedirects: true,
+            followOriginalHttpMethod: true,
+            gzip: true
+        };
+        request.post(config, function(err, response, body) {
            log.info("Received response.");
            if (!err && (!response || response.statusCode==200)) {
                log.info("No error, and either no status code or status code 200.");
