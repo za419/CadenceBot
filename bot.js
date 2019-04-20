@@ -257,12 +257,11 @@ function command(message) {
             followOriginalHttpMethod: true,
             gzip: true
         };
-        request.post(post, function(err, response, body) {
+        request.post(post, function(err, response, songs) {
            log.info("Received response.");
            if (!err && (!response || response.statusCode==200)) {
                log.info("No error, and either no status code or status code 200.");
-               log.debug("Received body:\n\n"+body+"\n\n");
-               var songs=JSON.parse(body);
+               log.debug("Received body:\n\n"+songs+"\n\n");
                if (songs.length==0) {
                    log.info("No results.");
                    message.reply("Cadence has no results for \""+data.search+"\".");
