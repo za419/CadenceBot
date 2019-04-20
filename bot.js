@@ -434,7 +434,7 @@ function command(message) {
 
 
         var data={
-            path: lastSearchedSongs[message.channel.id][song].path
+            ID: lastSearchedSongs[message.channel.id][song].ID
         };
 
         // If support is enabled, set the tag to the user's Discord tag
@@ -445,9 +445,17 @@ function command(message) {
                 data.tag=message.author.tag
         }
 
+        var post={
+            url,
+            body: JSON.stringify(data),
+            followAllRedirects: true,
+            followOriginalHttpMethod: true,
+            gzip: true
+        };
+
         log.info("Making a request to "+url);
-        log.debug("data.path="+data.path);
-        request.post({url, form: data}, function(err, response, body) {
+        log.debug("data.ID="+data.ID);
+        request.post(post, function(err, response, body) {
             log.info("Received response.");
             if (!err && (!response || response.statusCode==200)) {
                 log.notice("Request received. Clearing lastSearchedSongs...");
