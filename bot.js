@@ -434,7 +434,7 @@ function command(message) {
 
 
         var data={
-            ID: lastSearchedSongs[message.channel.id][song].ID
+            ID: lastSearchedSongs[message.channel.id][song].ID.toString()
         };
 
         // If support is enabled, set the tag to the user's Discord tag
