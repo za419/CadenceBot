@@ -38,7 +38,7 @@
   },
   "API": {
     "aria": {
-      "prefix": "http://cadenceradio.com",
+      "prefix": "https://cadenceradio.com",
       "search": "/api/aria1/search",
       "request": "/api/aria1/request",
       "library": "/api/aria1/library"
@@ -71,5 +71,6 @@
   "enableRequestTags": true,
   "useGuildTagsForRequests": false,
   "enableLogMailing": false,
-  "logMailCommand": "Cadence maillog"
+  "logMailCommand": "Cadence maillog",
+  "allowInsecure": true
 }
