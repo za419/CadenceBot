@@ -560,7 +560,7 @@ function command(message) {
                     log.info("Command "+message.content+" matched targeted custom command "+key);
 
                     // Make sure we have a mention
-                    if (message.mentions.size==0) {
+                    if (message.mentions.users.size==0) {
                         log.debug("Zero mentions.")
                         message.reply("I'm sorry, I don't know who you want me to direct that to - Could you ask me again and mention them?");
                         return
