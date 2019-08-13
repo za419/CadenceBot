@@ -24,11 +24,13 @@
     "targeted": {
       "Cadence introduce yourself to ": {
         "format": "Hi %u, I'm CadenceBot.",
-        "continues": false
+        "continues": false,
+        "replyOnly": false
       },
       "Cadence echo to ": {
         "format": "%u, %s",
-        "continues": true
+        "continues": true,
+        "replyOnly": false
       }
     },
     "startsWith": {
