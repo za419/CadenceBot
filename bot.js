@@ -539,7 +539,7 @@ function command(message) {
         if (config.customCommands.equalTo.hasOwnProperty(message.content)) {
             if (config.customCommands.equalTo[message.content].length!==0) {
                 log.info("Command "+message.content+" matched an equalTo custom command.")
-                message.reply(config.customCommands.equalTo[message.content]);
+                message.channel.send(config.customCommands.equalTo[message.content]);
             }
         }
         else {
@@ -601,7 +601,7 @@ function command(message) {
 
                 if (message.content.startsWith(key) && config.customCommands.startsWith[key].length!==0) {
                     log.info("Command "+message.content+" matched startsWith custom command "+key);
-                    message.reply(format(config.customCommands.startsWith[key], 's', message.content.substring(key.length)));
+                    message.channel.send(format(config.customCommands.startsWith[key], 's', message.content.substring(key.length)));
                     return;
                 }
             }
