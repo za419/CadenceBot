@@ -22,10 +22,10 @@
       "Cadence introduce yourself": "Hi, I'm CadenceBot."
     },
     "targeted": {
-      "Cadence introduce yourself to ": {
-        "format": "Hi %u, I'm CadenceBot.",
+      "Cadence introduce yourself to me": {
+        "format": "I'm CadenceBot. It's nice to meet you.",
         "continues": false,
-        "replyOnly": false
+        "replyOnly": true
       },
       "Cadence echo to ": {
         "format": "%u, %s",
@@ -42,10 +42,10 @@
         "continues": true,
         "replyOnly": true
       },
-      "Cadence introduce yourself to me": {
-        "format": "I'm CadenceBot. It's nice to meet you.",
+      "Cadence introduce yourself to ": {
+        "format": "Hi %u, I'm CadenceBot.",
         "continues": false,
-        "replyOnly": true
+        "replyOnly": false
       }
     },
     "startsWith": {
