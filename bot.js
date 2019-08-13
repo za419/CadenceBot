@@ -574,6 +574,7 @@ function command(message) {
                             // Just return the format string
                             message.reply(config.customCommands.targeted[key].format);
                         }
+                        return;
                     }
                     else if (message.mentions.users.size==0) {
                         log.debug("Zero mentions.")
