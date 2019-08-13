@@ -31,11 +31,24 @@
         "format": "%u, %s",
         "continues": true,
         "replyOnly": false
+      },
+      "Cadence please don't ": {
+        "format": "You won't be able to tell, but in a moment I won't even try to %s.",
+        "continues": true,
+        "replyOnly": true
+      },
+      "Cadence please ": {
+        "format": "You won't be able to tell, but in a moment I'll begin to %s.",
+        "continues": true,
+        "replyOnly": true
+      },
+      "Cadence introduce yourself to me": {
+        "format": "I'm CadenceBot. It's nice to meet you.",
+        "continues": false,
+        "replyOnly": true
       }
     },
     "startsWith": {
-      "Cadence please don't ": "You won't be able to tell, but in a moment I won't even try to %s.",
-      "Cadence please ": "You won't be able to tell, but in a moment I'll begin to %s.",
       "Cadence echo ": "%s"
     }
   },
