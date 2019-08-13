@@ -21,7 +21,7 @@
     "start": "./restart.sh"
   },
   "dependencies": {
-    "discord.js": "^11.4.2",
+    "discord.js": "^11.5.1",
     "erlpack": "github:hammerandchisel/erlpack",
     "js-logging": "^0.1.0",
     "libsodium-wrappers": "^0.5.4",
@@ -30,6 +30,6 @@
     "object.defaults": "^1.1.0",
     "request": "^2.88.0",
     "uws": "^0.14.5",
-    "zlib-sync": "^0.1.4"
+    "zlib-sync": "^0.1.5"
   }
 }
