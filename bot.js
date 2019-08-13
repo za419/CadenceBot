@@ -559,8 +559,23 @@ function command(message) {
                 if (message.content.startsWith(key) && config.customCommands.targeted[key].format.length!==0) {
                     log.info("Command "+message.content+" matched targeted custom command "+key);
 
-                    // Make sure we have a mention
-                    if (message.mentions.users.size==0) {
+                    // Make sure we have a mention if we need one
+                    if (config.customCommands.targeted[key].replyOnly) {
+                        if (config.customCommands.targeted[key].continues) {
+                            // We need to format in some content
+                            var content=message.content.substring(key.length);
+                            // Format content string into the message
+                            content=format(config.customCommands.targeted[key].format, 's', content);
+                            // Collapse spaces and send
+                            content=content.replace(new RegExp("  +", "g"), " ")
+                            message.reply(content);
+                        }
+                        else {
+                            // Just return the format string
+                            message.reply(config.customCommands.targeted[key].format);
+                        }
+                    }
+                    else if (message.mentions.users.size==0) {
                         log.debug("Zero mentions.")
                         message.reply("I'm sorry, I don't know who you want me to direct that to - Could you ask me again and mention them?");
                         return
@@ -584,7 +599,8 @@ function command(message) {
                             // Now format that content string into the message.
                             content=format(mentioned, 's', content);
                             // Now collapse multiple spaces and send
-                            message.channel.send(content=content.replace(new RegExp("  +", "g"), " "));
+                            content=content.replace(new RegExp("  +", "g"), " ")
+                            message.channel.send(content);
                         }
                         else {
                             // Just send the mentioned reply
