@@ -113,7 +113,11 @@ function nowPlayingFormat(text) {
 
 function splitOnLastLine(text, length, separator="\n") {
     text=text.substring(0, length);
-    return text.substring(0, text.lastIndexOf(separator));
+    index = text.lastIndexOf(separator);
+
+    if (index == -1) return text;
+
+    return text.substring(0, index);
 }
 
 function sendLongReply(message, text, length=2000) {
