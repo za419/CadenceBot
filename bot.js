@@ -127,11 +127,22 @@ function sendLongReply(message, text, length=2000) {
     // Special handling for the first part of the message, and for if the message isn't actually long.
     response=splitOnLastLine(text, length - message.author.id.toString().length - 5);
     message.reply(response);
-    text=text.substring(response.length);
+    text=text.substring(response.length+1);
+
+    // If the text starts with a whitespace character, discord will strip it. This prevents that.
+    if (/\s/.test(text.charAt(0))) {
+        text = "_"+text.charAt(0)+"_"+text.substring(1);
+    }
+
     while (text.length>length) {
         response=splitOnLastLine(text, length);
         message.channel.send(response);
-        text=text.substring(response.length);
+        text=text.substring(response.length+1);
+
+        // If the text starts with a whitespace character, discord will strip it. This prevents that.
+        if (/\s/.test(text.charAt(0))) {
+            text = "_"+text.charAt(0)+"_"+text.substring(1);
+        }
     }
     if (text.length>0) message.channel.send(text);
 }
