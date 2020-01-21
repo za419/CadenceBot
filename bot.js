@@ -111,16 +111,23 @@ function nowPlayingFormat(text) {
     return "\""+song+"\" by "+artist;
 }
 
+function splitOnLastLine(text, length, separator="\n") {
+    text=text.substring(0, length);
+    return text.substring(0, text.lastIndexOf(separator));
+}
+
 function sendLongReply(message, text, length=2000) {
     // Proactive bugfix: Make sure that length isn't above 2000 (which is where Discord caps messages)
     if (length>2000) length=2000;
 
     // Special handling for the first part of the message, and for if the message isn't actually long.
-    message.reply(text.substring(0, length - message.author.id.toString().length));
-    text=text.substring(length - message.author.id.toString().length);
+    response=splitOnLastLine(text, length - message.author.id.toString().length - 5);
+    message.reply(response);
+    text=text.substring(response.length);
     while (text.length>0) {
-        message.channel.send(text.substring(0, length));
-        text=text.substring(length);
+        response=splitOnLastLine(text, length);
+        message.channel.send(response);
+        text=text.substring(response.length);
     }
 }
 
