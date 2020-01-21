@@ -128,11 +128,12 @@ function sendLongReply(message, text, length=2000) {
     response=splitOnLastLine(text, length - message.author.id.toString().length - 5);
     message.reply(response);
     text=text.substring(response.length);
-    while (text.length>0) {
+    while (text.length>length) {
         response=splitOnLastLine(text, length);
         message.channel.send(response);
         text=text.substring(response.length);
     }
+    if (text.length>0) message.channel.send(text);
 }
 
 function command(message) {
