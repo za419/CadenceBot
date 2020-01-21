@@ -111,6 +111,19 @@ function nowPlayingFormat(text) {
     return "\""+song+"\" by "+artist;
 }
 
+function sendLongReply(message, text, length=2000) {
+    // Proactive bugfix: Make sure that length isn't above 2000 (which is where Discord caps messages)
+    if (length>2000) length=2000;
+
+    // Special handling for the first part of the message, and for if the message isn't actually long.
+    message.reply(text.substring(0, length));
+    text=text.substring(length);
+    while (text.length>0) {
+        message.channel.send(text.substring(0, length));
+        text=text.substring(length);
+    }
+}
+
 function command(message) {
     if (message.content===config.commands.play) {
         log.notice("Received play command.");
