@@ -116,8 +116,8 @@ function sendLongReply(message, text, length=2000) {
     if (length>2000) length=2000;
 
     // Special handling for the first part of the message, and for if the message isn't actually long.
-    message.reply(text.substring(0, length));
-    text=text.substring(length);
+    message.reply(text.substring(0, length - message.author.id.toString().length));
+    text=text.substring(length - message.author.id.toString().length);
     while (text.length>0) {
         message.channel.send(text.substring(0, length));
         text=text.substring(length);
