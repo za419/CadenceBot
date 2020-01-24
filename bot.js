@@ -343,6 +343,7 @@ function command(message) {
             msg.channel=message.channel;
             msg.guild=message.guild;
             msg.client=message.client;
+            msg.author={tag: message.author.tag, id: message.author.id};
             msg.reply=function(r) {
                 log.notice("Mocked search returned:\n\n");
                 log.notice(r+"\n\n");
@@ -387,7 +388,7 @@ function command(message) {
                     var msg={};
                     msg.channel=message.channel;
                     msg.guild=message.guild;
-                    msg.author={tag: message.author.tag};
+                    msg.author={tag: message.author.tag, id: message.author.id};
                     msg.reply=function(r) {
                         // Custom message for successful requests
                         if (r.includes("received") && !r.includes("Aria says")) {
