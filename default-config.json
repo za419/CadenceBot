@@ -19,7 +19,15 @@
   },
   "customCommands": {
     "equalTo": {
-      "Cadence introduce yourself": "Hi, I'm CadenceBot."
+      "Cadence introduce yourself": {
+        "response": "Hi, I'm CadenceBot."
+      },
+      "Cadence flip a coin": {
+        "random": [
+            "heads",
+            "tails"
+        ]
+      }
     },
     "targeted": {
       "Cadence introduce yourself to me": {
@@ -49,7 +57,33 @@
       }
     },
     "startsWith": {
-      "Cadence echo ": "%s"
+      "Cadence echo ": {
+        "format": "%s"
+      },
+      "Cadence don't say ": {
+        "random": [
+            "Don't tell me what to do. \"%s\"",
+            "Ok.",
+            "Ok.",
+            "Ok.",
+            "Ok.",
+            "Ok.",
+            "Okay.",
+            "Okay.",
+            "Okay.",
+            "Okay.",
+            "Okay.",
+            "Fine.",
+            "Fine.",
+            "Fine.",
+            "Fine.",
+            "If you insist, just this once.",
+            "If you insist, just this once.",
+            "If you insist, just this once.",
+            "If you insist, just this once.",
+            "Fine, I won't say \"%s\" for a while. Starting now..."
+        ]
+      }
     }
   },
   "API": {

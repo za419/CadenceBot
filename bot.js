@@ -188,6 +188,10 @@ function sendLongReply(message, text, length=2000) {
     if (text.length>0) message.channel.send(text);
 }
 
+function selectOne(array) {
+    return array[Math.round(Math.random()*array.length)];
+}
+
 function command(message) {
     if (message.content===config.commands.play) {
         log.notice("Received play command.");
@@ -610,7 +614,14 @@ function command(message) {
         if (config.customCommands.equalTo.hasOwnProperty(message.content)) {
             if (config.customCommands.equalTo[message.content].length!==0) {
                 log.info("Command "+message.content+" matched an equalTo custom command.")
-                message.channel.send(config.customCommands.equalTo[message.content]);
+                var command=config.customCommands.equalTo[message.content];
+                // Either random or response must exist: Prefer random if both exist
+                if (command.random) {
+                    message.channel.send(selectOne(command.random));
+                }
+                else {
+                    message.channel.send(command.response);
+                }
             }
         }
         else {
@@ -689,7 +700,16 @@ function command(message) {
 
                 if (message.content.startsWith(key) && config.customCommands.startsWith[key].length!==0) {
                     log.info("Command "+message.content+" matched startsWith custom command "+key);
-                    message.channel.send(format(config.customCommands.startsWith[key], 's', message.content.substring(key.length)));
+                    var command=config.customCommands.startsWith[key];
+                    var output;
+                    // Either random or format must be set. Prefer random if both are present
+                    if (command.random) {
+                        output=selectOne(command.random);
+                    }
+                    else {
+                        output=command.format;
+                    }
+                    message.channel.send(format(output, 's', message.content.substring(key.length)));
                     return;
                 }
             }
