@@ -67,7 +67,7 @@
   },
   "logging": {
     "format": "${timestamp} <${title}> ${file}:${line} ${message}",
-    "dateformat": "yyyy-mm-dd HH:MM:ss",
+    "dateformat": "yyyy-mm-dd HH:MM:ss Z (UTCo)",
     "level": "info",
     "filters": {
       "debug": "cyan",
