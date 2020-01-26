@@ -564,8 +564,21 @@ function command(message) {
                }
                else {
                    log.info(songs.length+" result(s).");
+                   
+                   // ARIA's library API only sends {artist, title} pairs.
+                   // CadenceBot offers request-from-library...
+                   // Which means we need to add IDs into the data before it goes into lastSearchedSongs.
+                   // Luckily, we know that Cadence orders the library in ascending order of ID
+                   // (as a consequence of how both are populated)
+                   // and that ID starts at 1.
+                   for (var i=0; i<songs.length; ++i) {
+                       // Don't overwrite the existing ID if it exists
+                       // (this protects against API changes in the future)
+                       if (songs[i].ID == undefined) songs[i].ID=i+1;
+                   }
+                   
                    lastSearchedSongs[message.channel.id]=songs;
-                   var response="Cadence returned:\n";
+                   var response="The Cadence library contains:\n";
                    response+=searchResultsFormat(songs);
                    log.debug("Issuing response:\n\n"+response+"\n\n");
                    sendLongReply(message, response);
