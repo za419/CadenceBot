@@ -83,12 +83,41 @@ var lastSearchedSongs={};
 // As an added bonus, it also keeps all CadenceBot listeners in perfect sync!
 // (Seeing as Cadence streams tend to desync over time, this is useful).
 const stream = bot.createVoiceBroadcast();
-stream.playArbitraryInput(config.API.stream.prefix+config.API.stream.stream, {
-    'bitrate': config.stream.bitrate,
-    'volume': config.stream.volume,
-    'passes': config.stream.retryCount
+
+// This function initializes the stream.
+// It is provided to allow the stream to reinitialize itself when it encounters an issue...
+// Which appears to happen rather often with the broadcast.
+function beginGlobalPlayback() {
+    stream.playArbitraryInput(config.API.stream.prefix+config.API.stream.stream, {
+        'bitrate': config.stream.bitrate,
+        'volume': config.stream.volume,
+        'passes': config.stream.retryCount
+    });
+}
+
+// Start up the stream before we initialize event handlers.
+// This means that playback can begin as soon as the bot can handle a command.
+beginGlobalPlayback();
+
+// Add event handlers for the stream.
+// When the stream ends, reconnect and resume it.
+// (We don't ever want CadenceBot to lose audio)
+stream.on('end', function() {
+    beginGlobalPlayback();
+    log.info("Global broadcast stream ended, restarting.");
 });
 
+// Log errors.
+stream.on('error', function(err) {
+    log.error("Global broadcast stream error: "+err);
+    // End should be triggered as well if this interrupts playback...
+    // If this doesn't happen, add a call to beginGlobalPlayback here.
+});
+
+// Log warnings.
+stream.on('warn', function(warn) {
+    log.warning("Global broadcast stream warning: "+warn);
+});
 
 // Defined later: Filters that one-step-request attempts to use to choose a song to request
 // Filters are queried one at a time, in order of appearance (by iterating over the keys)
