@@ -620,7 +620,7 @@ function command(message) {
                     message.channel.send(selectOne(command.random));
                 }
                 else {
-                    message.channel.send(command.response);
+                    message.channel.send(command);
                 }
             }
         }
@@ -707,7 +707,7 @@ function command(message) {
                         output=selectOne(command.random);
                     }
                     else {
-                        output=command.format;
+                        output=command;
                     }
                     message.channel.send(format(output, 's', message.content.substring(key.length)));
                     return;
