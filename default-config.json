@@ -81,7 +81,7 @@
     }
   },
   "padLog": true,
-  "bitrate": "96",
+  "bitrate": 96000,
   "roundtripDelayMs": 500,
   "statusUpdateIntervalMs": 3000,
   "enableRequestTags": true,
