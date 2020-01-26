@@ -707,7 +707,7 @@ function command(message) {
                         output=selectOne(command.random);
                     }
                     else {
-                        output=command;
+                        output=command.format;
                     }
                     message.channel.send(format(output, 's', message.content.substring(key.length)));
                     return;
