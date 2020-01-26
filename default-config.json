@@ -80,8 +80,12 @@
       "emergency": "cyan"
     }
   },
+  "stream": {
+    "bitrate": 96000,
+    "volume": 0.075,
+    "retryCount": 5
+  },
   "padLog": true,
-  "bitrate": 96000,
   "roundtripDelayMs": 500,
   "statusUpdateIntervalMs": 3000,
   "enableRequestTags": true,

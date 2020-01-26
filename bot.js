@@ -168,9 +168,9 @@ function command(message) {
                     log.notice("Joined. Beginning playback (channel bitrate="+voiceChannel.bitrate+").");
                     const dispatch = connection.playArbitraryInput(config.API.stream.prefix+config.API.stream.stream,
                                         {
-                                            'bitrate': config.bitrate,
-                                            'volume': 0.15,
-                                            'passes': 4
+                                            'bitrate': config.stream.bitrate,
+                                            'volume': config.stream.volume,
+                                            'passes': config.stream.retryCount
                                         });
                     dispatch.on("end", end=> {
                         log.warning("Stream ended. Playback was in server "+message.guild.name+", channel "+voiceChannel.name);
