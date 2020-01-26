@@ -22,9 +22,7 @@ cp auto-setup.sh .git/hooks/post-merge
 
 ./setup.sh
 
-read -n 1 -p "Would you like to setup log emailing on restart now? (y/N) " emailing
-
-emailing="${emailing,,}"
+emailing="invalid"
 
 while [[ "$emailing" != "y" && "$emailing" != "n" && "$emailing" != "" ]]; do
     read -n 1 -p "Would you like to setup log emailing on restart now? (y/N) " emailing
@@ -62,9 +60,8 @@ else
     echo "OK"
 fi
 
-read -n 1 -p "Would you like to setup Discord authentication now? (y/N) " authentication
 
-authentication="${authentication,,}"
+authentication="invalid"
 
 while [[ "$authentication" != "y" && "$authentication" != "n" && "$authentication" != "" ]]; do
     read -n 1 -p "Would you like to setup Discord authentication now? (y/N) " authentication
@@ -99,3 +96,4 @@ fi
 
 echo
 echo "Setup complete."
+echo "Run restart.sh to start CadenceBot."
