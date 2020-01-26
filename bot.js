@@ -189,7 +189,7 @@ function sendLongReply(message, text, length=2000) {
 }
 
 function selectOne(array) {
-    return array[Math.round(Math.random()*array.length)];
+    return array[Math.round(Math.random()*(array.length-1))];
 }
 
 function command(message) {
