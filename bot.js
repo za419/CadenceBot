@@ -78,6 +78,10 @@ var reconnectTimeout=30; // Seconds
 
 var lastSearchedSongs={};
 
+// This is the single audio stream which will be used for all CadenceBot listeners.
+// This saves bandwidth and encoding overhead as compared to having one stream for each server.
+// As an added bonus, it also keeps all CadenceBot listeners in perfect sync!
+// (Seeing as Cadence streams tend to desync over time, this is useful).
 const stream = bot.createVoiceBroadcast();
 stream.playArbitraryInput(config.API.stream.prefix+config.API.stream.stream, {
     'bitrate': config.stream.bitrate,
