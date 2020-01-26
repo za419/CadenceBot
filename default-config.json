@@ -62,7 +62,7 @@
       },
       "Cadence don't say ": {
         "random": [
-            "Don't tell me what to do. \"%s\"",
+            "Don't tell me what to do. \" %s\"",
             "Ok.",
             "Ok.",
             "Ok.",
@@ -81,7 +81,7 @@
             "If you insist, just this once.",
             "If you insist, just this once.",
             "If you insist, just this once.",
-            "Fine, I won't say \"%s\" for a while. Starting now..."
+            "Fine, I won't say \" %s\" for a while. Starting now..."
         ]
       }
     }
