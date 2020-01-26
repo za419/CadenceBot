@@ -24,8 +24,8 @@
       },
       "Cadence flip a coin": {
         "random": [
-            "heads",
-            "tails"
+            "Heads",
+            "Tails"
         ]
       }
     },
