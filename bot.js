@@ -525,7 +525,7 @@ function command(message) {
         log.debug("body="+post.body);
         request.post(post, function(err, response, body) {
             log.info("Received response.");
-            if (!err && (!response || response.statusCode==200)) {
+            if (!err && (!response || response.statusCode==200 || response.statusCode==202)) {
                 log.notice("Request received. Clearing lastSearchedSongs...");
                 log.info("Aria says: "+body);
                 message.reply("Your request has been received.");
@@ -645,7 +645,7 @@ function command(message) {
                     var output;
                     // Either random or format must be present. Prefer random if both exist.
                     if (operation.random) {
-                        output=selectOne(operation.random);
+                        output=(operation.random);
                     }
                     else {
                         output=operation.format;
