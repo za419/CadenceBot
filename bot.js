@@ -614,13 +614,13 @@ function command(message) {
         if (config.customCommands.equalTo.hasOwnProperty(message.content)) {
             if (!config.customCommands.equalTo[message.content].disabled) {
                 log.info("Command "+message.content+" matched an equalTo custom command.")
-                var command=config.customCommands.equalTo[message.content];
+                var operation=config.customCommands.equalTo[message.content];
                 // Either random or response must exist: Prefer random if both exist
-                if (command.random) {
-                    message.channel.send(selectOne(command.random));
+                if (operation.random) {
+                    message.channel.send(selectOne(operation.random));
                 }
                 else {
-                    message.channel.send(command.response);
+                    message.channel.send(operation.response);
                 }
             }
         }
@@ -641,19 +641,19 @@ function command(message) {
                 if (message.content.startsWith(key) && !config.customCommands.targeted[key].disabled) {
                     log.info("Command "+message.content+" matched targeted custom command "+key);
 
-                    var command=config.customCommands.targeted[key];
+                    var operation=config.customCommands.targeted[key];
                     var output;
                     // Either random or format must be present. Prefer random if both exist.
-                    if (command.random) {
-                        output=selectOne(command.random);
+                    if (operation.random) {
+                        output=selectOne(operation.random);
                     }
                     else {
-                        output=command.format;
+                        output=operation.format;
                     }
 
                     // Make sure we have a mention if we need one
-                    if (command.replyOnly) {
-                        if (command.continues) {
+                    if (operation.replyOnly) {
+                        if (operation.continues) {
                             // We need to format in some content
                             var content=message.content.substring(key.length);
                             // Format content string into the message
@@ -710,14 +710,14 @@ function command(message) {
 
                 if (message.content.startsWith(key) && !config.customCommands.startsWith[key].disabled) {
                     log.info("Command "+message.content+" matched startsWith custom command "+key);
-                    var command=config.customCommands.startsWith[key];
+                    var operation=config.customCommands.startsWith[key];
                     var output;
                     // Either random or format must be set. Prefer random if both are present
-                    if (command.random) {
-                        output=selectOne(command.random);
+                    if (operation.random) {
+                        output=selectOne(operation.random);
                     }
                     else {
-                        output=command.format;
+                        output=operation.format;
                     }
                     message.channel.send(format(output, 's', message.content.substring(key.length)));
                     return;
