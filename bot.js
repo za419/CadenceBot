@@ -646,8 +646,10 @@ function command(message) {
                     // Either random or format must be present. Prefer random if both exist.
                     if (command.random) {
                         output=selectOne(command.random);
-                    else
+                    }
+                    else {
                         output=command.format;
+                    }
 
                     // Make sure we have a mention if we need one
                     if (command.replyOnly) {
