@@ -641,20 +641,28 @@ function command(message) {
                 if (message.content.startsWith(key) && config.customCommands.targeted[key].format.length!==0) {
                     log.info("Command "+message.content+" matched targeted custom command "+key);
 
+                    var command=config.customCommands.targeted[key];
+                    var output;
+                    // Either random or format must be present. Prefer random if both exist.
+                    if (command.random) {
+                        output=selectOne(command.random);
+                    else
+                        output=command.format;
+
                     // Make sure we have a mention if we need one
-                    if (config.customCommands.targeted[key].replyOnly) {
-                        if (config.customCommands.targeted[key].continues) {
+                    if (command.replyOnly) {
+                        if (command.continues) {
                             // We need to format in some content
                             var content=message.content.substring(key.length);
                             // Format content string into the message
-                            content=format(config.customCommands.targeted[key].format, 's', content);
+                            content=format(output, 's', content);
                             // Collapse spaces and send
                             content=content.replace(new RegExp("  +", "g"), " ")
                             message.reply(content);
                         }
                         else {
                             // Just return the format string
-                            message.reply(config.customCommands.targeted[key].format);
+                            message.reply(output);
                         }
                         return;
                     }
@@ -668,12 +676,12 @@ function command(message) {
                         log.debug("Sent reply to "+target.tag)
 
                         // Reply with user mention
-                        var mentioned=format(config.customCommands.targeted[key].format, 'u', target.toString());
+                        var mentioned=format(output, 'u', target.toString());
 
                         // If the format wants content added, strip mentions and add the content.
                         // Strip multiple spaces so that tag artifacts aren't left behind
                         // This might look weird if the mention is in the middle. Don't use patterns that encourage that.
-                        if (config.customCommands.targeted[key].continues) {
+                        if (output.continues) {
                             // Strip mentions
                             var content=message.content.substring(key.length);
                             var mentions=new RegExp("\\\\?<([^>]+)>", "g")
