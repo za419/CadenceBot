@@ -612,7 +612,7 @@ function command(message) {
         log.debug("Checking custom commands.");
         // equalTo check is easy
         if (config.customCommands.equalTo.hasOwnProperty(message.content)) {
-            if (config.customCommands.equalTo[message.content].length!==0) {
+            if (!config.customCommands.equalTo[message.content].disabled) {
                 log.info("Command "+message.content+" matched an equalTo custom command.")
                 var command=config.customCommands.equalTo[message.content];
                 // Either random or response must exist: Prefer random if both exist
@@ -638,7 +638,7 @@ function command(message) {
             for (var i in Object.keys(config.customCommands.targeted)) {
                 var key = Object.keys(config.customCommands.targeted)[i];
 
-                if (message.content.startsWith(key) && config.customCommands.targeted[key].format.length!==0) {
+                if (message.content.startsWith(key) && !config.customCommands.targeted[key].disabled) {
                     log.info("Command "+message.content+" matched targeted custom command "+key);
 
                     var command=config.customCommands.targeted[key];
@@ -708,7 +708,7 @@ function command(message) {
             for (var i in Object.keys(config.customCommands.startsWith)) {
                 var key = Object.keys(config.customCommands.startsWith)[i];
 
-                if (message.content.startsWith(key) && config.customCommands.startsWith[key].length!==0) {
+                if (message.content.startsWith(key) && !config.customCommands.startsWith[key].disabled) {
                     log.info("Command "+message.content+" matched startsWith custom command "+key);
                     var command=config.customCommands.startsWith[key];
                     var output;
