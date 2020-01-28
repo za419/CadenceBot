@@ -706,7 +706,7 @@ function command(message) {
 
             // Now, multitargeteds
             for (var i in Object.keys(config.customCommands.multitargeted)) {
-                var key = Object.keys(config.customCommands.multitargeted);
+                var key = Object.keys(config.customCommands.multitargeted)[i];
 
                 if (message.content.startsWith(key) && !config.customCommands.multitargeted[key].disabled) {
                     log.info("Command "+message.content+" matched multitargeted custom command "+key);
@@ -717,7 +717,7 @@ function command(message) {
                     }
 
                     // Parse out the mentions.
-                    var phrase=message.content.substring(key[0].length);
+                    var phrase=message.content.substring(key.length);
                     var remaining=operation.totalCount;
                     var remainingFormat=operation.parseFormat;
                     var mentions={};
