@@ -704,6 +704,60 @@ function command(message) {
                 }
             }
 
+            // Now, multitargeteds
+            for (var i in Object.keys(config.customCommands.multitargeted)) {
+                var key = Object.keys(config.customCommands.multitargeted);
+
+                if (message.content.startsWith(key) && !config.customCommands.multitargeted[key].disabled) {
+                    log.info("Command "+message.content+" matched multitargeted custom command "+key);
+                    var operation=config.customCommands.multitargeted[key];
+                    if (operation.totalCount<=0) {
+                        log.warning("Could not perform mentioning: count "+operation.totalCount+"<=0. Skipping.");
+                        continue;
+                    }
+
+                    // Parse out the mentions.
+                    var phrase=message.content.substring(key.length);
+                    var remaining=operation.totalCount;
+                    var remainingFormat=operation.parseFormat;
+                    var mentions={};
+                    do {
+                        var index=remainingFormat.indexOf("%u");
+                        if (index==-1 || index+2>=remainingFormat.length) {
+                            log.error("parseFormat "+operation.parseFormat+" is malformed: "+remaining+" mentions should remain.");
+                            continue;
+                        }
+                        if (index>=phrase.length) {
+                            log.warning("Message is malformed. Remaining user input: "+phrase+", remaining format string: "+remainingFormat);
+                            continue;
+                        }
+                        var idx=parseInt(remainingFormat[index+2]);
+                        phrase=phrase.substring(index);
+                        remainingFormat=remainingFormat.substring(index+2);
+                        index=phrase.indexOf(" ");
+                        mentions[idx]=phrase.substring(0, index);
+                        phrase=phrase.substring(index);
+                        --remaining;
+                    } while(remaining>0);
+
+                    // Now, format mentions into the output string
+                    // Either random or format must exist. If both exist, prefer random.
+                    if (operation.random) {
+                        phrase=selectOne(operation.random);
+                    }
+                    else {
+                        phrase=operation.format;
+                    }
+                    for (var i in mentions) {
+                        phrase=format(phrase, "u"+i, mentions[i]);
+                    }
+
+                    // And send out the message.
+                    message.channel.send(phrase);
+                    return;
+                }
+            }
+
             // Finally, the startsWith set
             for (var i in Object.keys(config.customCommands.startsWith)) {
                 var key = Object.keys(config.customCommands.startsWith)[i];

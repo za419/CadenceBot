@@ -69,6 +69,34 @@
         "replyOnly": false
       }
     },
+    "multitargeted": {
+        "Cadence resolve the debate between ": {
+            "random": [
+                "%u0 is right, %u1 is wrong.",
+                "%u1 is right, %u0 is wrong.",
+                "%u0 is right, %u1 is wrong.",
+                "%u1 is right, %u0 is wrong.",
+                "%u0 is right, %u1 is wrong.",
+                "%u1 is right, %u0 is wrong.",
+                "%u0 is right, %u1 is wrong.",
+                "%u1 is right, %u0 is wrong.",
+                "%u0 is right, %u1 is wrong.",
+                "%u1 is right, %u0 is wrong.",
+                "%u0 is right, %u1 is wrong.",
+                "%u1 is right, %u0 is wrong.",
+                "%u0 is right, %u1 is wrong.",
+                "%u1 is right, %u0 is wrong.",
+                "%u0 is right, %u1 is wrong.",
+                "%u1 is right, %u0 is wrong.",
+                "%u0 is right, %u1 is wrong.",
+                "%u1 is right, %u0 is wrong.",
+                "%u1 is a moron, %u0 is right.",
+                "%u1 is right, %u0 is a moron."
+            ],
+            "totalCount": 2,
+            "parseFormat": "%u0 and %u1"
+        }
+    },
     "startsWith": {
       "Cadence echo ": {
         "format": "%s"
