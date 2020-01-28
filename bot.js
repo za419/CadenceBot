@@ -717,7 +717,7 @@ function command(message) {
                     }
 
                     // Parse out the mentions.
-                    var phrase=message.content.substring(key.length);
+                    var phrase=message.content.substring(key[0].length);
                     var remaining=operation.totalCount;
                     var remainingFormat=operation.parseFormat;
                     var mentions={};
