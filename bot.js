@@ -733,7 +733,7 @@ function command(message) {
                         }
                         var idx=parseInt(remainingFormat[index+2]);
                         phrase=phrase.substring(index);
-                        remainingFormat=remainingFormat.substring(index+2);
+                        remainingFormat=remainingFormat.substring(index+2+idx.toString().length);
                         index=phrase.indexOf(" ");
                         if (index==-1) {
                             mentions[idx]=phrase;
