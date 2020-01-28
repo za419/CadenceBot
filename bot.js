@@ -735,7 +735,13 @@ function command(message) {
                         phrase=phrase.substring(index);
                         remainingFormat=remainingFormat.substring(index+2);
                         index=phrase.indexOf(" ");
-                        mentions[idx]=phrase.substring(0, index);
+                        if (index==-1) {
+                            mentions[idx]=phrase;
+                            break;
+                        }
+                        else {
+                            mentions[idx]=phrase.substring(0, index);
+                        }
                         phrase=phrase.substring(index);
                         --remaining;
                     } while(remaining>0);
