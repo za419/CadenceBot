@@ -1,6 +1,6 @@
 {
   "name": "CadenceBot",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "description": "A Discord bot which acts as a client to Cadence Radio (http://cadenceradio.com/), enabling playback, search, querying of the currently playing song, and requesting songs to be played.",
   "keywords": [
     "cadence",
