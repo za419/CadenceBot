@@ -6,9 +6,12 @@ var exec=require('child_process').exec;
 var logger=require('js-logging');
 var defaultTo=require('object.defaults');
 var config={};
+var err;
 try {
     config=require('./config.json');
-} catch (e) {}
+} catch (e) {
+    err=e;
+}
 var defaultConfig=require('./default-config.json');
 
 function recursiveDefault(obj, def) {
@@ -65,6 +68,9 @@ if (config.padLog) {
 }
 
 var log=logger.colorConsole(config.logging); // Use default colors. Change if necessary
+
+// Log config override issues if they were found
+if (err) log.warning("Could not load config.json: "+err);
 
 var bot=new Discord.Client({
     token: auth.token,
