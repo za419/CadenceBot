@@ -72,6 +72,14 @@
         "format": "Hi %u, I'm CadenceBot.",
         "continues": false,
         "replyOnly": false
+      },
+      "Cadence am I ": {
+        "random": [
+            "Yes, you absolutely are _%s_.",
+            "No, you are not _%s_ , my Padawan."
+        ],
+        "continues": true,
+        "replyOnly": true
       }
     },
     "multitargeted": {
