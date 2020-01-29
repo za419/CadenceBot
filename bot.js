@@ -199,7 +199,7 @@ function sendLongMessage(channel, text, length=2000) {
     if (length>2000) length=2000;
 
     // Special handling for the first part of the message, and for if the message isn't actually long.
-    response=splitOnLastLine(text, length - message.author.id.toString().length - 5);
+    response=splitOnLastLine(text, length);
     channel.send(response);
     text=text.substring(response.length+1);
 
