@@ -650,10 +650,10 @@ function command(message) {
                 var operation=config.customCommands.equalTo[message.content];
                 // Either random or response must exist: Prefer random if both exist
                 if (operation.random) {
-                    message.channel.send(selectOne(operation.random));
+                    sendLongMessage(message.channel, selectOne(operation.random));
                 }
                 else {
-                    message.channel.send(operation.response);
+                    sendLongMessage(message.channel, operation.response);
                 }
             }
         }
@@ -693,17 +693,17 @@ function command(message) {
                             content=format(output, 's', content);
                             // Collapse spaces and send
                             content=content.replace(new RegExp("  +", "g"), " ")
-                            message.reply(content);
+                            sendLongReply(message, content);
                         }
                         else {
                             // Just return the format string
-                            message.reply(output);
+                            sendLongReply(message, output);
                         }
                         return;
                     }
                     else if (message.mentions.users.size==0) {
                         log.debug("Zero mentions.")
-                        message.reply("I'm sorry, I don't know who you want me to direct that to - Could you ask me again and mention them?");
+                        sendLongReply(message, "I'm sorry, I don't know who you want me to direct that to - Could you ask me again and mention them?");
                         return
                     }
                     else {
@@ -726,11 +726,11 @@ function command(message) {
                             content=format(mentioned, 's', content);
                             // Now collapse multiple spaces and send
                             content=content.replace(new RegExp("  +", "g"), " ")
-                            message.channel.send(content);
+                            sendLongMessage(message.channel, content);
                         }
                         else {
                             // Just send the mentioned reply
-                            message.channel.send(mentioned)
+                            sendLongMessage(message.channel, mentioned)
                         }
                         return;
                     }
@@ -792,7 +792,7 @@ function command(message) {
                     }
 
                     // And send out the message.
-                    message.channel.send(phrase);
+                    sendLongMessage(message.channel, phrase);
                     return;
                 }
             }
@@ -812,7 +812,7 @@ function command(message) {
                     else {
                         output=operation.format;
                     }
-                    message.channel.send(format(output, 's', message.content.substring(key.length)));
+                    sendLongMessage(message.channel, format(output, 's', message.content.substring(key.length)));
                     return;
                 }
             }
