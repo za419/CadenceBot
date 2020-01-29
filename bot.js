@@ -716,7 +716,7 @@ function command(message) {
                         // If the format wants content added, strip mentions and add the content.
                         // Strip multiple spaces so that tag artifacts aren't left behind
                         // This might look weird if the mention is in the middle. Don't use patterns that encourage that.
-                        if (output.continues) {
+                        if (operation.continues) {
                             // Strip mentions
                             var content=message.content.substring(key.length);
                             var mentions=new RegExp("\\\\?<([^>]+)>", "g")
