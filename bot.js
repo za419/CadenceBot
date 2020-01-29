@@ -678,7 +678,7 @@ function command(message) {
                     var output;
                     // Either random or format must be present. Prefer random if both exist.
                     if (operation.random) {
-                        output=(operation.random);
+                        output=selectOne(operation.random);
                     }
                     else {
                         output=operation.format;
