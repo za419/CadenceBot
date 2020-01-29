@@ -76,7 +76,7 @@
       "Cadence am I ": {
         "random": [
             "Yes, you absolutely are _%s_.",
-            "No, you are not _%s_ , my Padawan."
+            "No, you are not _%s_ , my Padawan.\n Now, go fetch me a shrubbery!"
         ],
         "continues": true,
         "replyOnly": true
