@@ -171,8 +171,14 @@ function sendLongReply(message, text, length=2000) {
     // Proactive bugfix: Make sure that length isn't above 2000 (which is where Discord caps messages)
     if (length>2000) length=2000;
 
-    // Special handling for the first part of the message, and for if the message isn't actually long.
-    response=splitOnLastLine(text, length - message.author.id.toString().length - 5);
+    // Special handling for messages that don't actually need long behavior
+    if (text.length <= length - message.author.id.toString().length - 5) {
+        message.reply(text);
+        return;
+    }
+
+    // Special handling for the first part of the message.
+    var response=splitOnLastLine(text, length - message.author.id.toString().length - 5);
     message.reply(response);
     text=text.substring(response.length+1);
 
@@ -198,18 +204,13 @@ function sendLongMessage(channel, text, length=2000) {
     // Proactive bugfix: Make sure that length isn't above 2000 (which is where Discord caps messages)
     if (length>2000) length=2000;
 
-    // Special handling for the first part of the message, and for if the message isn't actually long.
-    response=splitOnLastLine(text, length);
-    channel.send(response);
-    text=text.substring(response.length+1);
-
-    // If the text starts with a whitespace character, discord will strip it. This prevents that.
-    if (/\s/.test(text.charAt(0))) {
-        text = "_"+text.charAt(0)+"_"+text.substring(1);
+    // Special handling for messages that don't actually need long behavior
+    if (text.length <= length) {
+        channel.send(text);
     }
 
     while (text.length>length) {
-        response=splitOnLastLine(text, length);
+        var response=splitOnLastLine(text, length);
         channel.send(response);
         text=text.substring(response.length+1);
 
