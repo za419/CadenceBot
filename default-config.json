@@ -76,7 +76,6 @@
       "Cadence am I ": {
         "random": [
             "Yes, you absolutely are _%s_.",
-            "Yes, you are _%s_, although, Jakob is even more _%s_.",
             "No, you are not _%s_ , my Padawan.\n Now, go bring me a shrubbery!",
             "No, you are not _%s_. But on an unrelated note, _%s_ perfectly describes you."
         ],
