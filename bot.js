@@ -22,6 +22,9 @@ function recursiveDefault(obj, def) {
         if (obj[key] instanceof Object && def[key] instanceof Object) {
             recursiveDefault(obj[key], def[key]);
         }
+        else if (obj[key] instanceof Array && def[key] instanceof Array) {
+            obj[key]=obj[key].concat(def[key]);
+        }
     }
 }
 recursiveDefault(config, defaultConfig);
