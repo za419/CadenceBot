@@ -210,6 +210,7 @@ function sendLongMessage(channel, text, length=2000) {
     // Special handling for messages that don't actually need long behavior
     if (text.length <= length) {
         channel.send(text);
+        return;
     }
 
     while (text.length>length) {
