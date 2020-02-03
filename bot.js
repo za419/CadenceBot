@@ -856,10 +856,10 @@ function updatePresence() {
             bot.user.setPresence({ game:
                                      { name: song }
             });
-            bot.setTimeout(updatePresence, config.statusUpdateIntervalMs);
             log.debug("Set timeout to be called again");
         });
     });
+    bot.setTimeout(updatePresence, config.statusUpdateIntervalMs);
 }
 
 bot.on('ready', updatePresence);
