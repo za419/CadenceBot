@@ -669,7 +669,8 @@ function command(message) {
                 // Escape chr so no regex funny business can happen
                 chr = chr.replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
                 var re = new RegExp("[^%]?%"+chr, "g");
-                return str.replace(re, ' '+replace).replace("%%"+chr, "%"+chr)
+                return str
+                    .replace(re, (s) => s[0] + replace).replace("%%"+chr, "%"+chr);
             };
 
             // Now, process targeted custom sequences
