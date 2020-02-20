@@ -99,11 +99,18 @@ const stream = bot.createVoiceBroadcast();
 // It is provided to allow the stream to reinitialize itself when it encounters an issue...
 // Which appears to happen rather often with the broadcast.
 function beginGlobalPlayback() {
-    stream.playArbitraryInput(config.API.stream.prefix+config.API.stream.stream, {
-        'bitrate': config.stream.bitrate,
-        'volume': config.stream.volume,
-        'passes': config.stream.retryCount
-    });
+    try {
+        stream.playArbitraryInput(config.API.stream.prefix+config.API.stream.stream, {
+            'bitrate': config.stream.bitrate,
+            'volume': config.stream.volume,
+            'passes': config.stream.retryCount
+        });
+    }
+    catch (e) {
+        // Rate-limit restarts due to exceptions: We would rather drop a bit of music
+        // than fill the log with exceptions.
+        setTimeout(beginGlobalPlayback, 100);
+    }
 }
 
 // Start up the stream before we initialize event handlers.
@@ -114,8 +121,11 @@ beginGlobalPlayback();
 // When the stream ends, reconnect and resume it.
 // (We don't ever want CadenceBot to lose audio)
 stream.on('end', function() {
-    beginGlobalPlayback();
-    log.info("Global broadcast stream ended, restarting.");
+    log.info("Global broadcast stream ended, restarting in 15ms.");
+
+    // Rate-limit end restarts less aggressively: If this is not done,
+    // we tend to spam the log and our connection to the stream.
+    setTimeout(beginGlobalPlayback(), 15);
 });
 
 // Log errors.
