@@ -125,7 +125,7 @@ stream.on('end', function() {
 
     // Rate-limit end restarts less aggressively: If this is not done,
     // we tend to spam the log and our connection to the stream.
-    setTimeout(beginGlobalPlayback(), 15);
+    setTimeout(beginGlobalPlayback, 15);
 });
 
 // Log errors.
