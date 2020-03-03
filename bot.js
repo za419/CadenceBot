@@ -243,6 +243,15 @@ function selectOne(array) {
 }
 
 function command(message) {
+    // Check banned users.
+    if (config.bannedUsers) {
+        for (var tag in config.bannedUsers) {
+            if (message.author.id == tag) {
+                return;
+            }
+        }
+    }
+
     if (message.content===config.commands.play) {
         log.notice("Received play command.");
         if (isPlaying[message.guild.id]) {
