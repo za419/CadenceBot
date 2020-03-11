@@ -1001,5 +1001,6 @@ oneStepRequestFilters={
 }
 
 log.alert("Starting bot");
+log.debug("Current configuration:\n"+JSON.stringify(config, null, 4));
 
 bot.login(auth.token);
