@@ -193,5 +193,7 @@
   "enableLogMailing": false,
   "logMailCommand": "Cadence maillog",
   "allowInsecure": true,
-  "administrator": false
+  "administrator": false,
+  "enableConfigEcho": false,
+  "configEchoCommand": "Cadence config"
 }
