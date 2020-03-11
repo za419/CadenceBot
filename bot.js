@@ -245,7 +245,7 @@ function selectOne(array) {
 function command(message) {
     // Check banned users.
     if (config.bannedUsers) {
-        for (var tag in config.bannedUsers) {
+        for (var tag of config.bannedUsers) {
             if (message.author.id == tag) {
                 return;
             }
