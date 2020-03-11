@@ -662,9 +662,24 @@ function command(message) {
         });
     }
     else if (config.enableLogMailing && message.content==config.logMailCommand) {
+        if (message.author.id != config.administrator ) {
+            log.warning("Maillog command received from non-admin user with ID "+message.author.id+", tag "+message.author.tag);
+            message.channel.send("<@!"+message.author.id+"> is not the CadenceBot administrator for this server. This incident will be reported.");
+            return;
+        }
         log.debug("Ordered to mail a log file");
         exec('./maillog.sh', {'shell': '/bin/bash', 'cwd': '.'});
         log.debug("Script executed.");
+    }
+    else if (config.enableConfigEcho && message.content==config.configEchoCommand) {
+        if (message.author.id != config.administrator ) {
+            log.warning("ConfigEcho command received from non-admin user with ID "+message.author.id+", tag "+message.author.tag);
+            message.channel.send("<@!"+message.author.id+"> is not the CadenceBot administrator for this server. This incident will be reported.");
+            return;
+        }
+        log.debug("Ordered to echo config back to channel.");
+        sendLongReply(message, JSON.stringify(config, null, 4));
+        log.debug("Sent JSONified config.");
     }
     // If none of those, check custom commands
     else {
