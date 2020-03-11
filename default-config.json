@@ -192,5 +192,6 @@
   "useGuildTagsForRequests": false,
   "enableLogMailing": false,
   "logMailCommand": "Cadence maillog",
-  "allowInsecure": true
+  "allowInsecure": true,
+  "administrator": false
 }
