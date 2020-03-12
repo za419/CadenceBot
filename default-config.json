@@ -195,5 +195,8 @@
   "allowInsecure": true,
   "administrator": false,
   "enableConfigEcho": false,
-  "configEchoCommand": "Cadence config"
+  "configEchoCommand": "Cadence config",
+  "enableDynamicBans": true,
+  "dynamicBanPrefix": "Cadence ban ",
+  "dynamicUnbanPrefix": "Cadence unban "
 }
