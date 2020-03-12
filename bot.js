@@ -429,7 +429,7 @@ function command(message) {
            log.info("Received response.");
            if (!err && (!response || response.statusCode==200)) {
                log.info("No error, and either no status code or status code 200.");
-               log.debug("Received body:\n\n"+JSON.stringify(songs)+"\n\n");
+               log.debug("Received body:\n\n"4+JSON.stringify(songs)+"\n\n");
                if (songs==null || songs.length==0) {
                    log.info("No results.");
                    message.reply("Cadence has no results for \""+data.search+"\".");
@@ -690,7 +690,7 @@ function command(message) {
         });
     }
     else if (config.enableLogMailing && message.content==config.logMailCommand) {
-        if (message.author.id != config.administrator ) {
+        if (message.author.id != config.administrator) {
             log.warning("Maillog command received from non-admin user with ID "+message.author.id+", tag "+message.author.tag);
             message.channel.send("<@!"+message.author.id+"> is not the CadenceBot administrator for this server. This incident will be reported.");
             return;
@@ -700,7 +700,7 @@ function command(message) {
         log.debug("Script executed.");
     }
     else if (config.enableConfigEcho && message.content==config.configEchoCommand) {
-        if (message.author.id != config.administrator ) {
+        if (message.author.id != config.administrator) {
             log.warning("ConfigEcho command received from non-admin user with ID "+message.author.id+", tag "+message.author.tag);
             message.channel.send("<@!"+message.author.id+"> is not the CadenceBot administrator for this server. This incident will be reported.");
             return;
@@ -708,6 +708,47 @@ function command(message) {
         log.debug("Ordered to echo config back to channel.");
         sendLongReply(message, JSON.stringify(config, null, 4));
         log.debug("Sent JSONified config.");
+    }
+    else if (config.enableDynamicBans) {
+        if (message.content.startsWith(config.dynamicBanPrefix)) {
+            if (message.author.id != config.administrator) {
+                log.warning("Dynamic ban command received from non-admin user with ID "+message.author.id+", tag "+message.author.tag);
+                message.channel.send("<@!"+message.author.id+"> is not the CadenceBot administrator for this server. This incident will be reported.");
+                return;
+            }
+            else if (message.mentions.users.size==0) {
+                log.debug("Zero mentions.")
+                message.reply("I'm sorry, I don't know who you want me to ban - Could you ask me again and mention them?");
+                return
+            }
+            else {
+                var target=message.mentions.users.first();
+                var time=(new Date()).getTime();
+                time+=config.defaultDynamicBanMs;
+                var ban={};
+                ban.id=target.id;
+                ban.end=time.toLocaleString();
+                config.bannedUsers.push(ban);
+                message.reply("I will ignore "+target.toString()+" until "+ban.end);
+            }
+        }
+        else if (message.content.startsWith(config.dynamicUnbanPrefix)) {
+            if (message.author.id != config.administrator) {
+                log.warning("Dynamic unban command received from non-admin user with ID "+message.author.id+", tag "+message.author.tag);
+                message.channel.send("<@!"+message.author.id+"> is not the CadenceBot administrator for this server. This incident will be reported.");
+                return;
+            }
+            else if (message.mentions.users.size==0) {
+                log.debug("Zero mentions.")
+                message.reply("I'm sorry, I don't know who you want me to un-ban - Could you ask me again and mention them?");
+                return
+            }
+            else {
+                var target=message.mentions.users.first();
+                config.bannedUsers=config.bannedUsers.filter((ban) => { ban.id!=target.id });
+                message.reply("I've removed any bans for "+target+", and will now listen to their commands again.");
+            }
+        }
     }
     // If none of those, check custom commands
     else {
