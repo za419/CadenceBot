@@ -197,6 +197,7 @@
   "enableConfigEcho": false,
   "configEchoCommand": "Cadence config",
   "enableDynamicBans": true,
+  "defaultDynamicBanMs": 600000,
   "dynamicBanPrefix": "Cadence ban ",
   "dynamicUnbanPrefix": "Cadence unban "
 }
