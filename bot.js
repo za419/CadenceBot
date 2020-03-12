@@ -727,7 +727,7 @@ function command(message) {
                 time+=config.defaultDynamicBanMs;
                 var ban={};
                 ban.id=target.id;
-                ban.end=time.toLocaleString();
+                ban.end=time.toLocaleString(config.locale);
                 config.bannedUsers.push(ban);
                 message.reply("I will ignore "+target.toString()+" until "+ban.end);
             }
