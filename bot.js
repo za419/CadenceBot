@@ -725,6 +725,7 @@ function command(message) {
                 var target=message.mentions.users.first();
                 var time=(new Date()).getTime();
                 time+=config.defaultDynamicBanMs;
+                time=new Date(time);
                 var ban={};
                 ban.id=target.id;
                 ban.end=time.toLocaleString(config.locale);
