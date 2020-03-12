@@ -253,7 +253,7 @@ function command(message) {
                 var now = (new Date()).getTime();
                 var start = tag.start ? Date.parse(tag.start) : Number.NEGATIVE_INFINITY;
                 var end = tag.end ? Date.parse(tag.end) : Number.POSITIVE_INFINITY;
-                if (isNaN(start)) start = Number.NEGATIVE_INFINITY;
+                if (isNaN(start)) start=Number.NEGATIVE_INFINITY;
                 if (isNaN(end)) end=Number.POSITIVE_INFINITY;
                 
                 // Apply banning if user is within the time window [start, end]
@@ -429,7 +429,7 @@ function command(message) {
            log.info("Received response.");
            if (!err && (!response || response.statusCode==200)) {
                log.info("No error, and either no status code or status code 200.");
-               log.debug("Received body:\n\n"4+JSON.stringify(songs)+"\n\n");
+               log.debug("Received body:\n\n"+4+JSON.stringify(songs)+"\n\n");
                if (songs==null || songs.length==0) {
                    log.info("No results.");
                    message.reply("Cadence has no results for \""+data.search+"\".");
