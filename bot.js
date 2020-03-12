@@ -709,46 +709,44 @@ function command(message) {
         sendLongReply(message, JSON.stringify(config, null, 4));
         log.debug("Sent JSONified config.");
     }
-    else if (config.enableDynamicBans) {
-        if (message.content.startsWith(config.dynamicBanPrefix)) {
-            if (message.author.id != config.administrator) {
-                log.warning("Dynamic ban command received from non-admin user with ID "+message.author.id+", tag "+message.author.tag);
-                message.channel.send("<@!"+message.author.id+"> is not the CadenceBot administrator for this server. This incident will be reported.");
-                return;
-            }
-            else if (message.mentions.users.size==0) {
-                log.debug("Zero mentions.")
-                message.reply("I'm sorry, I don't know who you want me to ban - Could you ask me again and mention them?");
-                return
-            }
-            else {
-                var target=message.mentions.users.first();
-                var time=(new Date()).getTime();
-                time+=config.defaultDynamicBanMs;
-                time=new Date(time);
-                var ban={};
-                ban.id=target.id;
-                ban.end=time.toLocaleString(config.locale);
-                config.bannedUsers.push(ban);
-                message.reply("I will ignore "+target.toString()+" until "+ban.end);
-            }
+    else if (config.enableDynamicBans && message.content.startsWith(config.dynamicBanPrefix)) {
+        if (message.author.id != config.administrator) {
+            log.warning("Dynamic ban command received from non-admin user with ID "+message.author.id+", tag "+message.author.tag);
+            message.channel.send("<@!"+message.author.id+"> is not the CadenceBot administrator for this server. This incident will be reported.");
+            return;
         }
-        else if (message.content.startsWith(config.dynamicUnbanPrefix)) {
-            if (message.author.id != config.administrator) {
-                log.warning("Dynamic unban command received from non-admin user with ID "+message.author.id+", tag "+message.author.tag);
-                message.channel.send("<@!"+message.author.id+"> is not the CadenceBot administrator for this server. This incident will be reported.");
-                return;
-            }
-            else if (message.mentions.users.size==0) {
-                log.debug("Zero mentions.")
-                message.reply("I'm sorry, I don't know who you want me to un-ban - Could you ask me again and mention them?");
-                return
-            }
-            else {
-                var target=message.mentions.users.first();
-                config.bannedUsers=config.bannedUsers.filter((ban) => { ban.id!=target.id });
-                message.reply("I've removed any bans for "+target+", and will now listen to their commands again.");
-            }
+        else if (message.mentions.users.size==0) {
+            log.debug("Zero mentions.")
+            message.reply("I'm sorry, I don't know who you want me to ban - Could you ask me again and mention them?");
+            return
+        }
+        else {
+            var target=message.mentions.users.first();
+            var time=(new Date()).getTime();
+            time+=config.defaultDynamicBanMs;
+            time=new Date(time);
+            var ban={};
+            ban.id=target.id;
+            ban.end=time.toLocaleString(config.locale);
+            config.bannedUsers.push(ban);
+            message.reply("I will ignore "+target.toString()+" until "+ban.end);
+        }
+    }
+    else if (config.enableDynamicBans && message.content.startsWith(config.dynamicUnbanPrefix)) {
+        if (message.author.id != config.administrator) {
+            log.warning("Dynamic unban command received from non-admin user with ID "+message.author.id+", tag "+message.author.tag);
+            message.channel.send("<@!"+message.author.id+"> is not the CadenceBot administrator for this server. This incident will be reported.");
+            return;
+        }
+        else if (message.mentions.users.size==0) {
+            log.debug("Zero mentions.")
+            message.reply("I'm sorry, I don't know who you want me to un-ban - Could you ask me again and mention them?");
+            return
+        }
+        else {
+            var target=message.mentions.users.first();
+            config.bannedUsers=config.bannedUsers.filter((ban) => { ban.id!=target.id });
+            message.reply("I've removed any bans for "+target+", and will now listen to their commands again.");
         }
     }
     // If none of those, check custom commands
