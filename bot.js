@@ -244,13 +244,41 @@ function selectOne(array) {
 
 function command(message) {
     // Check banned users.
+    var removeBans=[];
     if (config.bannedUsers) {
         for (var tag of config.bannedUsers) {
+            var ID=tag;
+            if (tag instanceof Object) {
+                ID = tag.id;
+                var now = (new Date()).getTime();
+                var start = tag.start ? Date.parse(tag.start) : Number.NEGATIVE_INFINITY;
+                var end = tag.end ? Date.parse(tag.end) : Number.POSITIVE_INFINITY;
+                if (isNaN(start)) start = Number.NEGATIVE_INFINITY;
+                if (isNaN(end)) end=Number.POSITIVE_INFINITY;
+                
+                // Apply banning if user is within the time window [start, end]
+                if (now<start) {
+                    // Ban has not yet started. Skip this ban setting and check later.
+                    continue;
+                }
+                else if (now>end) {
+                    // Ban has ended. Note that we should remove it from configuration and continue.
+                    removeBans.push(config.bannedUsers.indexOf(tag));
+                    continue;
+                }
+            }
             if (message.author.id == tag) {
                 return;
             }
         }
     }
+    // Ensure removes are sorted
+    removeBans.sort(function(a,b){ return a - b; });
+    // Now iterate through them and remove them (indexes will be stable now that we're removing them in reverse order)
+    for (var ban of removeBans) {
+        config.bannedUsers.splice(ban, 1);
+    }
+    removeBans=null;
 
     if (message.content===config.commands.play) {
         log.notice("Received play command.");
