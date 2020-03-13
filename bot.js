@@ -267,7 +267,7 @@ function command(message) {
                     continue;
                 }
             }
-            if (message.author.id == tag) {
+            if (message.author.id == ID) {
                 return;
             }
         }
