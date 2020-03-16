@@ -33,15 +33,14 @@ function recursiveDefault(obj, def) {
 recursiveDefault(config, defaultConfig);
 
 // Load bans if dynamic banning is enabled (Otherwise we should trust config)
-var bans=[];
 var banErr;
 if (config.enableDynamicBans) {
     try {
-        bans=require('./bans.json');
+        var bans=require('./bans.json');
+        config.bannedUsers=config.bannedUsers.concat(bans);
     } catch (e) {
         banErr=e;
     }
-    config.bannedUsers=config.bannedUsers.concat(bans);
 }
 
 // Check if we should set node to permit insecure TLS
