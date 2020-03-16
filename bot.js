@@ -1075,6 +1075,11 @@ function updatePresence() {
 
 bot.on('ready', updatePresence);
 
+// Log unhandled rejections
+process.on('unhandledRejection', (reason, promise) => {
+    log.error("Error - Unhandled promise rejection: "+reason);
+});
+
 // Returns whether the two string parameters are the same-ish
 function caselessCompare (a, b) {
     a=''+a;
