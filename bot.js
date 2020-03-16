@@ -332,12 +332,14 @@ function getUTCOffset(date=new Date()) {
 
 // Saves bannedUsers to disk
 function saveBans(bannedUsers, file="./bans.json") {
-    var str=JSON.stringify(bannedUsers, null, 4);
-    fs.writeFile(file, str, (e) => {
-        if (e) log.warning("Could not save bannedUsers to disk: "+e);
-        else log.info("Saved new ban list to "+file);
-        log.debug("Banlist:\n"+str);
-    });
+    if (config.enableDynamicBans) {
+        var str=JSON.stringify(bannedUsers, null, 4);
+        fs.writeFile(file, str, (e) => {
+            if (e) log.warning("Could not save bannedUsers to disk: "+e);
+            else log.info("Saved new ban list to "+file);
+            log.debug("Banlist:\n"+str);
+        });
+    }
 }
 
 function command(message) {
