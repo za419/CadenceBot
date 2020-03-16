@@ -722,14 +722,19 @@ function command(message) {
         }
         else {
             var target=message.mentions.users.first();
-            var time=(new Date()).getTime();
-            time+=config.defaultDynamicBanMs;
-            time=new Date(time);
             var ban={};
             ban.id=target.id;
-            ban.end=time.toLocaleString(config.locale);
+            if (config.defaultDynamicBanMs > 0) {
+                var time=(new Date()).getTime();
+                time+=config.defaultDynamicBanMs;
+                time=new Date(time);
+                ban.end=time.toLocaleString(config.locale);
+                message.reply("I will ignore "+target.toString()+" until "+ban.end);
+            }
+            else {
+                message.reply("I will ignore "+target.toString()+" until someone unbans them or restarts me.");
+            }
             config.bannedUsers.push(ban);
-            message.reply("I will ignore "+target.toString()+" until "+ban.end);
         }
     }
     else if (config.enableDynamicBans && message.content.startsWith(config.dynamicUnbanPrefix)) {
