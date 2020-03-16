@@ -258,6 +258,8 @@ function parseTimeString(str, dict={
         if (index < 1) throw {errorMsg: "Unexpected end of string", problem: str};
 
         var count = parseInt(str);
+        if (isNaN(count)) throw {errorMsg: "Not a number", problem: str};
+        
         var rest = str.substr(index);
         var end = rest.search(/\d/);
         var suffix;
