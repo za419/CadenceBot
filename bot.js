@@ -38,8 +38,7 @@ function recursiveDefault(obj, def) {
     }
 }
 recursiveDefault(config, defaultConfig);
-recursiveDefault(bans, config.bannedUsers);
-config.bannedUsers=bans;
+config.bannedUsers=config.bannedUsers.concat(bans);
 
 // Check if we should set node to permit insecure TLS
 if (config.allowInsecure) {
