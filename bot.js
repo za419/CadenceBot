@@ -259,7 +259,7 @@ function parseTimeString(str, dict={
 
         var count = parseInt(str);
         if (isNaN(count)) throw {errorMsg: "Not a number", problem: str};
-        
+
         var rest = str.substr(index);
         var end = rest.search(/\d/);
         var suffix;
@@ -280,6 +280,34 @@ function parseTimeString(str, dict={
         str=rest.substr(end).trim();
     }
     return time;
+}
+
+// Returns the UTC offset of the local timezone of the given date
+// (ie UTC+5:00)
+function getUTCOffset(date=new Date()) {
+    var hours=Math.floor(date.getTimezoneOffset()/60);
+    var out;
+
+    // Note: getTimezoneOffset returns the time that needs to be added to reach UTC
+    // IE it's the inverse of the offset we're trying to divide out.
+    // That's why the signs here are apparently flipped.
+    if (hours>0) {
+        out="UTC-";
+    }
+    else if (hours<0) {
+        out="UTC+";
+    }
+    else {
+        return "UTC";
+    }
+
+    out+=hours.toString()+":";
+
+    var minutes=(date.getTimezoneOffset()%60).toString();
+    if (minutes.length == 1) minutes="0"+minutes;
+
+    out+=minutes;
+    return out;
 }
 
 function command(message) {
