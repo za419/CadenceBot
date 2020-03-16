@@ -255,7 +255,13 @@ function parseTimeString(str, dict={
     str=str.trim();
     while (str.length > 0) {
         var index = str.search(/\D/);
-        if (index < 1) throw {errorMsg: "Unexpected end of string", problem: str};
+        if (index < 1) {
+            var count = parseInt(str);
+            if (isNaN(count)) throw {errorMsg: "Not a number", problem: str};
+
+            time+=count;
+            break;
+        }
 
         var count = parseInt(str);
         if (isNaN(count)) throw {errorMsg: "Not a number", problem: str};
