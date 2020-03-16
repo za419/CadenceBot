@@ -854,7 +854,7 @@ function command(message) {
                 message.reply(response);
             }
             else {
-                message.reply("I will ignore "+target.toString()+" until someone unbans them or restarts me.");
+                message.reply("I will ignore "+target.toString()+" until someone unbans them.");
             }
             config.bannedUsers.push(ban);
             saveBans(config.bannedUsers);
