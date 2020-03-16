@@ -815,7 +815,7 @@ function command(message) {
                 var time=(new Date()).getTime();
                 time+=duration;
                 time=new Date(time);
-                ban.end=time.toLocaleString(config.locale);
+                ban.end=time.toLocaleString(config.locale)+" "+getUTCOffset(time);
                 message.reply("I will ignore "+target.toString()+" until "+ban.end);
             }
             else {
