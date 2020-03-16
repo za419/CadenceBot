@@ -7,10 +7,17 @@ var logger=require('js-logging');
 var defaultTo=require('object.defaults');
 var config={};
 var err;
+var bans=[];
+var banErr;
 try {
     config=require('./config.json');
 } catch (e) {
     err=e;
+}
+try {
+    bans=require('./bans.json');
+} catch (e) {
+    banErr=e;
 }
 var defaultConfig=require('./default-config.json');
 
@@ -30,6 +37,8 @@ function recursiveDefault(obj, def) {
     }
 }
 recursiveDefault(config, defaultConfig);
+recursiveDefault(bans, config.bannedUsers);
+config.bannedUsers=bans;
 
 // Check if we should set node to permit insecure TLS
 if (config.allowInsecure) {
@@ -76,6 +85,7 @@ var log=logger.colorConsole(config.logging); // Use default colors. Change if ne
 
 // Log config override issues if they were found
 if (err) log.warning("Could not load config.json: "+err);
+if (banErr) log.warning("Could not load bans.json: "+banErr);
 
 var bot=new Discord.Client({
     token: auth.token,
