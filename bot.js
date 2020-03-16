@@ -785,7 +785,7 @@ function command(message) {
 
             if (duration > 0) {
                 var time=(new Date()).getTime();
-                time+=config.defaultDynamicBanMs;
+                time+=duration;
                 time=new Date(time);
                 ban.end=time.toLocaleString(config.locale);
                 message.reply("I will ignore "+target.toString()+" until "+ban.end);
