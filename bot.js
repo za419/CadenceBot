@@ -8,17 +8,10 @@ var logger=require('js-logging');
 var defaultTo=require('object.defaults');
 var config={};
 var err;
-var bans=[];
-var banErr;
 try {
     config=require('./config.json');
 } catch (e) {
     err=e;
-}
-try {
-    bans=require('./bans.json');
-} catch (e) {
-    banErr=e;
 }
 var defaultConfig=require('./default-config.json');
 
@@ -38,7 +31,18 @@ function recursiveDefault(obj, def) {
     }
 }
 recursiveDefault(config, defaultConfig);
-config.bannedUsers=config.bannedUsers.concat(bans);
+
+// Load bans if dynamic banning is enabled (Otherwise we should trust config)
+var bans=[];
+var banErr;
+if (config.enableDynamicBans) {
+    try {
+        bans=require('./bans.json');
+    } catch (e) {
+        banErr=e;
+    }
+    config.bannedUsers=config.bannedUsers.concat(bans);
+}
 
 // Check if we should set node to permit insecure TLS
 if (config.allowInsecure) {
