@@ -878,6 +878,7 @@ function command(message) {
         else {
             var target=message.mentions.users.first();
             config.bannedUsers=config.bannedUsers.filter((ban) => { ban instanceof Object ? ban.id!=target.id : ban!=target.id });
+            saveBans(config.bannedUsers);
             message.reply("I've removed any bans for "+target+", and will now listen to their commands again.");
         }
     }
