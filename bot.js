@@ -3,6 +3,7 @@ var auth=require('./auth.json');
 var fetch=require('node-fetch');
 var request=require('request');
 var exec=require('child_process').exec;
+var fs=require('fs');
 var logger=require('js-logging');
 var defaultTo=require('object.defaults');
 var config={};
@@ -324,6 +325,16 @@ function getUTCOffset(date=new Date()) {
 
     out+=minutes;
     return out;
+}
+
+// Saves bannedUsers to disk
+function saveBans(bannedUsers, file="./config.json") {
+    var str=JSON.stringify(bannedUsers, null, 4);
+    fs.writeFile(file, str, (e) => {
+        if (e) log.warning("Could not save bannedUsers to disk: "+e);
+        else log.info("Saved new ban list to "+file);
+        log.debug("Banlist:\n"+str);
+    });
 }
 
 function command(message) {
