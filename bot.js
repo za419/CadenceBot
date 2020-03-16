@@ -328,7 +328,7 @@ function getUTCOffset(date=new Date()) {
 }
 
 // Saves bannedUsers to disk
-function saveBans(bannedUsers, file="./config.json") {
+function saveBans(bannedUsers, file="./bans.json") {
     var str=JSON.stringify(bannedUsers, null, 4);
     fs.writeFile(file, str, (e) => {
         if (e) log.warning("Could not save bannedUsers to disk: "+e);
@@ -858,6 +858,7 @@ function command(message) {
                 message.reply("I will ignore "+target.toString()+" until someone unbans them or restarts me.");
             }
             config.bannedUsers.push(ban);
+            saveBans(config.bannedUsers);
         }
     }
     else if (config.enableDynamicBans && message.content.startsWith(config.dynamicUnbanPrefix)) {
