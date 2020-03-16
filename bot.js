@@ -344,7 +344,7 @@ function command(message) {
             var ID=tag;
             if (tag instanceof Object) {
                 ID = tag.id;
-                var now = (new Date()).getTime();
+                var now = new Date().getTime();
                 var start = tag.start ? Date.parse(tag.start) : Number.NEGATIVE_INFINITY;
                 var end = tag.end ? Date.parse(tag.end) : Number.POSITIVE_INFINITY;
                 if (isNaN(start)) start=Number.NEGATIVE_INFINITY;
@@ -371,6 +371,10 @@ function command(message) {
     // Now iterate through them and remove them (indexes will be stable now that we're removing them in reverse order)
     for (var ban of removeBans) {
         config.bannedUsers.splice(ban, 1);
+    }
+    // If at least one ban got removed, save our ban list without the removed bans
+    if (removeBans.length != 0) {
+        saveBans(config.bannedUsers);
     }
     removeBans=null;
 
