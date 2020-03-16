@@ -821,8 +821,17 @@ function command(message) {
                 var time=(new Date()).getTime();
                 time+=duration;
                 time=new Date(time);
-                ban.end=time.toLocaleString(config.locale)+" "+getUTCOffset(time);
-                message.reply("I will ignore "+target.toString()+" until "+ban.end);
+                ban.end=time.toLocaleString(config.locale);
+                var response;
+                if (process.env.TZ) {
+                    response="I will ignore "+target.toString()+" until "+ban.end+" ("+process.env.TZ+")";
+                    ban.end=ban.end+" "+getUTCOffset(time)
+                }
+                else {
+                    ban.end=ban.end+" "+getUTCOffset(time)
+                    response="I will ignore "+target.toString()+" until "+ban.end;
+                }
+                message.reply(response);
             }
             else {
                 message.reply("I will ignore "+target.toString()+" until someone unbans them or restarts me.");
