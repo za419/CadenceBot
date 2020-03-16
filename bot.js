@@ -256,7 +256,7 @@ function parseTimeString(str, dict={
     while (str.length > 0) {
         var index = str.search(/\D/);
         if (index < 1) throw {errorMsg: "Unexpected end of string", problem: str};
-        
+
         var count = parseInt(str);
         var rest = str.substr(index);
         var end = rest.search(/\d/);
@@ -293,7 +293,7 @@ function command(message) {
                 var end = tag.end ? Date.parse(tag.end) : Number.POSITIVE_INFINITY;
                 if (isNaN(start)) start=Number.NEGATIVE_INFINITY;
                 if (isNaN(end)) end=Number.POSITIVE_INFINITY;
-                
+
                 // Apply banning if user is within the time window [start, end]
                 if (now<start) {
                     // Ban has not yet started. Skip this ban setting and check later.
@@ -762,7 +762,26 @@ function command(message) {
             var target=message.mentions.users.first();
             var ban={};
             ban.id=target.id;
-            if (config.defaultDynamicBanMs > 0) {
+            var duration=config.defaultDynamicBanMs;
+
+            // Check if the command continues after the mention.
+            // Strip mentions and non-internal whitespace.
+            var content=message.content.substring(config.dynamicBanPrefix.length);
+            var mentions=new RegExp("\\\\?<([^>]+)>", "g")
+            content=content.replace(mentions, '').trim();
+
+            // If there is any remaining character, assume that it's a time string
+            if (content.length > 0) {
+                try {
+                    duration = parseTimeString(content);
+                }
+                catch (e) {
+                    message.reply("I'm sorry, I couldn't understand how long you wanted me to ban "+target.toString()+" for.\n("+e.errorMsg+": "+e.problem+")");
+                    return;
+                }
+            }
+
+            if (duration > 0) {
                 var time=(new Date()).getTime();
                 time+=config.defaultDynamicBanMs;
                 time=new Date(time);
