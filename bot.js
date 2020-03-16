@@ -242,6 +242,44 @@ function selectOne(array) {
     return array[Math.round(Math.random()*(array.length-1))];
 }
 
+// Parses a time string (1d2h3m4s) into a number of milliseconds (93784000) according to the mapping defined by dict
+// Anything with no suffix is considered as a number of milliseconds.
+// The numbers must be integers - No floats are permitted.
+function parseTimeString(str, dict={
+                                'd': 24*3600*1000,
+                                'h': 3600*1000,
+                                'm': 60*1000,
+                                's': 1000
+                              }) {
+    var time=0;
+    str=str.trim();
+    while (str.length > 0) {
+        var index = str.search(/\D/);
+        if (index < 1) throw {errorMsg: "Unexpected end of string", problem: str};
+        
+        var count = parseInt(str);
+        var rest = str.substr(index);
+        var end = rest.search(/\d/);
+        var suffix;
+        if (end > 0) {
+            suffix = rest.substr(0, end).trim();
+        }
+        else {
+            suffix = rest;
+            rest = "";
+        }
+        if (dict.hasOwnProperty(suffix)) {
+            count*=dict[suffix];
+            time+=count;
+        }
+        else {
+            throw {errorMsg: "Unrecognized unit", problem: suffix};
+        }
+        str=rest.substr(end).trim();
+    }
+    return time;
+}
+
 function command(message) {
     // Check banned users.
     var removeBans=[];
