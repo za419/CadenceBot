@@ -200,5 +200,9 @@
   "enableDynamicBans": true,
   "defaultDynamicBanMs": 0,
   "dynamicBanPrefix": "Cadence ban ",
-  "dynamicUnbanPrefix": "Cadence unban "
+  "dynamicUnbanPrefix": "Cadence unban ",
+  "enableDynamicConfig": true,
+  "dynamicConfigPrefix": "Cadence config ",
+  "dynamicConfigSetCommand": "set ",
+  "dynamicConfigUnsetCommand": "unset "
 }
