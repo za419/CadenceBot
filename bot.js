@@ -78,7 +78,7 @@ if (config.padLog) {
         }
         // Pad the line number so it has spaces to its right until its maximum length
         var lineLength=4; // The number of digits the line field is allocated. Currently maxes at 9999 lines
-        if (data.line.length<lineLength) {
+        if (data.line.length<=lineLength) {
             data.line+=Array((lineLength-data.line.length)+2).join(' ');
         }
     };
