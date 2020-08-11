@@ -64,6 +64,9 @@ if (config.padLog) {
     var logging=config.logging;
     var string=logging.format;
     config.logging.preprocess=function(data) {
+        // Uppercase the level if we're configured to
+        if (config.logging.uppercaseLevel) data.title = data.title.toUpperCase();
+        
         // Pad the level so its centered, surrounded by enough spaces to fit the longest level
         var longestTitle=longestLengthIn(Object.keys(logging.filters));
         if (data.title.length<longestTitle) {

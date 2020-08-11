@@ -177,7 +177,8 @@
       "critical": "red",
       "alert": "magenta",
       "emergency": "cyan"
-    }
+    },
+    "uppercaseLevel": false
   },
   "stream": {
     "bitrate": 96000,
