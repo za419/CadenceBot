@@ -30,6 +30,6 @@
     "object.defaults": "^1.1.0",
     "request": "^2.88.2",
     "uws": "^0.14.5",
-    "zlib-sync": "^0.1.6"
+    "zlib-sync": "^0.1.7"
   }
 }
