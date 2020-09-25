@@ -25,7 +25,7 @@
     "erlpack": "github:hammerandchisel/erlpack",
     "js-logging": "^0.1.0",
     "libsodium-wrappers": "^0.5.4",
-    "node-fetch": "^1.7.3",
+    "node-fetch": "^2.6.1",
     "node-opus": "^0.2.9",
     "object.defaults": "^1.1.0",
     "request": "^2.88.2",
