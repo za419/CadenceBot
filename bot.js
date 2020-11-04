@@ -1,3 +1,16 @@
+// DO NOT MERGE THIS BRANCH TO MASTER, IT IS NOT PERMANENT
+
+
+
+
+
+
+
+
+
+
+
+
 var Discord=require('discord.js');
 var auth=require('./auth.json');
 var fetch=require('node-fetch');
