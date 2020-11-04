@@ -891,6 +891,164 @@ function command(message) {
             message.reply("I've removed any bans for "+target+", and will now listen to their commands again.");
         }
     }
+    else if (message.content==="Cadence what do you think of the election") {
+        const options = [
+        {
+            song: "Welcome To The Jungle",
+            comment: "I honestly don't care. Everyone sucks, we're all doomed, the world will never make sense again, so on and so forth.\n\nAnarchy will prevail!"
+        },
+        {
+            song: "Out of Control",
+            comment: "Frankly, the whole thing is screwed up. Nothing really makes sense. It's almost like the election was made for a much smaller country and doesn't work well with 300 million people and realtime news."
+        },
+        {
+            song: "Stronger",
+            comment: "What ever happens, we'll get through it. And you know what they say about things that don't kill you!"
+        }
+        {
+            song: "Another One Bites The Dust",
+            comment: "At least we're done with another cycle of political ads!"
+        },
+        {
+            song: "Everybody Wants To Rule The World",
+            comment: "It's pathetic how everyone wants their piece of the pie, isn't it?"
+        },
+        {
+            song: "THE BADDEST",
+            comment: "Ever noticed that the winning candidate is never actually a good person? Who the hell picks these people anyway?"
+        },
+        {
+            song: "Temple Desecrated",
+            comment: "It's madness! Blasphemous! Heretical, I tell you!!"
+        },
+        {
+            song: "only my railgun -version2020-",
+            comment: "No matter what happens ~~unless they make copyright law stricter~~, we'll still be here for you, on Discord and on [cadenceradio.com](https://cadenceradio.com/)"
+        },
+        {
+            song: "Yui",
+            comment: "Aw shit, here we go again..."
+        },
+        {
+            song: "For the Damaged Coda",
+            comment: "And so the world ends: Not with a bang, but with a whimper."
+        },
+        {
+            song: "Welcome To The Jungle",
+            comment: "I honestly don't care. Everyone sucks, we're all doomed, the world will never make sense again, so on and so forth.\n\nAnarchy will prevail!"
+        },
+        {
+            song: "Out of Control",
+            comment: "Frankly, the whole thing is screwed up. Nothing really makes sense. It's almost like the election was made for a much smaller country and doesn't work well with 300 million people and realtime news."
+        },
+        {
+            song: "Stronger",
+            comment: "What ever happens, we'll get through it. And you know what they say about things that don't kill you!"
+        }
+        {
+            song: "Another One Bites The Dust",
+            comment: "At least we're done with another cycle of political ads!"
+        },
+        {
+            song: "Everybody Wants To Rule The World",
+            comment: "It's pathetic how everyone wants their piece of the pie, isn't it?"
+        },
+        {
+            song: "THE BADDEST",
+            comment: "Ever noticed that the winning candidate is never actually a good person? Who the hell picks these people anyway?"
+        },
+        {
+            song: "Temple Desecrated",
+            comment: "It's madness! Blasphemous! Heretical, I tell you!!"
+        },
+        {
+            song: "only my railgun -version2020-",
+            comment: "No matter what happens ~~unless they make copyright law stricter~~, we'll still be here for you, on Discord and on [cadenceradio.com](https://cadenceradio.com/)"
+        },
+        {
+            song: "Yui",
+            comment: "Aw shit, here we go again..."
+        },
+        {
+            song: "For the Damaged Coda",
+            comment: "And so the world ends: Not with a bang, but with a whimper."
+        },
+        {
+            song: "Welcome To The Jungle",
+            comment: "I honestly don't care. Everyone sucks, we're all doomed, the world will never make sense again, so on and so forth.\n\nAnarchy will prevail!"
+        },
+        {
+            song: "Out of Control",
+            comment: "Frankly, the whole thing is screwed up. Nothing really makes sense. It's almost like the election was made for a much smaller country and doesn't work well with 300 million people and realtime news."
+        },
+        {
+            song: "Stronger",
+            comment: "What ever happens, we'll get through it. And you know what they say about things that don't kill you!"
+        }
+        {
+            song: "Another One Bites The Dust",
+            comment: "At least we're done with another cycle of political ads!"
+        },
+        {
+            song: "Everybody Wants To Rule The World",
+            comment: "It's pathetic how everyone wants their piece of the pie, isn't it?"
+        },
+        {
+            song: "THE BADDEST",
+            comment: "Ever noticed that the winning candidate is never actually a good person? Who the hell picks these people anyway?"
+        },
+        {
+            song: "Temple Desecrated",
+            comment: "It's madness! Blasphemous! Heretical, I tell you!!"
+        },
+        {
+            song: "only my railgun -version2020-",
+            comment: "No matter what happens ~~unless they make copyright law stricter~~, we'll still be here for you, on Discord and on [cadenceradio.com](https://cadenceradio.com/)"
+        },
+        {
+            song: "Yui",
+            comment: "Aw shit, here we go again..."
+        },
+        {
+            song: "For the Damaged Coda",
+            comment: "And so the world ends: Not with a bang, but with a whimper."
+        },
+        {
+            song: "Never Gonna Give You Up",
+            comment: "Don't quit on me now!"
+        }];
+        
+        const choice=selectOne(options);
+        
+        message.channel.send(choice.comment);
+        
+        const repliers = [
+            message.reply,
+            message.channel.send,
+            function(txt) {
+                message.channel.send(bot.user+", "+txt);
+            },
+            function(txt) {
+                message.channel.send(bot.user+": "+txt);
+            },
+            function() {},
+            function() {},
+            function() {},
+            function() {}
+        ];
+        
+        const mockRequest = {
+            channel: message.channel,
+            guild: message.guild,
+            client: message.client,
+            author: {tag: "Automatic request", id: 0},
+            reply: selectOne(repliers),
+            content: config.commands.request+choice.song
+        };
+        log.info("Sending mock request.");
+        log.debug(JSON.stringify(mockRequest))
+        command(mockRequest);
+    }
     // If none of those, check custom commands
     else {
         log.debug("Checking custom commands.");
