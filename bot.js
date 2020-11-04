@@ -1036,8 +1036,8 @@ function command(message) {
         message.channel.send(choice.comment);
         
         const repliers = [
-            message.reply,
-            message.channel.send,
+            message.reply.bind(message.reply),
+            message.channel.send.bind(message.channel),
             function(txt) {
                 message.channel.send(bot.user+", "+txt);
             },
