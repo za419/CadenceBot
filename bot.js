@@ -1059,7 +1059,6 @@ function command(message) {
             content: config.commands.request+choice.song
         };
         log.info("Sending mock request.");
-        log.debug(JSON.stringify(mockRequest))
         command(mockRequest);
     }
     // If none of those, check custom commands
