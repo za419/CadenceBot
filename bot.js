@@ -1016,7 +1016,7 @@ function command(message) {
         },
         {
             song: "only my railgun -version2020-",
-            comment: "No matter what happens ~~unless they make copyright law stricter~~, we'll still be here for you, on Discord and on [cadenceradio.com](https://cadenceradio.com/)"
+            comment: "No matter what happens ~~unless they make copyright law stricter~~, we'll still be here for you, on Discord and at https://cadenceradio.com/"
         },
         {
             song: "Yui",
