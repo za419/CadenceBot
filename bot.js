@@ -917,7 +917,7 @@ function command(message) {
         {
             song: "Stronger",
             comment: "What ever happens, we'll get through it. And you know what they say about things that don't kill you!"
-        }
+        },
         {
             song: "Another One Bites The Dust",
             comment: "At least we're done with another cycle of political ads!"
@@ -957,7 +957,7 @@ function command(message) {
         {
             song: "Stronger",
             comment: "What ever happens, we'll get through it. And you know what they say about things that don't kill you!"
-        }
+        },
         {
             song: "Another One Bites The Dust",
             comment: "At least we're done with another cycle of political ads!"
@@ -997,7 +997,7 @@ function command(message) {
         {
             song: "Stronger",
             comment: "What ever happens, we'll get through it. And you know what they say about things that don't kill you!"
-        }
+        },
         {
             song: "Another One Bites The Dust",
             comment: "At least we're done with another cycle of political ads!"
