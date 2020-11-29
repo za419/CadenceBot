@@ -697,6 +697,11 @@ function command(message) {
         var data={
             ID: lastSearchedSongs[message.channel.id][song].ID.toString()
         };
+        // If we've configured an API key, add it to our data package
+        // (For now, request is the only command which requires or benefits from the inclusion of an API key)
+        if (config.API.aria.key) {
+            data.Token=config.API.aria.key;
+        }
 
         // If support is enabled, set the tag to the user's Discord tag
         if (config.enableRequestTags) {
