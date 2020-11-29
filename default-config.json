@@ -155,8 +155,9 @@
     "aria": {
       "prefix": "https://cadenceradio.com",
       "search": "/api/aria1/search",
-      "request": "/api/aria1/request",
-      "library": "/api/aria1/library"
+      "request": "/api/aria2/request",
+      "library": "/api/aria1/library",
+      "key": false
     },
     "stream": {
       "prefix": "https://stream.cadenceradio.com",
@@ -189,7 +190,7 @@
   "padLog": true,
   "roundtripDelayMs": 500,
   "statusUpdateIntervalMs": 3000,
-  "enableRequestTags": true,
+  "enableRequestTags": false,
   "useGuildTagsForRequests": false,
   "allowInsecure": true,
   "locale": "en-US",
