@@ -66,7 +66,7 @@ if (config.padLog) {
     config.logging.preprocess=function(data) {
         // Uppercase the level if we're configured to
         if (config.logging.uppercaseLevel) data.title = data.title.toUpperCase();
-        
+
         // Pad the level so its centered, surrounded by enough spaces to fit the longest level
         var longestTitle=longestLengthIn(Object.keys(logging.filters));
         if (data.title.length<longestTitle) {
@@ -728,7 +728,44 @@ function command(message) {
                 if (response.statusCode==429) {
                     log.warning("Request failed with status code "+response.statusCode);
                     log.notice("Issued rate limiting message.");
-                    message.reply("Sorry, Cadence limits you to one request every five minutes.");
+
+                    // Grab the report of how much time is left from the response, and parse it into a string
+                    let remaining=JSON.parse(body).TimeRemaining;
+                    let left=""
+
+                    // Handle very odd errors somewhat sanely.
+                    if (remaining<0) {
+                        left="a few minutes";
+                        remaining=0;
+                    }
+
+                    // Handle minutes
+                    if (remaining>60) {
+                        const minutes=Math.floor(remaining/60);
+                        remaining%=60;
+
+                        if (minutes==1) {
+                            left+="one minute, ";
+                        }
+                        else {
+                            left+=minutes.toString()+" minutes, ";
+                        }
+                    }
+
+                    // Now seconds
+                    if (remaining==1) {
+                        left+="one second";
+                    }
+                    else if (remaining>0) {
+                        left+=remaining.toString()+" seconds";
+                    }
+
+                    // Just in case we managed to encounter an interesting timing edge case...
+                    if (left=="") {
+                        // Let the user think things are mostly sane.
+                        left="one second";
+                    }
+                    message.reply("Sorry, Cadence limits how quickly you can make requests. You may request again in "+left+".");
                 }
                 else {
                     log.error("Request failed with status code "+response.statusCode);
