@@ -31,5 +31,8 @@
     "request": "^2.88.2",
     "uws": "^0.14.5",
     "zlib-sync": "^0.1.7"
+  },
+  "devDependencies": {
+    "prettier": "^2.2.1"
   }
 }
