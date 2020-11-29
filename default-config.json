@@ -156,7 +156,8 @@
       "prefix": "https://cadenceradio.com",
       "search": "/api/aria1/search",
       "request": "/api/aria2/request",
-      "library": "/api/aria1/library"
+      "library": "/api/aria1/library",
+      "key": false
     },
     "stream": {
       "prefix": "https://stream.cadenceradio.com",
