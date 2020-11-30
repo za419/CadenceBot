@@ -122,11 +122,22 @@ Version numbers are incremented as follows:
 - Major numbers are incremented when the bot appears widely different - A layperson should be able to distinguish CadenceBot v1.x and CadenceBot v2.x as different programs at a glance.
   - I may break this rule later, at my own discretion, if minor numbers become unreasonably large.
 - Minor numbers are incremented for significant features - Features on the scale of adding a new command.
-  - Examples are [v1.1](https://github.com/za419/CadenceBot/releases/tag/v1.1) (adding `search`), [v1.3](https://github.com/za419/CadenceBot/releases/tag/v1.3.0) (adding multi-server support), and [v1.4](https://github.com/za419/CadenceBot/releases/tag/v1.4.0) (adding one-step request)
+  - Examples are [v1.1](https://github.com/za419/CadenceBot/releases/tag/v1.1) (adding `search`), [v1.3.0](https://github.com/za419/CadenceBot/releases/tag/v1.3.0) (adding multi-server support), and [v1.4.0](https://github.com/za419/CadenceBot/releases/tag/v1.4.0) (adding one-step request)
 - Patch numbers are incremented for smaller features - Those on the scale of extending an existing command in a way that makes new usage entirely backwards compatible with old usage
   - Examples are [v1.3.1](https://github.com/za419/CadenceBot/releases/tag/v1.3.1) (a bugfix for a bug which made the bot unusable), or [v1.4.1](https://github.com/za419/CadenceBot/releases/tag/v1.4.1) (adding the nowplaying status)
-- Beyond-patch numbers are incremented for small bugfixes which amount to quality-of-life fixes - An example might be fixing the format `search` provides results in.
+- Beyond-patch numbers are incremented for small bugfixes which amount to quality-of-life fixes - An example might be fixing the format `search` provides results in, or [v1.5.2.1](https://github.com/za419/CadenceBot/releases/tag/v1.4.1) (adding Prettier formatting)
 
-The version number in `package.json` should be incremented when a feature is ready for release. The number should be incremented in compliance with the above guidelines. This change should occur in its own commit, which should include a short version description in its commit description. This commit should have a Sign-off (Signed-off-by), and should be signed with a GPG key if possible.
+The version number in `package.json` should be incremented when a feature is ready for release. The number should be incremented in compliance with the above guidelines. This change should occur in its own commit, which should be created after everything else is ready for the release (including Prettier formatting and package updates), and which should have no other changes. This commit should have a Sign-off (Signed-off-by), and should be signed with a GPG key if possible.
 
 The commit in which `package.json` it updated is considered to be the one assigned to that version number. Therefore, that commit should be tagged in `git` with the version number (as in `v1.4.1`). This tag should be an annotated tag, with full patch notes, and signed with a GPG key if possible. This tag should then be made a release on GitHub, with the same (or equivalent) patch notes.
+
+To facilitate this release process, this repository includes `tag-release.sh`, which should be used to prepare the repository for a release of any sort. To use it, ensure that all changes destined for the release have been committed, and that no uncommitted changes are present in the repository. Choose a version number for the release (for example, 1.6.0), then run `tag-release.sh 1.6.0`. The script will automatically:
+
+ - Apply and commit any required Prettier reformatting
+ - Insert the new version number into `package.json`
+ - Create a signed and signed-off commit for the version number update.
+ - Create a signed and signed-off tag for the version number update.
+   - The script will allow `git` to open your preferred editor to add release notes for the tag.
+ - Prompt you to review the changes before pushing them to `master`.
+
+Note that the script does not apply any sort of validation or sanity check to the passed version number at this time: It is up to you, as maintainer, to validate that the version number is correctly formatted, is newer than existing version numbers, and has proper scope.
