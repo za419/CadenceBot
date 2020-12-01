@@ -4,7 +4,8 @@
 # Mostly, this just exists to make sure that the necessary packages are installed.
 # Its here for convenience, so no one struggles to figure out what needs installing.
 # The script can perform more than that, but other parts are optional.
-# It can automatically setup e-mailing of logs before restart
+# It can automatically setup e-mailing of logs before restart,
+# It can automatically configure the system timezone,
 # And it can automatically create the auth.json file (used for authentication with Discord)
 
 # As you can guess by its placement in the Git repo, this script should be run after clone, in the worktree.
@@ -22,14 +23,13 @@ cp auto-setup.sh .git/hooks/post-merge
 
 ./setup.sh
 
-read -n 1 -p "Would you like to setup log emailing on restart now? (y/N) " emailing
-
-emailing="${emailing,,}"
+emailing="invalid"
 
 while [[ "$emailing" != "y" && "$emailing" != "n" && "$emailing" != "" ]]; do
     read -n 1 -p "Would you like to setup log emailing on restart now? (y/N) " emailing
 
     emailing="${emailing,,}"
+    echo
 done
 
 if [ "$emailing" == "y" ]; then
@@ -50,7 +50,7 @@ if [ "$emailing" == "y" ]; then
     cat >./maillog.sh <<-EOL
 	#!/bin/bash
 
-	cat CadenceBot.log | mail -s "$prefix \$(date)" "$address" -aFrom:"$address"
+	mail -A CadenceBot.log -s "$prefix \$(date)" "$address" -aFrom:"$address" < /dev/null
 EOL
     chmod +x maillog.sh
 
@@ -62,14 +62,15 @@ else
     echo "OK"
 fi
 
-read -n 1 -p "Would you like to setup Discord authentication now? (y/N) " authentication
 
-authentication="${authentication,,}"
+authentication="invalid"
+echo
 
 while [[ "$authentication" != "y" && "$authentication" != "n" && "$authentication" != "" ]]; do
     read -n 1 -p "Would you like to setup Discord authentication now? (y/N) " authentication
 
     authentication="${authentication,,}"
+    echo
 done
 
 if [ "$authentication" == "y" ]; then
@@ -97,5 +98,44 @@ else
     echo "OK."
 fi
 
+timezone="invalid"
+echo
+echo "The shell session's timezone on bot start will be used to set the log timezone."
+
+while [[ "$timezone" != "y" && "$timezone" != "n" && "$timezone" != "" ]]; do
+    read -n 1 -p "Would you like to configure your shell session timezone now? (y/N) " timezone
+    
+    timezone="${timezone,,}"
+    echo
+done
+
+if [ "$timezone" == "y" ]; then
+    echo
+    
+    zone=""
+    while [ "$zone" == "" ]; do
+        read -p "Please enter your timezone (ex. America/Chicago): " zone
+    done
+    
+    echo "Adding to ~/.bashrc..."
+    
+    cat >>~/.bashrc <<-EOL
+
+# Set timezone to $zone.
+export TZ="$zone"
+EOL
+
+    echo "Done."
+    echo "Note that this change will not take effect until you restart bash."
+    echo "Run 'exec bash' to do so in your current shell."
+else
+    if [ "$timezone" == "n" ]; then
+        echo
+    fi
+    
+    echo "OK."
+fi
+    
 echo
 echo "Setup complete."
+echo "Run restart.sh to start CadenceBot."

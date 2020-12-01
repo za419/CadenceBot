@@ -6,3 +6,4 @@ dev-login.sh
 maillog.sh
 CadenceBot.log
 config.json
+bans.json
