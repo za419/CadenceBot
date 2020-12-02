@@ -1349,11 +1349,11 @@ function command(message) {
                             key
                     );
                     var operation = config.customCommands.multitargeted[key];
-                    if (operation.totalCount <= 0) {
+                    if (operation.totalCount < 0) {
                         log.warning(
                             "Could not perform mentioning: count " +
                                 operation.totalCount +
-                                "<=0. Skipping."
+                                "<0. Skipping."
                         );
                         continue;
                     }
@@ -1363,7 +1363,7 @@ function command(message) {
                     var remaining = operation.totalCount;
                     var remainingFormat = operation.parseFormat;
                     var mentions = {};
-                    do {
+                    while (remaining > 0) {
                         var index = remainingFormat.indexOf("%u");
                         if (
                             index == -1 ||
@@ -1401,7 +1401,7 @@ function command(message) {
                         }
                         phrase = phrase.substring(index);
                         --remaining;
-                    } while (remaining > 0);
+                    }
 
                     // Now, format mentions into the output string
                     // Either random or format must exist. If both exist, prefer random.
