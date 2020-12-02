@@ -1,5 +1,9 @@
 # CadenceBot
 
+[![Latest GitHub release](https://img.shields.io/github/v/release/za419/CadenceBot?style=flat-square)](https://github.com/za419/CadenceBot/releases)
+[![GitHub issues](https://img.shields.io/github/issues/za419/CadenceBot)](https://github.com/za419/CadenceBot/issues)
+[![GitHub forks](https://img.shields.io/github/forks/za419/CadenceBot?style=flat-square)](https://github.com/za419/CadenceBot/network)
+
 CadenceBot is a [Discord](https://discordapp.com/) bot, which serves as a client for [Cadence Radio](https://github.com/kenellorando/cadence).
 
 CadenceBot is fully featured, and is functionally equivalent to the [web client](http://cadenceradio.com/).
