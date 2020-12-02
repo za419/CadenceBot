@@ -119,6 +119,16 @@
             ],
             "totalCount": 2,
             "parseFormat": "%u0 and %u1"
+        },
+        "Cadence cadence": {
+            "format": "%a %a",
+            "totalCount": 0,
+            "parseFormat": ""
+        },
+        "Cadence Cadence": {
+            "format": "%a %a",
+            "totalCount": 0,
+            "parseFormat": ""
         }
     },
     "startsWith": {
