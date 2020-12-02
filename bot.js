@@ -1414,6 +1414,9 @@ function command(message) {
                         phrase = format(phrase, "u" + i, mentions[i]);
                     }
 
+                    // Format in any author references
+                    phrase = format(phrase, "a", message.author.toString());
+
                     // And send out the message.
                     sendLongMessage(message.channel, phrase);
                     return;
