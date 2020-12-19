@@ -21,12 +21,12 @@
     "start": "./restart.sh"
   },
   "dependencies": {
-    "discord.js": "^11.6.4",
+    "discord.js": "^12.5.1",
     "erlpack": "github:hammerandchisel/erlpack",
     "js-logging": "^0.1.0",
     "libsodium-wrappers": "^0.5.4",
     "node-fetch": "^2.6.1",
-    "node-opus": "^0.2.9",
+    "node-opus": "^0.3.3",
     "object.defaults": "^1.1.0",
     "request": "^2.88.2",
     "uws": "^0.14.5",
