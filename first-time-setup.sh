@@ -139,6 +139,35 @@ else
     echo "OK."
 fi
 
+
+autostart="invalid"
+echo
+
+while [[ "$autostart" != "y" && "$autostart" != "n" && "$autostart" != "" ]]; do
+    read -n 1 -p "Would you like to setup CadenceBot to start automatically on reboot? (y/N) " authentication
+
+    autostart="${autostart,,}"
+    echo
+done
+
+if [ "$autostart" == "y" ]; then
+    echo
+    echo "You may be prompted to enter credentials for sudo to allow this configuration."
+
+    sudo echo "bash $PWD/restart.sh" >> /etc/rc.local
+
+    # In case rc.local didn't already exist, make sure it's executable.
+    sudo chmod +x /etc/rc.local
+
+    echo "Done."
+else
+    if [ "$autostart" == "n" ]; then
+        echo
+    fi
+
+    echo "OK."
+fi
+
 echo
 echo "Setup complete."
 echo "Run restart.sh to start CadenceBot."
