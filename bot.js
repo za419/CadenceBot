@@ -290,7 +290,7 @@ function playChannelSelector(guildChannels) {
     var startsWith = false;
     var includes = false;
 
-    for (var channel in guildChannels) {
+    for (var channel of guildChannels) {
         log.debug("Trying channel " + channel.name);
         if (channel.type != "voice") {
             log.debug(
