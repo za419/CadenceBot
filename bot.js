@@ -112,7 +112,7 @@ var lastSearchedSongs = {};
 // This saves bandwidth and encoding overhead as compared to having one stream for each server.
 // As an added bonus, it also keeps all CadenceBot listeners in perfect sync!
 // (Seeing as Cadence streams tend to desync over time, this is useful).
-const stream = bot.createVoiceBroadcast();
+const stream = bot.voice.createBroadcast();
 
 // This function initializes the stream.
 // It is provided to allow the stream to reinitialize itself when it encounters an issue...
@@ -271,6 +271,88 @@ function selectOne(array) {
     return array[Math.round(Math.random() * (array.length - 1))];
 }
 
+// Does the leg work of choosing a voice channel for play to default to
+// Accepts an array of Discord.js GuildChannels
+function playChannelSelector(guildChannels) {
+    if (!(guildChannels instanceof Array) || guildChannels.length == 0) {
+        log.error(
+            "Channel selector was either not given an array or was given an empty array."
+        );
+        log.info("Was given:\n\n" + JSON.stringify(guildChannels) + "\n\n");
+        return null;
+    }
+
+    log.debug(
+        "Searching through channels object:\n\n" +
+            JSON.stringify(guildChannels) +
+            "\n\n"
+    );
+
+    voiceChannels = guildChannels.filter(channel => channel.type == "voice");
+
+    log.debug(
+        "Narrowed channels to voice channels:\n\n" +
+            JSON.stringify(voiceChannels + "\n\n")
+    );
+
+    var startsWith = false;
+    var includes = false;
+
+    for (var channel of voiceChannels) {
+        log.debug("Trying channel " + channel.name);
+
+        for (var i = 0; i < config.playAutoselectChannels.length; ++i) {
+            var name = config.playAutoselectChannels[i];
+            log.debug("Comparing against configured test name " + name);
+            if (caselessCompare(channel.name, name)) {
+                log.debug("Full match. Returning");
+                return channel;
+            }
+
+            if (startsWith === false) {
+                if (
+                    caselessCompare(
+                        channel.name.substring(0, name.length),
+                        name
+                    )
+                ) {
+                    log.debug("Prefix match. Storing for later use.");
+                    startsWith = channel;
+                }
+
+                if (includes === false) {
+                    if (
+                        channel.name
+                            .toLocaleUpperCase()
+                            .includes(name.toLocaleUpperCase())
+                    ) {
+                        log.debug("Inclusion match. Storing for later use.");
+                        includes = channel;
+                    }
+                }
+            }
+        }
+    }
+
+    if (startsWith !== false) {
+        log.debug("Found a prefix match. Returning channel " + startsWith.name);
+        return startsWith;
+    }
+
+    if (includes !== false) {
+        log.debug(
+            "Found an inclusion match. Returning channel " + includes.name
+        );
+        return includes;
+    }
+
+    log.debug(
+        "No matches found. Returning default match (first channel): " +
+            voiceChannels[0].name
+    );
+    return voiceChannels[0];
+}
+
 // Parses a time string (1d2h3m4s) into a number of milliseconds (93784000) according to the mapping defined by dict
 // Anything with no suffix is considered as a number of milliseconds.
 // The numbers must be integers - No floats are permitted.
@@ -410,6 +492,22 @@ function command(message) {
             message.reply("Don't you have enough Cadence already?");
         } else {
             var voiceChannel = message.member.voiceChannel;
+            if (!voiceChannel) {
+                log.warning(
+                    "User " +
+                        message.member.user.tag +
+                        " is not in a voice channel in server " +
+                        message.guild.name +
+                        "."
+                );
+                log.warning("Performing connection to autoselected channel.");
+                voiceChannel = playChannelSelector(
+                    message.guild.channels.cache.array()
+                );
+                if (voiceChannel) {
+                    log.notice("Selected channel " + voiceChannel.name + ".");
+                }
+            }
             if (voiceChannel) {
                 log.info(
                     "Attempting to join voice channel " +

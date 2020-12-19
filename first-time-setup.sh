@@ -11,8 +11,8 @@
 # As you can guess by its placement in the Git repo, this script should be run after clone, in the worktree.
 
 sudo apt update
-curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
-sudo apt install -y nodejs
+curl -sL https://deb.nodesource.com/setup_current.x | sudo -E bash -
+sudo apt install -y nodejs npm
 sudo apt install -y ffmpeg
 sudo apt install -y build-essentials
 sudo apt install -y gcc g++
@@ -104,21 +104,21 @@ echo "The shell session's timezone on bot start will be used to set the log time
 
 while [[ "$timezone" != "y" && "$timezone" != "n" && "$timezone" != "" ]]; do
     read -n 1 -p "Would you like to configure your shell session timezone now? (y/N) " timezone
-    
+
     timezone="${timezone,,}"
     echo
 done
 
 if [ "$timezone" == "y" ]; then
     echo
-    
+
     zone=""
     while [ "$zone" == "" ]; do
         read -p "Please enter your timezone (ex. America/Chicago): " zone
     done
-    
+
     echo "Adding to ~/.bashrc..."
-    
+
     cat >>~/.bashrc <<-EOL
 
 # Set timezone to $zone.
@@ -132,10 +132,10 @@ else
     if [ "$timezone" == "n" ]; then
         echo
     fi
-    
+
     echo "OK."
 fi
-    
+
 echo
 echo "Setup complete."
 echo "Run restart.sh to start CadenceBot."

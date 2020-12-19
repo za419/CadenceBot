@@ -80,7 +80,7 @@
             "Genuine ostrich. Three payments. OH! Wait -- what. I'm just goofin'. New boot goofin'.",
             "https://www.youtube.com/watch?v=xmNfUUFAclw"
         ],
-        "continues": false, 
+        "continues": false,
         "replyOnly": true
       },
       "Cadence am I ": {
@@ -191,6 +191,10 @@
     },
     "uppercaseLevel": false
   },
+  "playAutoselectChannels": [
+    "cadencebot",
+    "cadence"
+  ],
   "stream": {
     "bitrate": 96000,
     "volume": 0.075,
