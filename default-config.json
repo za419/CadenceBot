@@ -197,7 +197,7 @@
   ],
   "stream": {
     "bitrate": 96000,
-    "volume": 0.075,
+    "volume": 0.6,
     "retryCount": 5
   },
   "bannedUsers": [],
