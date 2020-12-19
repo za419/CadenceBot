@@ -1586,7 +1586,13 @@ function updatePresence() {
                 log.debug("Received response:\n\n" + text + "\n\n");
                 song = nowPlayingFormat(text);
                 log.debug("Now playing:\n\n" + song + "\n\n");
-                bot.user.setPresence({ game: { name: song } });
+                bot.user.setPresence({
+                    status: "online",
+                    afk: false,
+                    activity: {
+                        name: song,
+                    },
+                });
                 log.debug("Set timeout to be called again");
             });
         }
