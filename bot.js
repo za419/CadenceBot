@@ -633,7 +633,7 @@ function command(message) {
     } else if (message.content === config.commands.stop) {
         log.notice("Received stop command.");
         if (isPlaying[message.guild.id]) {
-            var voiceChannel = message.member.voiceChannel;
+            var voiceChannel = message.member.voice.channel;
             log.info(
                 "Attempting to disconnect from channel in " +
                     message.guild.name +
