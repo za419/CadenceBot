@@ -19,6 +19,8 @@ sudo apt install -y build-essential
 sudo apt install -y gcc g++
 sudo apt install -y make
 
+pushd "$(dirname "$(readlink -f "$0")")" > /dev/null
+
 cp auto-setup.sh .git/hooks/post-checkout
 cp auto-setup.sh .git/hooks/post-merge
 
@@ -140,3 +142,5 @@ fi
 echo
 echo "Setup complete."
 echo "Run restart.sh to start CadenceBot."
+
+popd > /dev/null
