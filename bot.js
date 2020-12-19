@@ -287,17 +287,19 @@ function playChannelSelector(guildChannels) {
             JSON.stringify(guildChannels) +
             "\n\n"
     );
+
+    voiceChannels = guildChannels.filter(channel => channel.type == "voice");
+
+    log.debug(
+        "Narrowed channels to voice channels:\n\n" +
+            JSON.stringify(voiceChannels + "\n\n")
+    );
+
     var startsWith = false;
     var includes = false;
 
-    for (var channel of guildChannels) {
+    for (var channel of voiceChannels) {
         log.debug("Trying channel " + channel.name);
-        if (channel.type != "voice") {
-            log.debug(
-                "Channel type '" + channel.type + "' is not voice: Skipping."
-            );
-            continue;
-        }
 
         for (var i = 0; i < config.playAutoselectChannels.length; ++i) {
             var name = config.playAutoselectChannels[i];
@@ -346,9 +348,9 @@ function playChannelSelector(guildChannels) {
 
     log.debug(
         "No matches found. Returning default match (first channel): " +
-            guildChannels[0].name
+            voiceChannels[0].name
     );
-    return guildChannels[0];
+    return voiceChannels[0];
 }
 
 // Parses a time string (1d2h3m4s) into a number of milliseconds (93784000) according to the mapping defined by dict
