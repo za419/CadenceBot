@@ -119,14 +119,11 @@ const stream = bot.voice.createBroadcast();
 // Which appears to happen rather often with the broadcast.
 function beginGlobalPlayback() {
     try {
-        stream.playArbitraryInput(
-            config.API.stream.prefix + config.API.stream.stream,
-            {
-                bitrate: config.stream.bitrate,
-                volume: config.stream.volume,
-                passes: config.stream.retryCount,
-            }
-        );
+        stream.play(config.API.stream.prefix + config.API.stream.stream, {
+            bitrate: config.stream.bitrate,
+            volume: config.stream.volume,
+            passes: config.stream.retryCount,
+        });
     } catch (e) {
         // Rate-limit restarts due to exceptions: We would rather drop a bit of music
         // than fill the log with exceptions.
@@ -529,7 +526,7 @@ function command(message) {
                                 voiceChannel.bitrate +
                                 ")."
                         );
-                        const dispatch = connection.playBroadcast(stream);
+                        const dispatch = connection.play(stream);
                         dispatch.on("end", end => {
                             log.warning(
                                 "Stream ended. Playback was in server " +
