@@ -112,7 +112,7 @@ var lastSearchedSongs = {};
 // This saves bandwidth and encoding overhead as compared to having one stream for each server.
 // As an added bonus, it also keeps all CadenceBot listeners in perfect sync!
 // (Seeing as Cadence streams tend to desync over time, this is useful).
-const stream = bot.createVoiceBroadcast();
+const stream = bot.voice.createBroadcast();
 
 // This function initializes the stream.
 // It is provided to allow the stream to reinitialize itself when it encounters an issue...
