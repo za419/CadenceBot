@@ -490,6 +490,22 @@ function command(message) {
             message.reply("Don't you have enough Cadence already?");
         } else {
             var voiceChannel = message.member.voiceChannel;
+            if (!voiceChannel) {
+                log.warning(
+                    "User " +
+                        message.member.user.tag +
+                        " is not in a voice channel in server " +
+                        message.guild.name +
+                        "."
+                );
+                log.warning("Performing connection to autoselected channel.");
+                voiceChannel = playChannelSelector(
+                    message.guild.channels.cache.array()
+                );
+                if (voiceChannel) {
+                    log.notice("Selected channel " + voiceChannel.name + ".");
+                }
+            }
             if (voiceChannel) {
                 log.info(
                     "Attempting to join voice channel " +
