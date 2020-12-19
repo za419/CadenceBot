@@ -1,3 +1,3 @@
-pkill nodejs
+pkill node
 ./maillog.sh 2> /dev/null
-nohup nodejs bot.js &>CadenceBot.log &
+nohup node bot.js &>CadenceBot.log &
