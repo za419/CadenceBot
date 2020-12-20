@@ -4,17 +4,31 @@
     "stop": "Cadence stop",
     "help": "Cadence help",
     "nowplaying": "Cadence now playing",
-    "search": "Cadence search <query>",
+    "search": "Cadence search ",
     "request": "Cadence request ",
     "library": "Cadence library"
   },
   "commandDescriptions": {
-    "play": "Starts playing Cadence in your voice channel",
-    "stop": "Stops playing Cadence and leaves your voice channel (so you can play it in another)",
-    "help": "Generates this help message",
-    "nowplaying": "Displays now playing information from Cadence",
-    "search": "Search the Cadence database with a <query>",
-    "request": "Request a song to be played on Cadence",
+    "play": {
+      "description": "Starts playing Cadence in your voice channel"
+    },
+    "stop": {
+      "description": "Stops playing Cadence and leaves your voice channel (so you can play it in another)"
+    },
+    "help": {
+      "description": "Generates this help message"
+    },
+    "nowplaying": {
+      "description": "Displays now playing information from Cadence"
+    },
+    "search": {
+      "description": "Search the Cadence database with a <query>",
+      "parameters": ["query"]
+    },
+    "request": {
+      "description": "Request a selected song to be played on Cadence",
+      "parameters": ["selection"]
+    },
     "library": "Request a list of songs in the Cadence database"
   },
   "customCommands": {
