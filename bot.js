@@ -5,7 +5,6 @@ var request = require("request");
 var exec = require("child_process").exec;
 var fs = require("fs");
 var logger = require("js-logging");
-var defaultTo = require("object.defaults");
 var config = {};
 var err;
 try {
@@ -16,11 +15,12 @@ try {
 var defaultConfig = require("./default-config.json");
 
 function recursiveDefault(obj, def) {
-    defaultTo(obj, def);
-    var keys = Object.keys(obj);
+    var keys = Object.keys(def);
     for (var i = 0; i < keys.length; ++i) {
         var key = keys[i];
-        if (obj[key] instanceof Array || def[key] instanceof Array) {
+        if (obj[key] == null) {
+            obj[key] = def[key];
+        } else if (obj[key] instanceof Array || def[key] instanceof Array) {
             if (obj[key] instanceof Array && def[key] instanceof Array) {
                 obj[key] = obj[key].concat(def[key]);
             }
