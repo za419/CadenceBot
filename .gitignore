@@ -1,8 +1,0 @@
-auth.json
-node_modules/
-*.pem
-login.sh
-dev-login.sh
-maillog.sh
-CadenceBot.log
-config.json
