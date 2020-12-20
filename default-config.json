@@ -29,7 +29,9 @@
       "description": "Request a selected song to be played on Cadence",
       "parameters": ["selection"]
     },
-    "library": "Request a list of songs in the Cadence database"
+    "library": {
+      "description": "Request a list of songs in the Cadence database"
+    }
   },
   "customCommands": {
     "equalTo": {
