@@ -153,17 +153,17 @@ done
 
 if [ "$autostart" == "y" ]; then
     echo
-    echo "You may be prompted to enter credentials for sudo to allow this configuration."
 
     if [ -f /etc/rc.local ]; then
         sudo echo "bash \"$PWD/restart.sh\"" >> /etc/rc.local
         sudo chmod +x /etc/rc.local
     else
-        sudo cat >/etc/rc.local <<-EOL
+        cat >rc.local <<-EOL
 #!/bin/bash
 
 bash "$PWD/restart.sh
 EOL
+        sudo mv rc.local /etc
         sudo chmod +x /etc/rc.local
     fi
 
