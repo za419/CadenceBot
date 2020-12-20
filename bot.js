@@ -668,8 +668,13 @@ function command(message) {
                 if (config.commandDescriptions.parameters) {
                     paramList = config.commandDescriptions.parameters.join(" ");
                 }
-                help += '    "' + config.commands[key] + paramList;
-                '" - ' + config.commandDescriptions[key].description + "\n";
+                help +=
+                    '    "' +
+                    config.commands[key] +
+                    paramList +
+                    '" - ' +
+                    config.commandDescriptions[key].description +
+                    "\n";
             }
         }
         message.reply(help);
