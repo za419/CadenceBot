@@ -664,12 +664,12 @@ function command(message) {
             " commands. They are:\n";
         for (var key in config.commands) {
             if (config.commands.hasOwnProperty(key)) {
-                help +=
-                    '    "' +
-                    config.commands[key] +
-                    '" - ' +
-                    config.commandDescriptions[key] +
-                    "\n";
+                var paramList = "";
+                if (config.commandDescriptions.parameters) {
+                    paramList = config.commandDescriptions.parameters.join(" ");
+                }
+                help += '    "' + config.commands[key] + paramList;
+                '" - ' + config.commandDescriptions[key].description + "\n";
             }
         }
         message.reply(help);
