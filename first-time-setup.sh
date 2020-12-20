@@ -14,6 +14,7 @@ sudo apt update
 curl -sL https://deb.nodesource.com/setup_current.x | sudo -E bash -
 sudo apt install -y nodejs
 sudo npm install -g npm
+sudo npm explore npm -g -- npm install node-gyp@latest
 sudo apt install -y ffmpeg
 sudo apt install -y build-essential
 sudo apt install -y gcc g++
