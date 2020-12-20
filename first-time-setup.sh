@@ -145,7 +145,7 @@ autostart="invalid"
 echo
 
 while [[ "$autostart" != "y" && "$autostart" != "n" && "$autostart" != "" ]]; do
-    read -n 1 -p "Would you like to setup CadenceBot to start automatically on reboot? (y/N) " authentication
+    read -n 1 -p "Would you like to setup CadenceBot to start automatically on reboot? (y/N) " autostart
 
     autostart="${autostart,,}"
     echo
