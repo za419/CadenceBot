@@ -665,8 +665,10 @@ function command(message) {
         for (var key in config.commands) {
             if (config.commands.hasOwnProperty(key)) {
                 var paramList = "";
-                if (config.commandDescriptions.parameters) {
-                    paramList = config.commandDescriptions.parameters.join(" ");
+                if (config.commandDescriptions[key].parameters) {
+                    paramList = config.commandDescriptions[key].parameters.join(
+                        " "
+                    );
                 }
                 help +=
                     '    "' +
