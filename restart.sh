@@ -1,7 +1,7 @@
 #!/bin/bash
 
 pushd "$(dirname "$(readlink -f "$0")")" > /dev/null
-if ! pkill node; then
+if ! pkill node >/dev/null; then
     # Try sudo before things break
     sudo pkill node
 fi
