@@ -666,9 +666,9 @@ function command(message) {
             if (config.commands.hasOwnProperty(key)) {
                 var paramList = "";
                 if (config.commandDescriptions[key].parameters) {
-                    paramList = config.commandDescriptions[key].parameters.join(
-                        " "
-                    );
+                    paramList = config.commandDescriptions[key].parameters
+                        .map(x => "<" + x + ">")
+                        .join(" ");
                 }
                 help +=
                     '    "' +
