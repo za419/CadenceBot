@@ -161,7 +161,7 @@ if [ "$autostart" == "y" ]; then
         cat >rc.local <<-EOL
 #!/bin/bash
 
-bash "$PWD/restart.sh
+bash "$PWD/restart.sh"
 EOL
         sudo mv rc.local /etc
         sudo chmod +x /etc/rc.local
