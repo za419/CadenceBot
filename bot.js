@@ -127,6 +127,7 @@ function beginGlobalPlayback() {
     } catch (e) {
         // Rate-limit restarts due to exceptions: We would rather drop a bit of music
         // than fill the log with exceptions.
+        log.error("Exception during global broadcast stream init: " + e);
         setTimeout(beginGlobalPlayback, 100);
     }
 }
