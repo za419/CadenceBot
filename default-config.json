@@ -212,7 +212,7 @@
     "cadence"
   ],
   "stream": {
-    "bitrate": 96000,
+    "bitrate": 96,
     "volume": 0.6,
     "retryCount": 5
   },
