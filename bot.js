@@ -488,7 +488,7 @@ function command(message) {
             log.info("Already playing in server " + message.guild.name);
             message.reply("Don't you have enough Cadence already?");
         } else {
-            var voiceChannel = message.member.voiceChannel;
+            var voiceChannel = message.member.voice.channel;
             if (!voiceChannel) {
                 log.warning(
                     "User " +
@@ -606,7 +606,7 @@ function command(message) {
                                 message.reply(r);
                             };
                             msg.member = {};
-                            msg.member.voiceChannel = voiceChannel;
+                            msg.member.voice = { channel: voiceChannel };
                             msg.guild = message.guild;
                             log.notice(
                                 "Sending mocked play command in server " +
