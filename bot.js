@@ -727,7 +727,7 @@ function command(message) {
                     "No error, and either no status code or status code 200."
                 );
                 log.debug(
-                    "Received body:\n\n" + 4 + JSON.stringify(songs) + "\n\n"
+                    "Received body:\n\n" + JSON.stringify(songs) + "\n\n"
                 );
                 if (songs == null || songs.length == 0) {
                     log.info("No results.");
