@@ -3,10 +3,11 @@
 
 npm install --save js-logging
 npm install --save discord.js
+npm install --save @discordjs/opus
+npm install --save discord/erlpack
 npm install --save zlib-sync
-npm install --save libsodium-wrappers@^0.5.4
-npm install --save uws@^0.14.5
+npm install --save libsodium-wrappers
+npm install --save bufferutil
+npm install --save utf-8-validate
 npm install --save node-fetch
 npm install --save request
-npm install --save node-opus
-npm install --save erlpack@hammerandchisel/erlpack
