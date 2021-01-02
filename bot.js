@@ -689,6 +689,52 @@ function command(message) {
         const target = message.content.substring(config.commands.search.length);
         log.info("Help is for command: " + target);
         if (Object.keys(config.commandDetails).includes(target)) {
+            const detailsObject = config.commandDetails[target];
+            let response;
+
+            // Assemble a title using the configured 'trigger phrase' for the command
+            if (detailsObject.internalKey == null) {
+                // If we haven't been told how to, log an error and use the passed key instead.
+                log.error(
+                    "Detailed helptext spec for command " +
+                        target +
+                        " does not include an internalKey!"
+                );
+                response = "# The " + target + " command\n\n";
+            } else {
+                response =
+                    "# " + config.commands[detailsObject.internalKey] + "\n\n";
+            }
+
+            // Now, the subtitle.
+            if (detailsObject.subtitle == null) {
+                // If there is no subtitle, log a warning.
+                log.warning(
+                    "Detailed helptext spec for command " +
+                        target +
+                        " does not include a subtitle!"
+                );
+            } else {
+                response += "## " + detailsObject.subtitle + "\n\n";
+            }
+
+            // And finally, the body.
+            if (detailsObject.lines == null) {
+                // If there is no body, log an error.
+                log.error(
+                    "Detailed helptext spec for command " +
+                        target +
+                        " does not include a lines array!"
+                );
+                response += "I don't really have anything to say here.";
+            } else {
+                response += detailsObject.lines.join("\n");
+            }
+
+            // Now send the response.
+            message.reply(response);
+            log.notice("Issued generated helptext.");
+            log.debug("Generated helptext message was:\n" + response);
         } else {
             log.info("Command not recognized.");
             message.reply(
