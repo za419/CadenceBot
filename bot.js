@@ -657,6 +657,7 @@ function command(message) {
             message.reply("OK, OK, I get it, you don't like me, sheesh!");
         }
     } else if (message.content === config.commands.help) {
+        // Summary helptext.
         log.notice("Received help command.");
         var help = "";
         help =
@@ -682,6 +683,24 @@ function command(message) {
         }
         message.reply(help);
         log.notice("Issued help message.");
+    } else if (message.content.startsWith(config.commands.help) + " ") {
+        // Per-command helptext.
+        log.notice("Received help-for-command command.");
+        const target = message.content.substring(config.commands.search.length);
+        log.info("Help is for command: " + target);
+        if (Object.keys(config.commandDetails).includes(target)) {
+        } else {
+            log.info("Command not recognized.");
+            message.reply(
+                "I'm sorry, I don't have anything to tell you about the " +
+                    target +
+                    " command. Are you sure that's something I can do?\n\n" +
+                    "See " +
+                    config.commands.help +
+                    " for more information about what commands I support."
+            );
+            log.notice("Issued command-unrecognized message.");
+        }
     } else if (message.content === config.commands.nowplaying) {
         log.notice("Received nowplaying command.");
         const url = config.API.stream.prefix + config.API.stream.nowplaying;
