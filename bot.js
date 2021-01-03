@@ -690,8 +690,8 @@ function command(message) {
             config.commands.help.length + 1
         );
         log.info("Help is for command: " + target);
-        if (Object.keys(config.commandDetails).includes(target)) {
-            const detailsObject = config.commandDetails[target];
+        if (Object.keys(config.helpTopics).includes(target)) {
+            const detailsObject = config.helpTopics[target];
             let response;
 
             // Assemble a title using the configured 'trigger phrase' for the command

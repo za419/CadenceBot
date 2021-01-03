@@ -33,7 +33,7 @@
       "description": "Request a list of songs in the Cadence database"
     }
   },
-  "commandDetails": {
+  "helpTopics": {
     "help": {
       "internalKey": "help",
       "subtitle": "The help command provides information to assist with the usage of Cadence.",
