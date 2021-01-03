@@ -33,6 +33,17 @@
       "description": "Request a list of songs in the Cadence database"
     }
   },
+  "commandDetails": {
+    "help": {
+      "internalKey": "help",
+      "subtitle": "The help command provides information to assist with the usage of Cadence.",
+      "lines": [
+        "It can be used in one of two ways:",
+        "    1. Without any argument (`%help`), it will generate a summary of commands and a brief snippet of their purpose.",
+        "    2. Provided the name of a command (`%help help`), it will provide details regarding the specific usage of that command."
+      ]
+    }
+  },
   "customCommands": {
     "equalTo": {
       "Cadence introduce yourself": {

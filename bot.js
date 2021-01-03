@@ -657,6 +657,7 @@ function command(message) {
             message.reply("OK, OK, I get it, you don't like me, sheesh!");
         }
     } else if (message.content === config.commands.help) {
+        // Summary helptext.
         log.notice("Received help command.");
         var help = "";
         help =
@@ -682,6 +683,116 @@ function command(message) {
         }
         message.reply(help);
         log.notice("Issued help message.");
+    } else if (message.content.startsWith(config.commands.help + " ")) {
+        // Per-command helptext.
+        log.notice("Received help-for-command command.");
+        const target = message.content.substring(
+            config.commands.help.length + 1
+        );
+        log.info("Help is for command: " + target);
+        if (Object.keys(config.commandDetails).includes(target)) {
+            const detailsObject = config.commandDetails[target];
+            let response;
+
+            // Assemble a title using the configured 'trigger phrase' for the command
+            if (detailsObject.internalKey == null) {
+                // If we haven't been told how to, log an error and use the passed key instead.
+                log.error(
+                    "Detailed helptext spec for command " +
+                        target +
+                        " does not include an internalKey!"
+                );
+                response = "> **The " + target + " command**\n";
+            } else {
+                response =
+                    "> **" +
+                    config.commands[detailsObject.internalKey] +
+                    "**\n";
+            }
+
+            // Now, the subtitle.
+            if (detailsObject.subtitle == null) {
+                // If there is no subtitle, log a warning.
+                log.warning(
+                    "Detailed helptext spec for command " +
+                        target +
+                        " does not include a subtitle!"
+                );
+                response += "> \n";
+            } else {
+                response += "> " + detailsObject.subtitle + "\n> \n";
+            }
+
+            // And finally, the body.
+            if (detailsObject.lines == null) {
+                // If there is no body, log an error.
+                log.error(
+                    "Detailed helptext spec for command " +
+                        target +
+                        " does not include a lines array!"
+                );
+                response += "> I don't really have anything to say here.";
+            } else {
+                // If there is a body, process its lines:
+                //  - Format in any command prompts it requests
+                //  - Put the whole thing in blockquotes
+                //  - Add newlines after each line
+                response += detailsObject.lines
+                    .map(line => {
+                        let result = "";
+                        // Handle any %cmd syntax (references to a command's prompting message)
+                        const terms = line.split("%");
+                        // If there's no chance of any such syntax, skip the loop
+                        if (terms.length == 1) {
+                            result = line;
+                        } else {
+                            // Take everything before the first %, and add it to result
+                            result += terms[0];
+
+                            // For every term that started with a %...
+                            terms.splice(0, 1);
+                            for (const term of terms) {
+                                // Grab up to the first word boundary
+                                const firstWord = term.split(/\b/)[0];
+
+                                // If the first word is a command's internal name...
+                                if (
+                                    Object.keys(config.commands).includes(
+                                        firstWord
+                                    )
+                                ) {
+                                    // Then add the command's trigger phrase to result
+                                    result += config.commands[firstWord].trim();
+                                } else {
+                                    // Otherwise, add firstWord back in with its % restored
+                                    result += "%" + firstWord;
+                                }
+
+                                // Finally, add everything after the first word boundary to result
+                                result += term.substring(firstWord.length);
+                            }
+                        }
+                        return "> " + result;
+                    })
+                    .join("\n");
+            }
+
+            // Now send the response.
+            sendLongMessage(message.channel, response);
+            log.notice("Issued generated helptext.");
+            log.debug("Generated helptext message was:\n" + response);
+        } else {
+            log.info("Command not recognized.");
+            message.reply(
+                "I'm sorry, I don't have anything to tell you about the " +
+                    target +
+                    " command. Are you sure that's something I can do?\n\n" +
+                    "See " +
+                    config.commands.help +
+                    " for more information about what commands I support."
+            );
+            log.notice("Issued command-unrecognized message.");
+        }
     } else if (message.content === config.commands.nowplaying) {
         log.notice("Received nowplaying command.");
         const url = config.API.stream.prefix + config.API.stream.nowplaying;
