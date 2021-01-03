@@ -702,10 +702,12 @@ function command(message) {
                         target +
                         " does not include an internalKey!"
                 );
-                response = "# The " + target + " command\n\n";
+                response = "**The " + target + " command**\n\n";
             } else {
                 response =
-                    "# " + config.commands[detailsObject.internalKey] + "\n\n";
+                    "**" +
+                    config.commands[detailsObject.internalKey] +
+                    "**\n\n";
             }
 
             // Now, the subtitle.
@@ -717,7 +719,7 @@ function command(message) {
                         " does not include a subtitle!"
                 );
             } else {
-                response += "## " + detailsObject.subtitle + "\n\n";
+                response += "> " + detailsObject.subtitle + "\n\n";
             }
 
             // And finally, the body.
