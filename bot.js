@@ -718,6 +718,7 @@ function command(message) {
                         target +
                         " does not include a subtitle!"
                 );
+                response += "> \n";
             } else {
                 response += "> " + detailsObject.subtitle + "\n> \n";
             }
