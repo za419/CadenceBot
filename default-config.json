@@ -39,8 +39,8 @@
       "subtitle": "The help command provides information to assist with the usage of Cadence.",
       "lines": [
         "It can be used in one of two ways:",
-        " 1. Without any argument, it will generate a summary of commands and a brief snippet of their purpose.",
-        " 2. Provided the name of a command, it will provide details regarding the specific usage of that command - Such as this message."
+        "    1. Without any argument, it will generate a summary of commands and a brief snippet of their purpose.",
+        "    2. Provided the name of a command, it will provide details regarding the specific usage of that command - Such as this message."
       ]
     }
   },
