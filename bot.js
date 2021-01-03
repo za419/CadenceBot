@@ -734,7 +734,7 @@ function command(message) {
             }
 
             // Now send the response.
-            message.reply(response);
+            sendLongMessage(message.channel, response);
             log.notice("Issued generated helptext.");
             log.debug("Generated helptext message was:\n" + response);
         } else {
