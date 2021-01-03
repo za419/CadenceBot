@@ -733,7 +733,48 @@ function command(message) {
                 );
                 response += "> I don't really have anything to say here.";
             } else {
-                response += detailsObject.lines.map(x => "> " + x).join("\n");
+                // If there is a body, process its lines:
+                //  - Format in any command prompts it requests
+                //  - Put the whole thing in blockquotes
+                //  - Add newlines after each line
+                response += detailsObject.lines
+                    .map(line => {
+                        let result = "";
+                        // Handle any %cmd syntax (references to a command's prompting message)
+                        const terms = line.split("%");
+                        // If there's no chance of any such syntax, skip the loop
+                        if (terms.length == 1) {
+                            result = line;
+                        } else {
+                            // Take everything before the first %, and add it to result
+                            result += terms[0];
+
+                            // For every term that started with a %...
+                            terms.splice(0, 1);
+                            for (const term of terms) {
+                                // Grab up to the first word boundary
+                                const firstWord = term.split(/\b/)[0];
+
+                                // If the first word is a command's internal name...
+                                if (
+                                    Object.keys(config.commands).includes(
+                                        firstWord
+                                    )
+                                ) {
+                                    // Then add the command's trigger phrase to result
+                                    result += config.commands[firstWord];
+                                } else {
+                                    // Otherwise, add firstWord back in with its % restored
+                                    result += "%" + firstWord;
+                                }
+
+                                // Finally, add everything after the first word boundary to result
+                                result += term.substring(firstWord.length);
+                            }
+                        }
+                        return "> " + result;
+                    })
+                    .join("\n");
             }
 
             // Now send the response.
