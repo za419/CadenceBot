@@ -762,7 +762,7 @@ function command(message) {
                                     )
                                 ) {
                                     // Then add the command's trigger phrase to result
-                                    result += config.commands[firstWord];
+                                    result += config.commands[firstWord].trim();
                                 } else {
                                     // Otherwise, add firstWord back in with its % restored
                                     result += "%" + firstWord;
