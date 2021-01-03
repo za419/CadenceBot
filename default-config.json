@@ -60,7 +60,7 @@
         "If no unit is specified, then milliseconds will be assumed instead.",
         "If the duration is zero, the ban will be considered permanent (or, rather, until lifted explicitly).",
         "",
-        "The administrator may lift a ban by using the `Cadence unban` command, which requires a user to be mentioned, and will remove all bans applying to that user.",
+        "The administrator may lift a ban immediately by using the `Cadence unban` command, which requires a user to be mentioned, and will remove all bans applying to that user.",
         "",
         "Bans are currently instance-wide - A banned user may not use CadenceBot in any server."
       ]
