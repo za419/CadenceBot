@@ -42,6 +42,28 @@
         "    1. Without any argument (`%help`), it will generate a summary of commands and a brief snippet of their purpose.",
         "    2. Provided the name of a command (`%help help`), it will provide details regarding the specific usage of that command."
       ]
+    },
+    "bans": {
+      "title": "Banning and CadenceBot",
+      "subtitle": "Access control for CadenceBot commands",
+      "lines": [
+        "CadenceBot allows for the instance-wide administrator (See `%help admin`) to ban and unban users at their discretion.",
+        "Banned users will be ignored entirely by CadenceBot - No message they send will be examined for containing a command.",
+        "Bans may either be permanent, or may only take place within a time window (between two specific moments, or up until a certain time).",
+        "",
+        "The administrator may add a ban by using the `Cadence ban` command, which requires a user to be mentioned, and may take a duration before the ban expires as well.",
+        "This duration is specified as any combination of natural numbers suffixed by a unit, where available units are:",
+        " - d (days)",
+        " - h (hours)",
+        " - m (minutes)",
+        " - s (seconds)",
+        "If no unit is specified, then milliseconds will be assumed instead.",
+        "If the duration is zero, the ban will be considered permanent (or, rather, until lifted explicitly).",
+        "",
+        "The administrator may lift a ban by using the `Cadence unban` command, which requires a user to be mentioned, and will remove all bans applying to that user.",
+        "",
+        "Bans are currently instance-wide - A banned user may not use CadenceBot in any server."
+      ]
     }
   },
   "customCommands": {
