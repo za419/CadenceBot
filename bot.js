@@ -694,20 +694,23 @@ function command(message) {
             const detailsObject = config.helpTopics[target];
             let response;
 
-            // Assemble a title using the configured 'trigger phrase' for the command
-            if (detailsObject.internalKey == null) {
-                // If we haven't been told how to, log an error and use the passed key instead.
-                log.error(
-                    "Detailed helptext spec for command " +
-                        target +
-                        " does not include an internalKey!"
-                );
-                response = "> **The " + target + " command**\n";
-            } else {
+            // First off, if we've been explicitly given a title, use it
+            if (detailsObject.title != null) {
+                response = "> **" + detailsObject.title + "**\n";
+            } else if (detailsObject.internalKey != null) {
+                // If we haven't, assemble a title using the configured 'trigger phrase' for the command specified.
                 response =
                     "> **" +
                     config.commands[detailsObject.internalKey] +
                     "**\n";
+            } else {
+                // If we haven't been told how to, log an error and use the passed key instead.
+                log.error(
+                    "Detailed helptext spec for command " +
+                        target +
+                        " does not include a title or internalKey!"
+                );
+                response = "> **The " + target + " command**\n";
             }
 
             // Now, the subtitle.
