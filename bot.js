@@ -687,7 +687,7 @@ function command(message) {
         // Per-command helptext.
         log.notice("Received help-for-command command.");
         const target = message.content.substring(
-            config.commands.help.length + 1
+            config.commands.helpTopic.length
         );
         log.info("Help is for command: " + target);
         if (Object.keys(config.helpTopics).includes(target)) {
