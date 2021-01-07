@@ -19,6 +19,10 @@
     "help": {
       "description": "Generates this help message"
     },
+    "helpTopic": {
+      "description": "Displays additional help information for a chosen <topic>.",
+      "parameters": ["topic"]
+    },
     "nowplaying": {
       "description": "Displays now playing information from Cadence"
     },
