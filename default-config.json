@@ -3,6 +3,7 @@
     "play": "Cadence play",
     "stop": "Cadence stop",
     "help": "Cadence help",
+    "helpTopic": "Cadence help ",
     "nowplaying": "Cadence now playing",
     "search": "Cadence search ",
     "request": "Cadence request ",
