@@ -683,11 +683,11 @@ function command(message) {
         }
         message.reply(help);
         log.notice("Issued help message.");
-    } else if (message.content.startsWith(config.commands.help + " ")) {
+    } else if (message.content.startsWith(config.commands.helpTopic)) {
         // Per-command helptext.
         log.notice("Received help-for-command command.");
         const target = message.content.substring(
-            config.commands.help.length + 1
+            config.commands.helpTopic.length
         );
         log.info("Help is for command: " + target);
         if (Object.keys(config.helpTopics).includes(target)) {

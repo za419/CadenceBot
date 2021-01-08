@@ -3,6 +3,7 @@
     "play": "Cadence play",
     "stop": "Cadence stop",
     "help": "Cadence help",
+    "helpTopic": "Cadence help ",
     "nowplaying": "Cadence now playing",
     "search": "Cadence search ",
     "request": "Cadence request ",
@@ -17,6 +18,10 @@
     },
     "help": {
       "description": "Generates this help message"
+    },
+    "helpTopic": {
+      "description": "Displays additional help information for a chosen <topic>.",
+      "parameters": ["topic"]
     },
     "nowplaying": {
       "description": "Displays now playing information from Cadence"
@@ -40,14 +45,14 @@
       "lines": [
         "It can be used in one of two ways:",
         "    1. Without any argument (`%help`), it will generate a summary of commands and a brief snippet of their purpose.",
-        "    2. Provided the name of a command (`%help help`), it will provide details regarding the specific usage of that command."
+        "    2. Provided the name of a command (`%helpTopic help`), it will provide details regarding the specific usage of that command."
       ]
     },
     "bans": {
       "title": "Banning and CadenceBot",
       "subtitle": "Access control for CadenceBot commands.",
       "lines": [
-        "CadenceBot allows for the instance-wide administrator (See `%help admin`) to ban and unban users at their discretion.",
+        "CadenceBot allows for the instance-wide administrator (See `%helpTopic admin`) to ban and unban users at their discretion.",
         "Banned users will be ignored entirely by CadenceBot - No message they send will be examined for containing a command.",
         "Bans may either be permanent, or may only take place within a time window (between two specific moments, or up until a certain time).",
         "",
