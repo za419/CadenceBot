@@ -512,7 +512,7 @@ function command(message) {
     // Make sure we have a canonical form of any aliased core commands
     const messageContent = coreAliasTranslation(message.content);
 
-    if (message.content === config.commands.play) {
+    if (messageContent === config.commands.play) {
         log.notice("Received play command.");
         if (isPlaying[message.guild.id]) {
             log.info("Already playing in server " + message.guild.name);
@@ -631,7 +631,7 @@ function command(message) {
                             // That's why the naïve implementation (command(message))
                             //  isn't the one we use here.
                             msg = {};
-                            msg.content = message.content;
+                            msg.content = messageContent;
                             msg.reply = function (r) {
                                 message.reply(r);
                             };
@@ -660,7 +660,7 @@ function command(message) {
                 );
             }
         }
-    } else if (message.content === config.commands.stop) {
+    } else if (messageContent === config.commands.stop) {
         log.notice("Received stop command.");
         if (isPlaying[message.guild.id]) {
             var voiceChannel = message.member.voice.channel;
@@ -685,7 +685,7 @@ function command(message) {
             log.error("Not currently playing.");
             message.reply("OK, OK, I get it, you don't like me, sheesh!");
         }
-    } else if (message.content === config.commands.help) {
+    } else if (messageContent === config.commands.help) {
         log.notice("Received help command.");
         var help = "";
         help =
@@ -711,7 +711,7 @@ function command(message) {
         }
         message.reply(help);
         log.notice("Issued help message.");
-    } else if (message.content === config.commands.nowplaying) {
+    } else if (messageContent === config.commands.nowplaying) {
         log.notice("Received nowplaying command.");
         const url = config.API.stream.prefix + config.API.stream.nowplaying;
         log.info("Issuing fetch request to " + url);
@@ -726,7 +726,7 @@ function command(message) {
                 message.reply("Now playing: " + song);
             });
         });
-    } else if (message.content.startsWith(config.commands.search)) {
+    } else if (messageContent.startsWith(config.commands.search)) {
         log.notice(
             "Received search command in text channel " +
                 message.channel.name +
@@ -734,10 +734,15 @@ function command(message) {
                 message.guild.name +
                 "."
         );
-        log.notice('Received message was "' + message.content + '"');
+        log.debug('Received message was "' + message.content + '"');
+        log.notice(
+            'Canonicalized form of received message was "' +
+                messageContent +
+                '"'
+        );
         const url = config.API.aria.prefix + config.API.aria.search;
         var data = {
-            search: message.content.substring(config.commands.search.length),
+            search: messageContent.substring(config.commands.search.length),
         };
 
         log.info("Making a request to " + url);
@@ -790,7 +795,7 @@ function command(message) {
                 }
             }
         });
-    } else if (message.content.startsWith(config.commands.request)) {
+    } else if (messageContent.startsWith(config.commands.request)) {
         log.notice(
             "Received song request in text channel " +
                 message.channel.name +
@@ -798,7 +803,12 @@ function command(message) {
                 message.guild.name +
                 "."
         );
-        log.notice('Received message was "' + message.content + '"');
+        log.debug('Received message was "' + message.content + '"');
+        log.notice(
+            'Canonicalized form of received message was "' +
+                messageContent +
+                '"'
+        );
         log.debug(
             "Last searched songs:\n\n" +
                 JSON.stringify(lastSearchedSongs[message.channel.id]) +
@@ -809,12 +819,11 @@ function command(message) {
 
         const url = config.API.aria.prefix + config.API.aria.request;
         var song =
-            parseInt(
-                message.content.substring(config.commands.request.length)
-            ) - 1;
+            parseInt(messageContent.substring(config.commands.request.length)) -
+            1;
         if (isNaN(song)) {
             // Try to conduct a search, to see if we can perform a one-step request
-            song = message.content.substring(config.commands.request.length);
+            song = messageContent.substring(config.commands.request.length);
             log.warning(
                 song + " is not a number. Attempting one-step request."
             );
@@ -1118,7 +1127,7 @@ function command(message) {
                 message.reply("Error. Aria says:\n\n" + body);
             }
         });
-    } else if (message.content === config.commands.library) {
+    } else if (messageContent === config.commands.library) {
         log.notice(
             "Received library listing command in text channel " +
                 message.channel.name +
@@ -1126,7 +1135,6 @@ function command(message) {
                 message.guild.name +
                 "."
         );
-        log.notice('Received message was "' + message.content + '"');
         const url = config.API.aria.prefix + config.API.aria.library;
 
         log.info("Making a request to " + url);
