@@ -509,6 +509,9 @@ function command(message) {
     }
     removeBans = null;
 
+    // Make sure we have a canonical form of any aliased core commands
+    const messageContent = coreAliasTranslation(message.content);
+
     if (message.content === config.commands.play) {
         log.notice("Received play command.");
         if (isPlaying[message.guild.id]) {
