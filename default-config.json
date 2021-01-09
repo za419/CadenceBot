@@ -33,6 +33,18 @@
       "description": "Request a list of songs in the Cadence database"
     }
   },
+  "commandAliases": [
+    {
+      "target": "nowplaying",
+      "prefix": false,
+      "alias": "Cadence nowplaying"
+    },
+    {
+      "target": "request",
+      "prefix": true,
+      "alias": "Cadence play "
+    }
+  ],
   "customCommands": {
     "equalTo": {
       "Cadence introduce yourself": {
