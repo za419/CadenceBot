@@ -424,6 +424,32 @@ function getUTCOffset(date = new Date()) {
     return out;
 }
 
+// This function handles alias expansion for core commands.
+// It should be passed the content string of the message, and it will
+// return the 'canonical' (de-aliased) form of any command alias within.
+function coreAliasTranslation(content) {
+    // Iterate over all aliases we recognize.
+    for (const alias of config.commandAliases) {
+        // If this alias is a prefix-match...
+        if (alias.prefix) {
+            // And our message starts with the alias text...
+            if (content.startsWith(alias.alias)) {
+                // Then parse out the rest of the message after the alias and canonicalize the prefix
+                return (
+                    config.commands[alias.target] +
+                    content.substring(alias.alias.length)
+                );
+            }
+            // If the alias is not a prefix match, and the message exactly matches the alias text...
+        } else if (content === alias.alias) {
+            // Then return the canonicalized command.
+            return config.commands[alias.target];
+        }
+    }
+    // If no alias matched our message, return the content untouched.
+    return content;
+}
+
 // Saves bannedUsers to disk
 function saveBans(bannedUsers, file = "./bans.json") {
     if (config.enableDynamicBans) {
