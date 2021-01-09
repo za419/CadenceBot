@@ -428,6 +428,8 @@ function getUTCOffset(date = new Date()) {
 // It should be passed the content string of the message, and it will
 // return the 'canonical' (de-aliased) form of any command alias within.
 function coreAliasTranslation(content) {
+    log.debug("Canonicalizing message: " + content);
+
     // Iterate over all aliases we recognize.
     for (const alias of config.commandAliases) {
         // If this alias is a prefix-match...
@@ -435,14 +437,21 @@ function coreAliasTranslation(content) {
             // And our message starts with the alias text...
             if (content.startsWith(alias.alias)) {
                 // Then parse out the rest of the message after the alias and canonicalize the prefix
-                return (
-                    config.commands[alias.target] +
-                    content.substring(alias.alias.length)
+                log.debug(
+                    "Matched prefix alias: " + JSON.stringify(alias, null, 4)
                 );
+                const result =
+                    config.commands[alias.target] +
+                    content.substring(alias.alias.length);
+                log.debug("Canonicalized to " + result);
+                return result;
             }
             // If the alias is not a prefix match, and the message exactly matches the alias text...
         } else if (content === alias.alias) {
             // Then return the canonicalized command.
+            log.debug(
+                "Matched exact-match alias: " + JSON.stringify(alias, null, 4)
+            );
             return config.commands[alias.target];
         }
     }
