@@ -456,6 +456,7 @@ function coreAliasTranslation(content) {
         }
     }
     // If no alias matched our message, return the content untouched.
+    log.debug("Message is already canonical.");
     return content;
 }
 
