@@ -976,7 +976,7 @@ function command(message) {
                     ) {
                         // For no results, assume the user meant to perform a normal (two-step) request
                         log.info(
-                            "Zero length results (assuming inadvertent request"
+                            "Zero length results (assuming inadvertent request)"
                         );
 
                         // Message recommended by Ken Ellorando
