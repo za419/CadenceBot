@@ -424,6 +424,42 @@ function getUTCOffset(date = new Date()) {
     return out;
 }
 
+// This function handles alias expansion for core commands.
+// It should be passed the content string of the message, and it will
+// return the 'canonical' (de-aliased) form of any command alias within.
+function coreAliasTranslation(content) {
+    log.debug("Canonicalizing message: " + content);
+
+    // Iterate over all aliases we recognize.
+    for (const alias of config.commandAliases) {
+        // If this alias is a prefix-match...
+        if (alias.prefix) {
+            // And our message starts with the alias text...
+            if (content.startsWith(alias.alias)) {
+                // Then parse out the rest of the message after the alias and canonicalize the prefix
+                log.debug(
+                    "Matched prefix alias: " + JSON.stringify(alias, null, 4)
+                );
+                const result =
+                    config.commands[alias.target] +
+                    content.substring(alias.alias.length);
+                log.debug("Canonicalized to " + result);
+                return result;
+            }
+            // If the alias is not a prefix match, and the message exactly matches the alias text...
+        } else if (content === alias.alias) {
+            // Then return the canonicalized command.
+            log.debug(
+                "Matched exact-match alias: " + JSON.stringify(alias, null, 4)
+            );
+            return config.commands[alias.target];
+        }
+    }
+    // If no alias matched our message, return the content untouched.
+    log.debug("Message is already canonical.");
+    return content;
+}
+
 // Saves bannedUsers to disk
 function saveBans(bannedUsers, file = "./bans.json") {
     if (config.enableDynamicBans) {
@@ -483,7 +519,10 @@ function command(message) {
     }
     removeBans = null;
 
-    if (message.content === config.commands.play) {
+    // Make sure we have a canonical form of any aliased core commands
+    const messageContent = coreAliasTranslation(message.content);
+
+    if (messageContent === config.commands.play) {
         log.notice("Received play command.");
         if (isPlaying[message.guild.id]) {
             log.info("Already playing in server " + message.guild.name);
@@ -602,7 +641,7 @@ function command(message) {
                             // That's why the naïve implementation (command(message))
                             //  isn't the one we use here.
                             msg = {};
-                            msg.content = message.content;
+                            msg.content = messageContent;
                             msg.reply = function (r) {
                                 message.reply(r);
                             };
@@ -631,7 +670,7 @@ function command(message) {
                 );
             }
         }
-    } else if (message.content === config.commands.stop) {
+    } else if (messageContent === config.commands.stop) {
         log.notice("Received stop command.");
         if (isPlaying[message.guild.id]) {
             var voiceChannel = message.member.voice.channel;
@@ -683,7 +722,7 @@ function command(message) {
         }
         message.reply(help);
         log.notice("Issued help message.");
-    } else if (message.content.startsWith(config.commands.helpTopic)) {
+    } else if (messageContent.startsWith(config.commands.helpTopic)) {
         // Per-command helptext.
         log.notice("Received help-for-command command.");
         const target = message.content.substring(
@@ -796,7 +835,7 @@ function command(message) {
             );
             log.notice("Issued command-unrecognized message.");
         }
-    } else if (message.content === config.commands.nowplaying) {
+    } else if (messageContent === config.commands.nowplaying) {
         log.notice("Received nowplaying command.");
         const url = config.API.stream.prefix + config.API.stream.nowplaying;
         log.info("Issuing fetch request to " + url);
@@ -811,7 +850,7 @@ function command(message) {
                 message.reply("Now playing: " + song);
             });
         });
-    } else if (message.content.startsWith(config.commands.search)) {
+    } else if (messageContent.startsWith(config.commands.search)) {
         log.notice(
             "Received search command in text channel " +
                 message.channel.name +
@@ -819,10 +858,15 @@ function command(message) {
                 message.guild.name +
                 "."
         );
-        log.notice('Received message was "' + message.content + '"');
+        log.debug('Received message was "' + message.content + '"');
+        log.notice(
+            'Canonicalized form of received message was "' +
+                messageContent +
+                '"'
+        );
         const url = config.API.aria.prefix + config.API.aria.search;
         var data = {
-            search: message.content.substring(config.commands.search.length),
+            search: messageContent.substring(config.commands.search.length),
         };
 
         log.info("Making a request to " + url);
@@ -875,7 +919,7 @@ function command(message) {
                 }
             }
         });
-    } else if (message.content.startsWith(config.commands.request)) {
+    } else if (messageContent.startsWith(config.commands.request)) {
         log.notice(
             "Received song request in text channel " +
                 message.channel.name +
@@ -883,7 +927,12 @@ function command(message) {
                 message.guild.name +
                 "."
         );
-        log.notice('Received message was "' + message.content + '"');
+        log.debug('Received message was "' + message.content + '"');
+        log.notice(
+            'Canonicalized form of received message was "' +
+                messageContent +
+                '"'
+        );
         log.debug(
             "Last searched songs:\n\n" +
                 JSON.stringify(lastSearchedSongs[message.channel.id]) +
@@ -894,12 +943,11 @@ function command(message) {
 
         const url = config.API.aria.prefix + config.API.aria.request;
         var song =
-            parseInt(
-                message.content.substring(config.commands.request.length)
-            ) - 1;
+            parseInt(messageContent.substring(config.commands.request.length)) -
+            1;
         if (isNaN(song)) {
             // Try to conduct a search, to see if we can perform a one-step request
-            song = message.content.substring(config.commands.request.length);
+            song = messageContent.substring(config.commands.request.length);
             log.warning(
                 song + " is not a number. Attempting one-step request."
             );
@@ -1042,7 +1090,7 @@ function command(message) {
                     ) {
                         // For no results, assume the user meant to perform a normal (two-step) request
                         log.info(
-                            "Zero length results (assuming inadvertent request"
+                            "Zero length results (assuming inadvertent request)"
                         );
 
                         // Message recommended by Ken Ellorando
@@ -1203,7 +1251,7 @@ function command(message) {
                 message.reply("Error. Aria says:\n\n" + body);
             }
         });
-    } else if (message.content === config.commands.library) {
+    } else if (messageContent === config.commands.library) {
         log.notice(
             "Received library listing command in text channel " +
                 message.channel.name +
@@ -1211,7 +1259,6 @@ function command(message) {
                 message.guild.name +
                 "."
         );
-        log.notice('Received message was "' + message.content + '"');
         const url = config.API.aria.prefix + config.API.aria.library;
 
         log.info("Making a request to " + url);
