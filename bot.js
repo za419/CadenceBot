@@ -695,7 +695,7 @@ function command(message) {
             log.error("Not currently playing.");
             message.reply("OK, OK, I get it, you don't like me, sheesh!");
         }
-    } else if (message.content === config.commands.help) {
+    } else if (messageContent === config.commands.help) {
         // Summary helptext.
         log.notice("Received help command.");
         var help = "";
