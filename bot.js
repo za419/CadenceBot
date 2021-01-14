@@ -1373,21 +1373,41 @@ function command(message) {
         log.debug("Checking custom commands.");
         // equalTo check is easy
         if (config.customCommands.equalTo.hasOwnProperty(message.content)) {
-            if (!config.customCommands.equalTo[message.content].disabled) {
+            let customCommand = config.customCommands.equalTo[message.content];
+            if (customCommand.alias != null) {
+                if (
+                    config.customCommands.equalTo.hasOwnProperty(
+                        customCommand.alias
+                    )
+                ) {
+                    customCommand =
+                        config.customCommands.equalTo[customCommand.alias];
+                } else {
+                    log.warning(
+                        "EqualTo custom command " +
+                            message.content +
+                            " aliases " +
+                            customCommand.alias +
+                            ", which does not exist."
+                    );
+                    return;
+                }
+            }
+
+            if (!customCommand.disabled) {
                 log.info(
                     "Command " +
                         message.content +
                         " matched an equalTo custom command."
                 );
-                var operation = config.customCommands.equalTo[message.content];
                 // Either random or response must exist: Prefer random if both exist
-                if (operation.random) {
+                if (customCommand.random) {
                     sendLongMessage(
                         message.channel,
-                        selectOne(operation.random)
+                        selectOne(customCommand.random)
                     );
                 } else {
-                    sendLongMessage(message.channel, operation.response);
+                    sendLongMessage(message.channel, customCommand.response);
                 }
             }
         } else {
