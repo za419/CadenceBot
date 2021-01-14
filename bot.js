@@ -1374,7 +1374,7 @@ function command(message) {
         // equalTo check is easy
         if (config.customCommands.equalTo.hasOwnProperty(message.content)) {
             let customCommand = config.customCommands.equalTo[message.content];
-            if (customCommand.alias != null) {
+            if (!customCommand.disabled && customCommand.alias != null) {
                 if (
                     config.customCommands.equalTo.hasOwnProperty(
                         customCommand.alias
