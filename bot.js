@@ -1459,10 +1459,10 @@ function command(message) {
                             );
                             return;
                         }
-
-                        // If the alias target is disabled, return
-                        if (customCommand.disabled) return;
                     }
+
+                    // If the resolved command is disabled, return
+                    if (customCommand.disabled) return;
 
                     var output;
                     // Either random or format must be present. Prefer random if both exist.
@@ -1568,10 +1568,10 @@ function command(message) {
                             );
                             return;
                         }
-
-                        // If the alias target is disabled, return
-                        if (customCommand.disabled) return;
                     }
+
+                    // If the resolved command is disabled, return
+                    if (customCommand.disabled) return;
 
                     if (customCommand.totalCount < 0) {
                         log.warning(
@@ -1684,10 +1684,10 @@ function command(message) {
                             );
                             return;
                         }
-
-                        // If the alias target is disabled, return
-                        if (customCommand.disabled) return;
                     }
+
+                    // If the resolved command is disabled, return
+                    if (customCommand.disabled) return;
 
                     var output;
                     // Either random or format must be set. Prefer random if both are present
