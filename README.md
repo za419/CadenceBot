@@ -36,7 +36,7 @@ CadenceBot does not have any complete automated setup for platforms which do not
 
 Before anything else, clone the repository into a folder of your choosing on the server, and enter the folder. Then, install CadenceBot's dependencies:
 
-First, [install `Node.js`](https://nodejs.org/en/download/), at least version 8.8.
+First, [install the latest `Node.js`](https://nodejs.org/en/download/) - You need at least version 12.0.0.
 
 Then, install the following:
 
@@ -68,7 +68,7 @@ Completely manual setup is not recommended, only because of the need to install 
 
 Clone the CadenceBot repository into a directory of your choosing.
 
-[Install `Node.js`](https://nodejs.org/en/download/), at least version 8.8.
+First, [install the latest `Node.js`](https://nodejs.org/en/download/) - You need at least version 12.0.0.
 
 Then, install the following:
 
