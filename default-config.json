@@ -154,9 +154,7 @@
             "parseFormat": ""
         },
         "Cadence Cadence": {
-            "format": "%a %a",
-            "totalCount": 0,
-            "parseFormat": ""
+            "alias": "Cadence cadence"
         }
     },
     "startsWith": {
