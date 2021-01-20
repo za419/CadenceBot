@@ -24,7 +24,7 @@
       "parameters": ["topic"]
     },
     "nowplaying": {
-      "description": "Displays now playing information from Cadence"
+      "description": "Displays the song that is currently playing on Cadence"
     },
     "search": {
       "description": "Search the Cadence database with a <query>",
@@ -58,6 +58,13 @@
         "It can be used in one of two ways:",
         "    1. Without any argument (`%help`), it will generate a summary of commands and a brief snippet of their purpose.",
         "    2. Provided the name of a command (`%helpTopic help`), it will provide details regarding the specific usage of that command."
+      ]
+    },
+    "nowplaying": {
+      "internalKey": "nowplaying",
+      "subtitle": "The nowplaying command displays the song that is currently playing on Cadence.",
+      "lines": [
+        "CadenceBot will query the Cadence server for the song that is current playing and then reply to the command with the song name and artist."
       ]
     },
     "bans": {
