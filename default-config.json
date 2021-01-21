@@ -124,24 +124,14 @@
     "multitargeted": {
         "Cadence resolve the debate between ": {
             "random": [
-                "%u0 is right, %u1 is wrong.",
-                "%u1 is right, %u0 is wrong.",
-                "%u0 is right, %u1 is wrong.",
-                "%u1 is right, %u0 is wrong.",
-                "%u0 is right, %u1 is wrong.",
-                "%u1 is right, %u0 is wrong.",
-                "%u0 is right, %u1 is wrong.",
-                "%u1 is right, %u0 is wrong.",
-                "%u0 is right, %u1 is wrong.",
-                "%u1 is right, %u0 is wrong.",
-                "%u0 is right, %u1 is wrong.",
-                "%u1 is right, %u0 is wrong.",
-                "%u0 is right, %u1 is wrong.",
-                "%u1 is right, %u0 is wrong.",
-                "%u0 is right, %u1 is wrong.",
-                "%u1 is right, %u0 is wrong.",
-                "%u0 is right, %u1 is wrong.",
-                "%u1 is right, %u0 is wrong.",
+                {
+                  "option": "%u0 is right, %u1 is wrong.",
+                  "weight": 10
+                },
+                {
+                  "option": "%u1 is right, %u0 is wrong.",
+                  "weight": 10
+                },
                 "%u1 is a moron, %u0 is right.",
                 "%u1 is right, %u0 is a moron."
             ],
@@ -163,25 +153,23 @@
       },
       "Cadence don't say ": {
         "random": [
+            {
+              "option": "Ok.",
+              "weight": 5
+            },
+            {
+              "option": "Okay.",
+              "weight": 4
+            },
+            {
+              "option": "Fine.",
+              "weight": 4
+            },
+            {
+              "option": "If you insist, just this once.",
+              "weight": 4
+            },
             "Don't tell me what to do. \" %s\"",
-            "Ok.",
-            "Ok.",
-            "Ok.",
-            "Ok.",
-            "Ok.",
-            "Okay.",
-            "Okay.",
-            "Okay.",
-            "Okay.",
-            "Okay.",
-            "Fine.",
-            "Fine.",
-            "Fine.",
-            "Fine.",
-            "If you insist, just this once.",
-            "If you insist, just this once.",
-            "If you insist, just this once.",
-            "If you insist, just this once.",
             "Fine, I won't say \" %s\" for a while. Starting now..."
         ]
       }
