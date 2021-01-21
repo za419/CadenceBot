@@ -266,7 +266,18 @@ function sendLongMessage(channel, text, length = 2000) {
 }
 
 function selectOne(array) {
-    return array[Math.round(Math.random() * (array.length - 1))];
+    // First, 'cook' array into a flat list of strings
+    // (allowing for the {option: '', weight: <n>} syntax)
+    const options = array.flatMap(option => {
+        // A plain string is returned intact
+        if (typeof option === "string") return option;
+
+        // Assume if we don't have a string we have an object with the above syntax.
+        return new Array(option.weight).fill(option.option);
+    });
+
+    // Now choose out of the remaining options.
+    return options[Math.round(Math.random() * (options.length - 1))];
 }
 
 // Does the leg work of choosing a voice channel for play to default to
