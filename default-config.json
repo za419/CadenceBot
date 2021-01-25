@@ -67,6 +67,9 @@
         "CadenceBot will query the Cadence server for the song that is current playing and then reply to the command with the song name and artist."
       ]
     },
+    "now playing": {
+      "alias": "nowplaying"
+    },
     "bans": {
       "title": "Banning and CadenceBot",
       "subtitle": "Access control for CadenceBot commands.",
