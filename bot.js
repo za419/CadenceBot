@@ -1907,7 +1907,7 @@ oneStepRequestFilters = {
     "title-filter": function (songs, request) {
         var result = 0;
         for (var i = 0; i < songs.length; ++i) {
-            if (caselessCompare(songs[i].title, request)) {
+            if (caselessCompare(songs[i].Title, request)) {
                 if (result) {
                     // Non-unique result
                     return 0;
@@ -1920,7 +1920,7 @@ oneStepRequestFilters = {
     "artist-filter": function (songs, request) {
         var result = 0;
         for (var i = 0; i < songs.length; ++i) {
-            if (caselessCompare(songs[i].artist, request)) {
+            if (caselessCompare(songs[i].Artist, request)) {
                 if (result) {
                     // Non-unique result
                     return 0;
@@ -1951,7 +1951,7 @@ oneStepRequestFilters = {
             );
         };
         for (var i = 0; i < songs.length; ++i) {
-            if (condition(request, songs[i].title, songs[i].artist)) {
+            if (condition(request, songs[i].Title, songs[i].Artist)) {
                 if (result) {
                     // Non-unique result
                     return 0;
@@ -1979,7 +1979,7 @@ oneStepRequestFilters = {
             );
         };
         for (var i = 0; i < songs.length; ++i) {
-            if (condition(request, songs[i].title, songs[i].artist)) {
+            if (condition(request, songs[i].Title, songs[i].Artist)) {
                 if (result) {
                     // Non-unique result
                     return 0;
@@ -1992,7 +1992,7 @@ oneStepRequestFilters = {
     "artists-narrowing-filter": function (songs, request) {
         var output = [];
         for (var i = 0; i < songs.length; ++i) {
-            if (caselessCompare(songs[i].artist, request)) {
+            if (caselessCompare(songs[i].Artist, request)) {
                 output.push(songs[i]);
             }
         }
