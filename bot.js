@@ -741,7 +741,7 @@ function command(message) {
                             target +
                             " aliases " +
                             detailsObject.alias +
-                            "for help text but help text for " +
+                            " for help text but the help text for " +
                             detailsObject.alias +
                             " does not exist."
                     );
