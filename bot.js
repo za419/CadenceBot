@@ -266,7 +266,18 @@ function sendLongMessage(channel, text, length = 2000) {
 }
 
 function selectOne(array) {
-    return array[Math.round(Math.random() * (array.length - 1))];
+    // First, 'cook' array into a flat list of strings
+    // (allowing for the {option: '', weight: <n>} syntax)
+    const options = array.flatMap(option => {
+        // A plain string is returned intact
+        if (typeof option === "string") return option;
+
+        // Assume if we don't have a string we have an object with the above syntax.
+        return new Array(option.weight).fill(option.option);
+    });
+
+    // Now choose out of the remaining options.
+    return options[Math.round(Math.random() * (options.length - 1))];
 }
 
 // Does the leg work of choosing a voice channel for play to default to
@@ -1504,21 +1515,41 @@ function command(message) {
         log.debug("Checking custom commands.");
         // equalTo check is easy
         if (config.customCommands.equalTo.hasOwnProperty(message.content)) {
-            if (!config.customCommands.equalTo[message.content].disabled) {
+            let customCommand = config.customCommands.equalTo[message.content];
+            if (!customCommand.disabled && customCommand.alias != null) {
+                if (
+                    config.customCommands.equalTo.hasOwnProperty(
+                        customCommand.alias
+                    )
+                ) {
+                    customCommand =
+                        config.customCommands.equalTo[customCommand.alias];
+                } else {
+                    log.warning(
+                        "EqualTo custom command " +
+                            message.content +
+                            " aliases " +
+                            customCommand.alias +
+                            ", which does not exist."
+                    );
+                    return;
+                }
+            }
+
+            if (!customCommand.disabled) {
                 log.info(
                     "Command " +
                         message.content +
                         " matched an equalTo custom command."
                 );
-                var operation = config.customCommands.equalTo[message.content];
                 // Either random or response must exist: Prefer random if both exist
-                if (operation.random) {
+                if (customCommand.random) {
                     sendLongMessage(
                         message.channel,
-                        selectOne(operation.random)
+                        selectOne(customCommand.random)
                     );
                 } else {
-                    sendLongMessage(message.channel, operation.response);
+                    sendLongMessage(message.channel, customCommand.response);
                 }
             }
         } else {
@@ -1537,10 +1568,9 @@ function command(message) {
             for (var i in Object.keys(config.customCommands.targeted)) {
                 var key = Object.keys(config.customCommands.targeted)[i];
 
-                if (
-                    message.content.startsWith(key) &&
-                    !config.customCommands.targeted[key].disabled
-                ) {
+                if (message.content.startsWith(key)) {
+                    let customCommand = config.customCommands.targeted[key];
+
                     log.info(
                         "Command " +
                             message.content +
@@ -1548,18 +1578,45 @@ function command(message) {
                             key
                     );
 
-                    var operation = config.customCommands.targeted[key];
+                    if (
+                        !customCommand.disabled &&
+                        customCommand.alias != null
+                    ) {
+                        if (
+                            config.customCommands.targeted.hasOwnProperty(
+                                customCommand.alias
+                            )
+                        ) {
+                            customCommand =
+                                config.customCommands.targeted[
+                                    customCommand.alias
+                                ];
+                        } else {
+                            log.warning(
+                                "Targeted custom command " +
+                                    message.content +
+                                    " aliases " +
+                                    customCommand.alias +
+                                    ", which does not exist."
+                            );
+                            return;
+                        }
+                    }
+
+                    // If the resolved command is disabled, return
+                    if (customCommand.disabled) return;
+
                     var output;
                     // Either random or format must be present. Prefer random if both exist.
-                    if (operation.random) {
-                        output = selectOne(operation.random);
+                    if (customCommand.random) {
+                        output = selectOne(customCommand.random);
                     } else {
-                        output = operation.format;
+                        output = customCommand.format;
                     }
 
                     // Make sure we have a mention if we need one
-                    if (operation.replyOnly) {
-                        if (operation.continues) {
+                    if (customCommand.replyOnly) {
+                        if (customCommand.continues) {
                             // We need to format in some content
                             var content = message.content.substring(key.length);
                             // Format content string into the message
@@ -1592,7 +1649,7 @@ function command(message) {
                         // If the format wants content added, strip mentions and add the content.
                         // Strip multiple spaces so that tag artifacts aren't left behind
                         // This might look weird if the mention is in the middle. Don't use patterns that encourage that.
-                        if (operation.continues) {
+                        if (customCommand.continues) {
                             // Strip mentions
                             var content = message.content.substring(key.length);
                             var mentions = new RegExp("\\\\?<([^>]+)>", "g");
@@ -1619,21 +1676,49 @@ function command(message) {
             for (var i in Object.keys(config.customCommands.multitargeted)) {
                 var key = Object.keys(config.customCommands.multitargeted)[i];
 
-                if (
-                    message.content.startsWith(key) &&
-                    !config.customCommands.multitargeted[key].disabled
-                ) {
+                if (message.content.startsWith(key)) {
+                    let customCommand =
+                        config.customCommands.multitargeted[key];
+
                     log.info(
                         "Command " +
                             message.content +
                             " matched multitargeted custom command " +
                             key
                     );
-                    var operation = config.customCommands.multitargeted[key];
-                    if (operation.totalCount < 0) {
+
+                    if (
+                        !customCommand.disabled &&
+                        customCommand.alias != null
+                    ) {
+                        if (
+                            config.customCommands.multitargeted.hasOwnProperty(
+                                customCommand.alias
+                            )
+                        ) {
+                            customCommand =
+                                config.customCommands.multitargeted[
+                                    customCommand.alias
+                                ];
+                        } else {
+                            log.warning(
+                                "Multitargeted custom command " +
+                                    message.content +
+                                    " aliases " +
+                                    customCommand.alias +
+                                    ", which does not exist."
+                            );
+                            return;
+                        }
+                    }
+
+                    // If the resolved command is disabled, return
+                    if (customCommand.disabled) return;
+
+                    if (customCommand.totalCount < 0) {
                         log.warning(
                             "Could not perform mentioning: count " +
-                                operation.totalCount +
+                                customCommand.totalCount +
                                 "<0. Skipping."
                         );
                         continue;
@@ -1641,8 +1726,8 @@ function command(message) {
 
                     // Parse out the mentions.
                     var phrase = message.content.substring(key.length);
-                    var remaining = operation.totalCount;
-                    var remainingFormat = operation.parseFormat;
+                    var remaining = customCommand.totalCount;
+                    var remainingFormat = customCommand.parseFormat;
                     var mentions = {};
                     while (remaining > 0) {
                         var index = remainingFormat.indexOf("%u");
@@ -1652,7 +1737,7 @@ function command(message) {
                         ) {
                             log.error(
                                 "parseFormat " +
-                                    operation.parseFormat +
+                                    customCommand.parseFormat +
                                     " is malformed: " +
                                     remaining +
                                     " mentions should remain."
@@ -1686,10 +1771,10 @@ function command(message) {
 
                     // Now, format mentions into the output string
                     // Either random or format must exist. If both exist, prefer random.
-                    if (operation.random) {
-                        phrase = selectOne(operation.random);
+                    if (customCommand.random) {
+                        phrase = selectOne(customCommand.random);
                     } else {
-                        phrase = operation.format;
+                        phrase = customCommand.format;
                     }
                     for (var i in mentions) {
                         phrase = format(phrase, "u" + i, mentions[i]);
@@ -1708,23 +1793,50 @@ function command(message) {
             for (var i in Object.keys(config.customCommands.startsWith)) {
                 var key = Object.keys(config.customCommands.startsWith)[i];
 
-                if (
-                    message.content.startsWith(key) &&
-                    !config.customCommands.startsWith[key].disabled
-                ) {
+                if (message.content.startsWith(key)) {
+                    let customCommand = config.customCommands.startsWith[key];
+
                     log.info(
                         "Command " +
                             message.content +
                             " matched startsWith custom command " +
                             key
                     );
-                    var operation = config.customCommands.startsWith[key];
+
+                    if (
+                        !customCommand.disabled &&
+                        customCommand.alias != null
+                    ) {
+                        if (
+                            config.customCommands.startsWith.hasOwnProperty(
+                                customCommand.alias
+                            )
+                        ) {
+                            customCommand =
+                                config.customCommands.startsWith[
+                                    customCommand.alias
+                                ];
+                        } else {
+                            log.warning(
+                                "StartsWith custom command " +
+                                    message.content +
+                                    " aliases " +
+                                    customCommand.alias +
+                                    ", which does not exist."
+                            );
+                            return;
+                        }
+                    }
+
+                    // If the resolved command is disabled, return
+                    if (customCommand.disabled) return;
+
                     var output;
                     // Either random or format must be set. Prefer random if both are present
-                    if (operation.random) {
-                        output = selectOne(operation.random);
+                    if (customCommand.random) {
+                        output = selectOne(customCommand.random);
                     } else {
-                        output = operation.format;
+                        output = customCommand.format;
                     }
                     sendLongMessage(
                         message.channel,
@@ -1812,7 +1924,7 @@ oneStepRequestFilters = {
     "title-filter": function (songs, request) {
         var result = 0;
         for (var i = 0; i < songs.length; ++i) {
-            if (caselessCompare(songs[i].title, request)) {
+            if (caselessCompare(songs[i].Title, request)) {
                 if (result) {
                     // Non-unique result
                     return 0;
@@ -1825,7 +1937,7 @@ oneStepRequestFilters = {
     "artist-filter": function (songs, request) {
         var result = 0;
         for (var i = 0; i < songs.length; ++i) {
-            if (caselessCompare(songs[i].artist, request)) {
+            if (caselessCompare(songs[i].Artist, request)) {
                 if (result) {
                     // Non-unique result
                     return 0;
@@ -1856,7 +1968,7 @@ oneStepRequestFilters = {
             );
         };
         for (var i = 0; i < songs.length; ++i) {
-            if (condition(request, songs[i].title, songs[i].artist)) {
+            if (condition(request, songs[i].Title, songs[i].Artist)) {
                 if (result) {
                     // Non-unique result
                     return 0;
@@ -1884,7 +1996,7 @@ oneStepRequestFilters = {
             );
         };
         for (var i = 0; i < songs.length; ++i) {
-            if (condition(request, songs[i].title, songs[i].artist)) {
+            if (condition(request, songs[i].Title, songs[i].Artist)) {
                 if (result) {
                     // Non-unique result
                     return 0;
@@ -1897,7 +2009,7 @@ oneStepRequestFilters = {
     "artists-narrowing-filter": function (songs, request) {
         var output = [];
         for (var i = 0; i < songs.length; ++i) {
-            if (caselessCompare(songs[i].artist, request)) {
+            if (caselessCompare(songs[i].Artist, request)) {
                 output.push(songs[i]);
             }
         }
