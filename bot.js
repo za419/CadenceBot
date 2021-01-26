@@ -730,8 +730,24 @@ function command(message) {
         );
         log.info("Help is for command: " + target);
         if (Object.keys(config.helpTopics).includes(target)) {
-            const detailsObject = config.helpTopics[target];
+            let detailsObject = config.helpTopics[target];
             let response;
+            if (detailsObject.alias != null) {
+                if (config.helpTopics.hasOwnProperty(detailsObject.alias)) {
+                    detailsObject = config.helpTopics[detailsObject.alias];
+                } else {
+                    log.notice(
+                        "Command " +
+                            target +
+                            " aliases " +
+                            detailsObject.alias +
+                            "for help text but help text for " +
+                            detailsObject.alias +
+                            " does not exist."
+                    );
+                    return;
+                }
+            }
 
             // First off, if we've been explicitly given a title, use it
             if (detailsObject.title != null) {
