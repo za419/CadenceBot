@@ -6,7 +6,8 @@
     "nowplaying": "Cadence now playing",
     "search": "Cadence search ",
     "request": "Cadence request ",
-    "library": "Cadence library"
+    "library": "Cadence library",
+    "aliases": "Cadence aliases "
   },
   "commandDescriptions": {
     "play": {
@@ -31,6 +32,10 @@
     },
     "library": {
       "description": "Request a list of songs in the Cadence database"
+    },
+    "aliases": {
+      "description": "Display a list of aliases for the given command.",
+      "parameters": ["command"]
     }
   },
   "commandAliases": [
