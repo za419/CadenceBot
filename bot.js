@@ -1218,13 +1218,14 @@ function command(message) {
         if (config.commands.hasOwnProperty(command)) {
             const aliases = config.commandAliases
                 .filter(alias => alias.target === command)
-                .map(alias => " - " + alias.alias)
+                .map(alias => " - `" + alias.alias.trim() + "`")
                 .join("\n");
             let response =
                 "the " +
                 command +
-                " command is triggered by " +
-                config.commands[command];
+                " command is triggered by `" +
+                config.commands[command].trim() +
+                "`";
             if (aliases.length == 0) response += ", and no aliases.";
             else {
                 response += ", and the following aliases:\n";
