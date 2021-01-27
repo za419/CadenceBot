@@ -1210,6 +1210,34 @@ function command(message) {
                 }
             }
         });
+    } else if (message.content.startsWith(config.commands.aliases)) {
+        const command = message.content.substring(
+            config.commands.aliases.length
+        );
+
+        if (config.commands.hasOwnProperty(command)) {
+            const aliases = config.commandAliases
+                .filter(alias => alias.target === command)
+                .map(alias => " - " + alias.alias)
+                .join("\n");
+            let response =
+                "the " +
+                command +
+                " command is triggered by " +
+                config.commands[command];
+            if (aliases.length == 0) response += ", and no aliases.";
+            else {
+                response += ", and the following aliases:\n";
+                response += aliases;
+            }
+            sendLongReply(message, response);
+        } else {
+            log.error(
+                "Alias list requested for command " +
+                    command +
+                    ", but no such command is known."
+            );
+        }
     } else if (
         config.enableLogMailing &&
         message.content == config.logMailCommand
