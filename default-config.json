@@ -62,9 +62,8 @@
     },
     "nowplaying": {
       "internalKey": "nowplaying",
-      "subtitle": "The nowplaying command displays the song that is currently playing on Cadence.",
       "lines": [
-        "CadenceBot will query the Cadence server for the song that is current playing and then reply to the command with the song name and artist."
+        "The `%nowplaying` command displays the song that is currently playing on Cadence."
       ]
     },
     "now playing": {

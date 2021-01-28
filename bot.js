@@ -749,11 +749,11 @@ function command(message) {
                     detailsObject = config.helpTopics[detailsObject.alias];
                 } else {
                     log.notice(
-                        "Command " +
+                        "Help topic " +
                             target +
                             " aliases " +
                             detailsObject.alias +
-                            " for help text but the help text for " +
+                            " but help topic " +
                             detailsObject.alias +
                             " does not exist."
                     );
