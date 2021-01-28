@@ -443,6 +443,9 @@ function coreAliasTranslation(content) {
 
     // Iterate over all aliases we recognize.
     for (const alias of config.commandAliases) {
+        // Skip this alias if it is disabled.
+        if (alias.disabled) continue;
+
         // If this alias is a prefix-match...
         if (alias.prefix) {
             // And our message starts with the alias text...
