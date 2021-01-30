@@ -743,7 +743,7 @@ function command(message) {
         if (Object.keys(config.helpTopics).includes(target)) {
             let detailsObject = config.helpTopics[target];
             let response;
-            if (detailsObject.alias != null) {
+            while (detailsObject.alias != null) {
                 // This command is an alias, try to find the help text object for the actual command
                 if (config.helpTopics.hasOwnProperty(detailsObject.alias)) {
                     detailsObject = config.helpTopics[detailsObject.alias];
