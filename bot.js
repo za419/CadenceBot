@@ -424,7 +424,7 @@ function parseTimeString(
 }
 
 // Does the inverse of the above - Convert a number of seconds into a human-readable time string (milliseconds don't matter)
-function generateTimeString(seconds, decimals = 2) {
+function generateTimeString(seconds, secondsPrecision = 2) {
     let result = "";
 
     // Handle very odd errors somewhat sanely.
@@ -440,7 +440,7 @@ function generateTimeString(seconds, decimals = 2) {
         if (days == 1) {
             result += "one day, ";
         } else {
-            result += days.toFixed(decimals) + " days, ";
+            result += days.toFixed(0) + " days, ";
         }
     }
 
@@ -452,7 +452,7 @@ function generateTimeString(seconds, decimals = 2) {
         if (hours == 1) {
             result += "one hour, ";
         } else {
-            result += hours.toFixed(decimals) + " hours, ";
+            result += hours.toFixed(0) + " hours, ";
         }
     }
 
@@ -464,7 +464,7 @@ function generateTimeString(seconds, decimals = 2) {
         if (minutes == 1) {
             result += "one minute, ";
         } else {
-            result += minutes.toFixed(decimals) + " minutes, ";
+            result += minutes.toFixed(0) + " minutes, ";
         }
     }
 
@@ -472,7 +472,7 @@ function generateTimeString(seconds, decimals = 2) {
     if (seconds == 1) {
         result += "one second";
     } else if (seconds > 0) {
-        result += seconds.toFixed(decimals) + " seconds";
+        result += seconds.toFixed(secondsPrecision) + " seconds";
     } else {
         // Remove the ' ,' from the end
         result = result.substring(0, result.length - 2);
