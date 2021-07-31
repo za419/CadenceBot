@@ -1460,6 +1460,7 @@ function command(message) {
                 "%\n";
         }
         status += "Stream status: " + streamStatus + "\n";
+        message.reply(status);
     }
     // If none of those, check custom commands
     else {
