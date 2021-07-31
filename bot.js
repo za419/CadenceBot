@@ -1273,14 +1273,25 @@ function command(message) {
                 uptime[0].toUpperCase() +
                 uptime.slice(1) +
                 "\n";
+
+            // If we've dropped more than one frame (20ms) of audio, report an unhealthy stream
+            let streamHealth = "";
+            if (
+                stream.dispatcher.streamTime <
+                stream.dispatcher.totalStreamTime - 20
+            ) {
+                streamHealth =
+                    (
+                        100 *
+                        (stream.dispatcher.streamTime /
+                            stream.dispatcher.totalStreamTime)
+                    ).toFixed(2) + "%";
+            } else {
+                streamHealth = "100%";
+            }
             status +=
-                "Stream health since last reconnect: " +
-                (
-                    100 *
-                    (stream.dispatcher.streamTime /
-                        stream.dispatcher.totalStreamTime)
-                ).toFixed(2) +
-                "%\n";
+                "Stream health since last reconnect: " + streamHealth + "\n";
+
             status += "Stream status: " + streamStatus + "\n";
         } else {
             status +=
