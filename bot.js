@@ -1446,7 +1446,7 @@ function command(message) {
             return;
         }
 
-        let status = "CadenceBot: Active";
+        let status = "CadenceBot: Active\n";
         if (stream.dispatcher) {
             status +=
                 "Time since last stream reconnect: " +
