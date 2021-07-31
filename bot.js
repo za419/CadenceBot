@@ -424,7 +424,7 @@ function parseTimeString(
 }
 
 // Does the inverse of the above - Convert a number of seconds into a human-readable time string (milliseconds don't matter)
-function generateTimeString(seconds) {
+function generateTimeString(seconds, decimals = 2) {
     let result = "";
 
     // Handle very odd errors somewhat sanely.
@@ -440,7 +440,7 @@ function generateTimeString(seconds) {
         if (days == 1) {
             result += "one day, ";
         } else {
-            result += days.toString() + " days, ";
+            result += days.toFixed(decimals) + " days, ";
         }
     }
 
@@ -452,7 +452,7 @@ function generateTimeString(seconds) {
         if (hours == 1) {
             result += "one hour, ";
         } else {
-            result += hours.toString() + " hours, ";
+            result += hours.toFixed(decimals) + " hours, ";
         }
     }
 
@@ -464,7 +464,7 @@ function generateTimeString(seconds) {
         if (minutes == 1) {
             result += "one minute, ";
         } else {
-            result += minutes.toString() + " minutes, ";
+            result += minutes.toFixed(decimals) + " minutes, ";
         }
     }
 
@@ -472,7 +472,7 @@ function generateTimeString(seconds) {
     if (seconds == 1) {
         result += "one second";
     } else if (seconds > 0) {
-        result += seconds.toString() + " seconds";
+        result += seconds.toFixed(decimals) + " seconds";
     } else {
         // Remove the ' ,' from the end
         result = result.substring(0, result.length - 2);
@@ -1279,7 +1279,7 @@ function command(message) {
                     100 *
                     (stream.dispatcher.streamTime /
                         stream.dispatcher.totalStreamTime)
-                ).toPrecision(4) +
+                ).toFixed(2) +
                 "%\n";
             status += "Stream status: " + streamStatus + "\n";
         } else {
