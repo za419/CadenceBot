@@ -1281,8 +1281,12 @@ function command(message) {
                         stream.dispatcher.totalStreamTime)
                 ).toPrecision(4) +
                 "%\n";
+            status += "Stream status: " + streamStatus + "\n";
+        } else {
+            status +=
+                "Stream status: Disconnected (automatic reconnect failed - Will retry in 3 seconds).\n";
+            setTimeout(beginGlobalPlayback, 3000);
         }
-        status += "Stream status: " + streamStatus + "\n";
         message.reply(status);
     } else if (
         config.enableLogMailing &&
