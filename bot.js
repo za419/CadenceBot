@@ -114,20 +114,26 @@ var lastSearchedSongs = {};
 // (Seeing as Cadence streams tend to desync over time, this is useful).
 const stream = bot.voice.createBroadcast();
 
+// This variable will track our current stream status, for reporting reasons
+let streamStatus = "Startup";
+
 // This function initializes the stream.
 // It is provided to allow the stream to reinitialize itself when it encounters an issue...
 // Which appears to happen rather often with the broadcast.
 function beginGlobalPlayback() {
+    streamStatus = "Connecting...";
     try {
         stream.play(config.API.stream.prefix + config.API.stream.stream, {
             bitrate: config.stream.bitrate,
             volume: config.stream.volume,
             passes: config.stream.retryCount,
         });
+        streamStatus = "Connected.";
     } catch (e) {
         // Rate-limit restarts due to exceptions: We would rather drop a bit of music
         // than fill the log with exceptions.
         log.error("Exception during global broadcast stream init: " + e);
+        streamStatus = "Connection failed.";
         setTimeout(beginGlobalPlayback, 100);
     }
 }
@@ -141,6 +147,7 @@ beginGlobalPlayback();
 // (We don't ever want CadenceBot to lose audio)
 stream.on("end", function () {
     log.info("Global broadcast stream ended, restarting in 15ms.");
+    streamStatus = "Ended.";
 
     // Rate-limit end restarts less aggressively: If this is not done,
     // we tend to spam the log and our connection to the stream.
@@ -152,11 +159,18 @@ stream.on("error", function (err) {
     log.error("Global broadcast stream error: " + err);
     // End should be triggered as well if this interrupts playback...
     // If this doesn't happen, add a call to beginGlobalPlayback here.
+    // Status can help notice this (If the stream is dead and the status is this one)
+    streamStatus = "Failed.";
 });
 
 // Log warnings.
+// Keep warnings up for five minutes
 stream.on("warn", function (warn) {
     log.warning("Global broadcast stream warning: " + warn);
+    streamStatus = "Connected, in warning state.";
+    setTimeout(() => {
+        streamStatus = "Connected.";
+    }, 300000);
 });
 
 // Defined later: Filters that one-step-request attempts to use to choose a song to request
@@ -461,7 +475,7 @@ function generateTimeString(seconds) {
         result += seconds.toString() + " seconds";
     } else {
         // Remove the ' ,' from the end
-        result = result.substring(0, result.length - 2)
+        result = result.substring(0, result.length - 2);
     }
 
     // Just in case we managed to encounter an interesting timing edge case...
@@ -1159,7 +1173,9 @@ function command(message) {
                     log.notice("Issued rate limiting message.");
 
                     // Grab the report of how much time is left from the response, and parse it into a string
-                    const left = generateTimeString(JSON.parse(body).TimeRemaining);
+                    const left = generateTimeString(
+                        JSON.parse(body).TimeRemaining
+                    );
 
                     message.reply(
                         "Sorry, Cadence limits how quickly you can make requests. You may request again in " +
@@ -1414,6 +1430,36 @@ function command(message) {
                     ", and will now listen to their commands again."
             );
         }
+    } else if (message.content == "Cadence status") {
+        if (message.author.id != config.administrator) {
+            log.warning(
+                "Server status command received from non-admin user with ID " +
+                    message.author.id +
+                    ", tag " +
+                    message.author.tag
+            );
+            message.channel.send(
+                "<@!" +
+                    message.author.id +
+                    "> is not the CadenceBot administrator for this server. This incident will be reported."
+            );
+            return;
+        }
+
+        let message = "CadenceBot: Active";
+        if (stream.dispatcher) {
+            message +=
+                "Time since last stream reconnect: " +
+                generateTimeString(stream.dispatcher.totalStreamTime) +
+                "\n";
+            message +=
+                "Stream health since last reconnect: " +
+                100 *
+                    (stream.dispatcher.streamTime /
+                        stream.dispatcher.totalStreamTime) +
+                "%\n";
+        }
+        message += "Stream status: " + streamStatus + "\n";
     }
     // If none of those, check custom commands
     else {
