@@ -1446,20 +1446,20 @@ function command(message) {
             return;
         }
 
-        let message = "CadenceBot: Active";
+        let status = "CadenceBot: Active";
         if (stream.dispatcher) {
-            message +=
+            status +=
                 "Time since last stream reconnect: " +
                 generateTimeString(stream.dispatcher.totalStreamTime) +
                 "\n";
-            message +=
+            status +=
                 "Stream health since last reconnect: " +
                 100 *
                     (stream.dispatcher.streamTime /
                         stream.dispatcher.totalStreamTime) +
                 "%\n";
         }
-        message += "Stream status: " + streamStatus + "\n";
+        status += "Stream status: " + streamStatus + "\n";
     }
     // If none of those, check custom commands
     else {
