@@ -1450,7 +1450,7 @@ function command(message) {
         if (stream.dispatcher) {
             status +=
                 "Time since last stream reconnect: " +
-                generateTimeString(stream.dispatcher.totalStreamTime) +
+                generateTimeString(stream.dispatcher.totalStreamTime / 1000) +
                 "\n";
             status +=
                 "Stream health since last reconnect: " +
