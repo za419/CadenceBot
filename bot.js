@@ -1448,15 +1448,21 @@ function command(message) {
 
         let status = "CadenceBot: Active\n";
         if (stream.dispatcher) {
+            const uptime = generateTimeString(
+                stream.dispatcher.totalStreamTime / 1000
+            );
             status +=
                 "Time since last stream reconnect: " +
-                generateTimeString(stream.dispatcher.totalStreamTime / 1000) +
+                uptime[0].toUpperCase() +
+                uptime.slice(1) +
                 "\n";
             status +=
                 "Stream health since last reconnect: " +
-                100 *
+                (
+                    100 *
                     (stream.dispatcher.streamTime /
-                        stream.dispatcher.totalStreamTime) +
+                        stream.dispatcher.totalStreamTime)
+                ).toPrecision(4) +
                 "%\n";
         }
         status += "Stream status: " + streamStatus + "\n";
