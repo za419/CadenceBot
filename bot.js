@@ -1263,8 +1263,17 @@ function command(message) {
             }
         });
     } else if (message.content == "Cadence status") {
+        log.notice(
+            "Received server status command in text channel " +
+                message.channel.name +
+                ", server " +
+                message.guild.name +
+                "."
+        );
+
         let status = "CadenceBot: Active\n";
         if (stream.dispatcher) {
+            log.info("Stream appears to be valid.");
             const uptime = generateTimeString(
                 stream.dispatcher.totalStreamTime / 1000
             );
@@ -1280,6 +1289,13 @@ function command(message) {
                 stream.dispatcher.streamTime <
                 stream.dispatcher.totalStreamTime - 20
             ) {
+                log.warning(
+                    "Stream health below 100%! Total stream time: " +
+                        stream.dispatcher.totalStreamTime +
+                        "ms. Healthy stream time: " +
+                        stream.dispatcher.streamTime +
+                        "ms."
+                );
                 streamHealth =
                     (
                         100 *
@@ -1293,11 +1309,20 @@ function command(message) {
                 "Stream health since last reconnect: " + streamHealth + "\n";
 
             status += "Stream status: " + streamStatus + "\n";
-        } else {
+        } else if (streamStatus == "Connected.") {
+            log.warning(
+                "Stream is in an invalid state (null dispatcher, no error state)! Attempting reconnect."
+            );
             status +=
                 "Stream status: Disconnected (automatic reconnect failed - Will retry in 3 seconds).\n";
             setTimeout(beginGlobalPlayback, 3000);
+        } else {
+            log.notice(
+                "Stream is in pre-detected exception condition (See above entries)."
+            );
+            status += "Stream status: " + streamStatus + "\n";
         }
+        log.info("Current server status:\n" + status);
         message.reply(status);
     } else if (
         config.enableLogMailing &&
