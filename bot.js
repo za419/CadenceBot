@@ -1262,6 +1262,28 @@ function command(message) {
                 }
             }
         });
+    } else if (message.content == "Cadence status") {
+        let status = "CadenceBot: Active\n";
+        if (stream.dispatcher) {
+            const uptime = generateTimeString(
+                stream.dispatcher.totalStreamTime / 1000
+            );
+            status +=
+                "Time since last stream reconnect: " +
+                uptime[0].toUpperCase() +
+                uptime.slice(1) +
+                "\n";
+            status +=
+                "Stream health since last reconnect: " +
+                (
+                    100 *
+                    (stream.dispatcher.streamTime /
+                        stream.dispatcher.totalStreamTime)
+                ).toPrecision(4) +
+                "%\n";
+        }
+        status += "Stream status: " + streamStatus + "\n";
+        message.reply(status);
     } else if (
         config.enableLogMailing &&
         message.content == config.logMailCommand
@@ -1430,43 +1452,6 @@ function command(message) {
                     ", and will now listen to their commands again."
             );
         }
-    } else if (message.content == "Cadence status") {
-        if (message.author.id != config.administrator) {
-            log.warning(
-                "Server status command received from non-admin user with ID " +
-                    message.author.id +
-                    ", tag " +
-                    message.author.tag
-            );
-            message.channel.send(
-                "<@!" +
-                    message.author.id +
-                    "> is not the CadenceBot administrator for this server. This incident will be reported."
-            );
-            return;
-        }
-
-        let status = "CadenceBot: Active\n";
-        if (stream.dispatcher) {
-            const uptime = generateTimeString(
-                stream.dispatcher.totalStreamTime / 1000
-            );
-            status +=
-                "Time since last stream reconnect: " +
-                uptime[0].toUpperCase() +
-                uptime.slice(1) +
-                "\n";
-            status +=
-                "Stream health since last reconnect: " +
-                (
-                    100 *
-                    (stream.dispatcher.streamTime /
-                        stream.dispatcher.totalStreamTime)
-                ).toPrecision(4) +
-                "%\n";
-        }
-        status += "Stream status: " + streamStatus + "\n";
-        message.reply(status);
     }
     // If none of those, check custom commands
     else {
