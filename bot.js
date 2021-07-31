@@ -1262,7 +1262,7 @@ function command(message) {
                 }
             }
         });
-    } else if (message.content == "Cadence status") {
+    } else if (message.content == config.commands.status) {
         log.notice(
             "Received server status command in text channel " +
                 message.channel.name +
