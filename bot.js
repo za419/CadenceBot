@@ -409,6 +409,70 @@ function parseTimeString(
     return time;
 }
 
+// Does the inverse of the above - Convert a number of seconds into a human-readable time string (milliseconds don't matter)
+function generateTimeString(seconds) {
+    let result = "";
+
+    // Handle very odd errors somewhat sanely.
+    if (seconds < 0) {
+        return "a few minutes";
+    }
+
+    // Handle days (24*60*60=86400 seconds)
+    if (seconds > 86400) {
+        const days = Math.floor(seconds / 86400);
+        seconds %= 86400;
+
+        if (days == 1) {
+            result += "one day, ";
+        } else {
+            result += days.toString() + " days, ";
+        }
+    }
+
+    // Now hours (60*60=3600 seconds)
+    if (seconds > 3600) {
+        const hours = Math.floor(seconds / 3600);
+        seconds %= 3600;
+
+        if (hours == 1) {
+            result += "one hour, ";
+        } else {
+            result += hours.toString() + " hours, ";
+        }
+    }
+
+    // Now minutes
+    if (seconds > 60) {
+        const minutes = Math.floor(seconds / 60);
+        seconds %= 60;
+
+        if (minutes == 1) {
+            result += "one minute, ";
+        } else {
+            result += minutes.toString() + " minutes, ";
+        }
+    }
+
+    // Now seconds
+    if (seconds == 1) {
+        result += "one second";
+    } else if (seconds > 0) {
+        result += seconds.toString() + " seconds";
+    } else {
+        // Remove the ' ,' from the end
+        result = result.substring(0, result.length - 2)
+    }
+
+    // Just in case we managed to encounter an interesting timing edge case...
+    if (result == "") {
+        // Let the user think things are mostly sane.
+        result = "one second";
+    }
+
+    return result;
+}
+
 // Returns the UTC offset of the local timezone of the given date
 // (ie UTC+5:00)
 function getUTCOffset(date = new Date()) {
@@ -1095,39 +1159,8 @@ function command(message) {
                     log.notice("Issued rate limiting message.");
 
                     // Grab the report of how much time is left from the response, and parse it into a string
-                    let remaining = JSON.parse(body).TimeRemaining;
-                    let left = "";
+                    const left = generateTimeString(JSON.parse(body).TimeRemaining);
 
-                    // Handle very odd errors somewhat sanely.
-                    if (remaining < 0) {
-                        left = "a few minutes";
-                        remaining = 0;
-                    }
-
-                    // Handle minutes
-                    if (remaining > 60) {
-                        const minutes = Math.floor(remaining / 60);
-                        remaining %= 60;
-
-                        if (minutes == 1) {
-                            left += "one minute, ";
-                        } else {
-                            left += minutes.toString() + " minutes, ";
-                        }
-                    }
-
-                    // Now seconds
-                    if (remaining == 1) {
-                        left += "one second";
-                    } else if (remaining > 0) {
-                        left += remaining.toString() + " seconds";
-                    }
-
-                    // Just in case we managed to encounter an interesting timing edge case...
-                    if (left == "") {
-                        // Let the user think things are mostly sane.
-                        left = "one second";
-                    }
                     message.reply(
                         "Sorry, Cadence limits how quickly you can make requests. You may request again in " +
                             left +
