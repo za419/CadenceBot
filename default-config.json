@@ -32,6 +32,9 @@
     },
     "library": {
       "description": "Request a list of songs in the Cadence database"
+    },
+    "status": {
+      "description": "Confirms that CadenceBot is active and reports on the state of the stream connection"
     }
   },
   "commandAliases": [
