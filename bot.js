@@ -114,20 +114,26 @@ var lastSearchedSongs = {};
 // (Seeing as Cadence streams tend to desync over time, this is useful).
 const stream = bot.voice.createBroadcast();
 
+// This variable will track our current stream status, for reporting reasons
+let streamStatus = "Startup";
+
 // This function initializes the stream.
 // It is provided to allow the stream to reinitialize itself when it encounters an issue...
 // Which appears to happen rather often with the broadcast.
 function beginGlobalPlayback() {
+    streamStatus = "Connecting...";
     try {
         stream.play(config.API.stream.prefix + config.API.stream.stream, {
             bitrate: config.stream.bitrate,
             volume: config.stream.volume,
             passes: config.stream.retryCount,
         });
+        streamStatus = "Connected.";
     } catch (e) {
         // Rate-limit restarts due to exceptions: We would rather drop a bit of music
         // than fill the log with exceptions.
         log.error("Exception during global broadcast stream init: " + e);
+        streamStatus = "Connection failed.";
         setTimeout(beginGlobalPlayback, 100);
     }
 }
@@ -141,6 +147,7 @@ beginGlobalPlayback();
 // (We don't ever want CadenceBot to lose audio)
 stream.on("end", function () {
     log.info("Global broadcast stream ended, restarting in 15ms.");
+    streamStatus = "Ended.";
 
     // Rate-limit end restarts less aggressively: If this is not done,
     // we tend to spam the log and our connection to the stream.
@@ -152,11 +159,18 @@ stream.on("error", function (err) {
     log.error("Global broadcast stream error: " + err);
     // End should be triggered as well if this interrupts playback...
     // If this doesn't happen, add a call to beginGlobalPlayback here.
+    // Status can help notice this (If the stream is dead and the status is this one)
+    streamStatus = "Failed.";
 });
 
 // Log warnings.
+// Keep warnings up for five minutes
 stream.on("warn", function (warn) {
     log.warning("Global broadcast stream warning: " + warn);
+    streamStatus = "Connected, in warning state.";
+    setTimeout(() => {
+        streamStatus = "Connected.";
+    }, 300000);
 });
 
 // Defined later: Filters that one-step-request attempts to use to choose a song to request
@@ -407,6 +421,70 @@ function parseTimeString(
         str = rest.substr(end).trim();
     }
     return time;
+}
+
+// Does the inverse of the above - Convert a number of seconds into a human-readable time string (milliseconds don't matter)
+function generateTimeString(seconds, secondsPrecision = 2) {
+    let result = "";
+
+    // Handle very odd errors somewhat sanely.
+    if (seconds < 0) {
+        return "a few minutes";
+    }
+
+    // Handle days (24*60*60=86400 seconds)
+    if (seconds > 86400) {
+        const days = Math.floor(seconds / 86400);
+        seconds %= 86400;
+
+        if (days == 1) {
+            result += "one day, ";
+        } else {
+            result += days.toFixed(0) + " days, ";
+        }
+    }
+
+    // Now hours (60*60=3600 seconds)
+    if (seconds > 3600) {
+        const hours = Math.floor(seconds / 3600);
+        seconds %= 3600;
+
+        if (hours == 1) {
+            result += "one hour, ";
+        } else {
+            result += hours.toFixed(0) + " hours, ";
+        }
+    }
+
+    // Now minutes
+    if (seconds > 60) {
+        const minutes = Math.floor(seconds / 60);
+        seconds %= 60;
+
+        if (minutes == 1) {
+            result += "one minute, ";
+        } else {
+            result += minutes.toFixed(0) + " minutes, ";
+        }
+    }
+
+    // Now seconds
+    if (seconds == 1) {
+        result += "one second";
+    } else if (seconds > 0) {
+        result += seconds.toFixed(secondsPrecision) + " seconds";
+    } else {
+        // Remove the ' ,' from the end
+        result = result.substring(0, result.length - 2);
+    }
+
+    // Just in case we managed to encounter an interesting timing edge case...
+    if (result == "") {
+        // Let the user think things are mostly sane.
+        result = "one second";
+    }
+
+    return result;
 }
 
 // Returns the UTC offset of the local timezone of the given date
@@ -1095,39 +1173,10 @@ function command(message) {
                     log.notice("Issued rate limiting message.");
 
                     // Grab the report of how much time is left from the response, and parse it into a string
-                    let remaining = JSON.parse(body).TimeRemaining;
-                    let left = "";
+                    const left = generateTimeString(
+                        JSON.parse(body).TimeRemaining
+                    );
 
-                    // Handle very odd errors somewhat sanely.
-                    if (remaining < 0) {
-                        left = "a few minutes";
-                        remaining = 0;
-                    }
-
-                    // Handle minutes
-                    if (remaining > 60) {
-                        const minutes = Math.floor(remaining / 60);
-                        remaining %= 60;
-
-                        if (minutes == 1) {
-                            left += "one minute, ";
-                        } else {
-                            left += minutes.toString() + " minutes, ";
-                        }
-                    }
-
-                    // Now seconds
-                    if (remaining == 1) {
-                        left += "one second";
-                    } else if (remaining > 0) {
-                        left += remaining.toString() + " seconds";
-                    }
-
-                    // Just in case we managed to encounter an interesting timing edge case...
-                    if (left == "") {
-                        // Let the user think things are mostly sane.
-                        left = "one second";
-                    }
                     message.reply(
                         "Sorry, Cadence limits how quickly you can make requests. You may request again in " +
                             left +
@@ -1213,6 +1262,68 @@ function command(message) {
                 }
             }
         });
+    } else if (message.content == config.commands.status) {
+        log.notice(
+            "Received server status command in text channel " +
+                message.channel.name +
+                ", server " +
+                message.guild.name +
+                "."
+        );
+
+        let status = "CadenceBot: Active\n";
+        if (stream.dispatcher) {
+            log.info("Stream appears to be valid.");
+            const uptime = generateTimeString(
+                stream.dispatcher.totalStreamTime / 1000
+            );
+            status +=
+                "Time since last stream reconnect: " +
+                uptime[0].toUpperCase() +
+                uptime.slice(1) +
+                "\n";
+
+            // If we've dropped more than one frame (20ms) of audio, report an unhealthy stream
+            let streamHealth = "";
+            if (
+                stream.dispatcher.streamTime <
+                stream.dispatcher.totalStreamTime - 20
+            ) {
+                log.warning(
+                    "Stream health below 100%! Total stream time: " +
+                        stream.dispatcher.totalStreamTime +
+                        "ms. Healthy stream time: " +
+                        stream.dispatcher.streamTime +
+                        "ms."
+                );
+                streamHealth =
+                    (
+                        100 *
+                        (stream.dispatcher.streamTime /
+                            stream.dispatcher.totalStreamTime)
+                    ).toFixed(2) + "%";
+            } else {
+                streamHealth = "100%";
+            }
+            status +=
+                "Stream health since last reconnect: " + streamHealth + "\n";
+
+            status += "Stream status: " + streamStatus + "\n";
+        } else if (streamStatus == "Connected.") {
+            log.warning(
+                "Stream is in an invalid state (null dispatcher, no error state)! Attempting reconnect."
+            );
+            status +=
+                "Stream status: Disconnected (automatic reconnect failed - Will retry in 3 seconds).\n";
+            setTimeout(beginGlobalPlayback, 3000);
+        } else {
+            log.notice(
+                "Stream is in pre-detected exception condition (See above entries)."
+            );
+            status += "Stream status: " + streamStatus + "\n";
+        }
+        log.info("Current server status:\n" + status);
+        message.reply(status);
     } else if (
         config.enableLogMailing &&
         message.content == config.logMailCommand
