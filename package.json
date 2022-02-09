@@ -27,7 +27,7 @@
     "erlpack": "github:discord/erlpack",
     "js-logging": "^0.1.0",
     "libsodium-wrappers": "^0.7.8",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^2.6.7",
     "request": "^2.88.2",
     "utf-8-validate": "^5.0.4",
     "zlib-sync": "^0.1.7"
