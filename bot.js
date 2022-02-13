@@ -883,8 +883,8 @@ function command(message) {
                                         config.commands[firstWord].trim() +
                                         term.substring(firstWord.length);
                                 } else {
-                                    // Otherwise, add the term untouched
-                                    result += term;
+                                    // Otherwise, add term back in with its % restored
+                                    result += "%" + term;
                                 }
                             }
                         }
