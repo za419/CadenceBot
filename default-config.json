@@ -21,10 +21,12 @@
     },
     "helpTopic": {
       "description": "Displays additional help information for a chosen <topic>.",
+      "friendlyName": "help",
       "parameters": ["topic"]
     },
     "nowplaying": {
-      "description": "Displays the song that is currently playing on Cadence"
+      "description": "Displays the song that is currently playing on Cadence",
+      "friendlyName": "now playing"
     },
     "search": {
       "description": "Search the Cadence database with a <query>",
@@ -63,7 +65,7 @@
     "nowplaying": {
       "internalKey": "nowplaying",
       "lines": [
-        "The `%nowplaying` command displays the song that is currently playing on Cadence."
+        "The `%friendly:nowplaying` command displays the song that is currently playing on Cadence."
       ]
     },
     "now playing": {
