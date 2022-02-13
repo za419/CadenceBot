@@ -825,21 +825,54 @@ function command(message) {
                                 // Grab up to the first word boundary
                                 const firstWord = term.split(/\b/)[0];
 
-                                // If the first word is a command's internal name...
+                                // Try to get the command key if a friendly name shorthand is being used
+                                let friendlyCommandKey = null;
+                                const friendlyShorthandPrefix = "friendly:";
+                                if (term.startsWith(friendlyShorthandPrefix)) {
+                                    friendlyCommandKey = term
+                                        .substring(
+                                            friendlyShorthandPrefix.length
+                                        )
+                                        .split(/\b/)[0];
+                                }
+
+                                // If a friendly name is being used and the command key matches an existing command...
                                 if (
+                                    Object.keys(
+                                        config.commandDescriptions
+                                    ).includes(friendlyCommandKey)
+                                ) {
+                                    // Then add the term to result but with the shorthand replaced by the friendly name
+                                    const friendlyNameFromDescription =
+                                        config.commandDescriptions[
+                                            friendlyCommandKey
+                                        ].friendlyName;
+
+                                    const friendlyName =
+                                        friendlyNameFromDescription != null
+                                            ? friendlyNameFromDescription
+                                            : friendlyCommandKey;
+
+                                    result +=
+                                        friendlyName +
+                                        term.substring(
+                                            friendlyShorthandPrefix.length +
+                                                friendlyCommandKey.length
+                                        );
+                                } else if (
+                                    // Otherwise, if the first word is a command's internal name...
                                     Object.keys(config.commands).includes(
                                         firstWord
                                     )
                                 ) {
-                                    // Then add the command's trigger phrase to result
-                                    result += config.commands[firstWord].trim();
+                                    // Then add the term to result but with the first word replaced by the command's trigger phrase 
+                                    result +=
+                                        config.commands[firstWord].trim() +
+                                        term.substring(firstWord.length);
                                 } else {
-                                    // Otherwise, add firstWord back in with its % restored
-                                    result += "%" + firstWord;
+                                    // Otherwise, add the term untouched
+                                    result += term;
                                 }
-
-                                // Finally, add everything after the first word boundary to result
-                                result += term.substring(firstWord.length);
                             }
                         }
                         return "> " + result;
