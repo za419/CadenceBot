@@ -743,12 +743,11 @@ function command(message) {
         if (Object.keys(config.helpTopics).includes(target)) {
             let detailsObject = config.helpTopics[target];
             let response;
+            let targetTopicAliases = [target];
             while (detailsObject.alias != null) {
-                // This command is an alias, try to find the help text object for the actual command
-                if (config.helpTopics.hasOwnProperty(detailsObject.alias)) {
-                    detailsObject = config.helpTopics[detailsObject.alias];
-                } else {
-                    log.notice(
+                // This command is an alias, check if we can find the object it's aliasing
+                if (!config.helpTopics.hasOwnProperty(detailsObject.alias)) {
+                    log.warning(
                         "Help topic " +
                             target +
                             " aliases " +
@@ -758,6 +757,20 @@ function command(message) {
                             " does not exist."
                     );
                     return;
+                } else if (targetTopicAliases.includes(detailsObject.alias)) {
+                    targetTopicAliases.push(detailsObject.alias)
+                    // Then check if we've entered an alias loop
+                    log.warning(
+                        "Help topic " +
+                            target +
+                            " is part of an alias loop: " +
+                            targetTopicAliases.join(" > ")
+                    );
+                    return;
+                } else {
+                    // Finally, get the object the command aliasing
+                    detailsObject = config.helpTopics[detailsObject.alias];
+                    targetTopicAliases.push(detailsObject.alias);
                 }
             }
 
