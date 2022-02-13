@@ -768,7 +768,7 @@ function command(message) {
                     );
                     return;
                 } else {
-                    // Finally, get the object the command aliasing
+                    // Finally, get the object the command is aliasing
                     detailsObject = config.helpTopics[detailsObject.alias];
                     targetTopicAliases.push(detailsObject.alias);
                 }
