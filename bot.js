@@ -792,6 +792,28 @@ function command(message) {
            }
         });
     }
+    else if (config.enableDynamicBans && message.content.startsWith(config.dynamicUnbanPrefix)) {
+        if (message.author.id != config.administrator) {
+            log.warning("Dynamic unban command received from non-admin user with ID "+message.author.id+", tag "+message.author.tag);
+            message.channel.send("<@!"+message.author.id+"> is not the CadenceBot administrator for this server. This incident will be reported.");
+            return;
+        }
+        else if (message.mentions.users.size==0) {
+            log.debug("Zero mentions.")
+            message.reply("I'm sorry, I don't know who you want me to un-ban - Could you ask me again and mention them?");
+            return
+        }
+        else {
+            var target=message.mentions.users.first();
+            config.bannedUsers=config.bannedUsers.filter((ban) => { ban instanceof Object ? ban.id!=target.id : ban!=target.id });
+            saveBans(config.bannedUsers);
+            message.reply("I've removed any bans for "+target+", and will now listen to their commands again.");
+        }
+    }
+    else if (config.enableDynamicConfig && message.content.startsWith(config.dynamicConfigPrefix) && message.config.substring(config.dynamicConfigPrefix.length).startsWith(config.dynamicConfigSetCommand)) {
+    }
+    else if (config.enableDynamicConfig && message.content.startsWith(config.dynamicConfigPrefix) && message.config.substring(config.dynamicConfigPrefix.length).startsWith(config.dynamicConfigUnsetCommand)) {
+    }
     else if (config.enableLogMailing && message.content==config.logMailCommand) {
         if (message.author.id != config.administrator) {
             log.warning("Maillog command received from non-admin user with ID "+message.author.id+", tag "+message.author.tag);
@@ -868,24 +890,6 @@ function command(message) {
             }
             config.bannedUsers.push(ban);
             saveBans(config.bannedUsers);
-        }
-    }
-    else if (config.enableDynamicBans && message.content.startsWith(config.dynamicUnbanPrefix)) {
-        if (message.author.id != config.administrator) {
-            log.warning("Dynamic unban command received from non-admin user with ID "+message.author.id+", tag "+message.author.tag);
-            message.channel.send("<@!"+message.author.id+"> is not the CadenceBot administrator for this server. This incident will be reported.");
-            return;
-        }
-        else if (message.mentions.users.size==0) {
-            log.debug("Zero mentions.")
-            message.reply("I'm sorry, I don't know who you want me to un-ban - Could you ask me again and mention them?");
-            return
-        }
-        else {
-            var target=message.mentions.users.first();
-            config.bannedUsers=config.bannedUsers.filter((ban) => { ban instanceof Object ? ban.id!=target.id : ban!=target.id });
-            saveBans(config.bannedUsers);
-            message.reply("I've removed any bans for "+target+", and will now listen to their commands again.");
         }
     }
     // If none of those, check custom commands
