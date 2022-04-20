@@ -758,8 +758,10 @@ function command(message) {
                     );
                     return;
                 } else if (targetTopicAliases.includes(detailsObject.alias)) {
-                    targetTopicAliases.push(detailsObject.alias)
-                    // Then check if we've entered an alias loop
+                    // We've entered an alias loop
+
+                    // Push on the looping alias so we can log a full alias chain
+                    targetTopicAliases.push(detailsObject.alias);
                     log.warning(
                         "Help topic " +
                             target +
@@ -768,7 +770,7 @@ function command(message) {
                     );
                     return;
                 } else {
-                    // Finally, get the object the command is aliasing
+                    // No issues found, get the object the command is aliasing
                     detailsObject = config.helpTopics[detailsObject.alias];
                     targetTopicAliases.push(detailsObject.alias);
                 }
@@ -856,15 +858,10 @@ function command(message) {
                                     ).includes(friendlyCommandKey)
                                 ) {
                                     // Then add the term to result but with the shorthand replaced by the friendly name
-                                    const friendlyNameFromDescription =
+                                    const friendlyName =
                                         config.commandDescriptions[
                                             friendlyCommandKey
-                                        ].friendlyName;
-
-                                    const friendlyName =
-                                        friendlyNameFromDescription != null
-                                            ? friendlyNameFromDescription
-                                            : friendlyCommandKey;
+                                        ].friendlyName || friendlyCommandKey;
 
                                     result +=
                                         friendlyName +
@@ -878,7 +875,7 @@ function command(message) {
                                         firstWord
                                     )
                                 ) {
-                                    // Then add the term to result but with the first word replaced by the command's trigger phrase 
+                                    // Then add the term to result but with the first word replaced by the command's trigger phrase
                                     result +=
                                         config.commands[firstWord].trim() +
                                         term.substring(firstWord.length);
