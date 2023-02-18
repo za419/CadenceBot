@@ -204,11 +204,8 @@ function searchResultsFormat(songs) {
 }
 
 function nowPlayingFormat(text) {
-    text = text.substring("parseMusic(".length, text.length - 2);
     var json = JSON.parse(text);
-    var artist = json["/cadence1"]["artist_name"].trim();
-    var song = json["/cadence1"]["song_title"].trim();
-    return '"' + song + '" by ' + artist;
+    return songFormat(json);
 }
 
 function splitOnLastLine(text, length, separator = "\n") {
@@ -1861,7 +1858,9 @@ function updatePresence() {
     }
 
     log.debug("Fetching nowplaying information...");
-    fetch(config.API.stream.prefix + config.API.stream.nowplaying).then(
+    const URL = config.API.aria.prefix + config.API.aria.nowplaying
+    log.debug(`fetch('${URL}')`)
+    fetch(URL).then(
         response => {
             response.text().then(text => {
                 log.debug("Received response:\n\n" + text + "\n\n");

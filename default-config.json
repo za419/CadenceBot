@@ -185,11 +185,11 @@
       "search": "/api/aria1/search",
       "request": "/api/aria2/request",
       "library": "/api/aria1/library",
+      "nowplaying": "/api/nowplaying/metadata",
       "key": false
     },
     "stream": {
       "prefix": "https://stream.cadenceradio.com",
-      "nowplaying": "/now-playing.xsl",
       "stream": "/cadence1"
     }
   },
