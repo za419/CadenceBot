@@ -841,7 +841,7 @@ function command(message) {
         );
         const url = config.API.aria.prefix + config.API.aria.search;
         var data = {
-            search: messageContent.substring(config.commands.search.length),
+            Search: messageContent.substring(config.commands.search.length),
         };
 
         log.info("Making a request to " + url);

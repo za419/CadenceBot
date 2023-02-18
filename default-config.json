@@ -182,8 +182,8 @@
   "API": {
     "aria": {
       "prefix": "https://cadenceradio.com",
-      "search": "/api/aria1/search",
-      "request": "/api/aria2/request",
+      "search": "/api/search",
+      "request": "/api/request/ID",
       "library": "/api/aria1/library",
       "nowplaying": "/api/nowplaying/metadata",
       "key": false
