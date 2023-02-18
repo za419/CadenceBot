@@ -26,7 +26,7 @@
     "discord.js": "^12.5.3",
     "erlpack": "github:discord/erlpack",
     "js-logging": "^0.1.0",
-    "libsodium-wrappers": "^0.7.10",
+    "libsodium-wrappers": "^0.7.11",
     "node-fetch": "^2.6.9",
     "request": "^2.88.2",
     "utf-8-validate": "^5.0.10",
