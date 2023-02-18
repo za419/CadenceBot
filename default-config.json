@@ -6,7 +6,6 @@
     "nowplaying": "Cadence now playing",
     "search": "Cadence search ",
     "request": "Cadence request ",
-    "library": "Cadence library",
     "status": "Cadence status"
   },
   "commandDescriptions": {
