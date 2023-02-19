@@ -182,7 +182,7 @@
     "aria": {
       "prefix": "https://cadenceradio.com",
       "search": "/api/search",
-      "request": "/api/request/ID",
+      "request": "/api/request/id",
       "library": "/api/aria1/library",
       "nowplaying": "/api/nowplaying/metadata",
       "key": false
