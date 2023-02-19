@@ -1858,25 +1858,23 @@ function updatePresence() {
     }
 
     log.debug("Fetching nowplaying information...");
-    const URL = config.API.aria.prefix + config.API.aria.nowplaying
-    log.debug(`fetch('${URL}')`)
-    fetch(URL).then(
-        response => {
-            response.text().then(text => {
-                log.debug("Received response:\n\n" + text + "\n\n");
-                song = nowPlayingFormat(text);
-                log.debug("Now playing:\n\n" + song + "\n\n");
-                bot.user.setPresence({
-                    status: "online",
-                    afk: false,
-                    activity: {
-                        name: song,
-                    },
-                });
-                log.debug("Set timeout to be called again");
+    const URL = config.API.aria.prefix + config.API.aria.nowplaying;
+    log.debug(`fetch('${URL}')`);
+    fetch(URL).then(response => {
+        response.text().then(text => {
+            log.debug("Received response:\n\n" + text + "\n\n");
+            song = nowPlayingFormat(text);
+            log.debug("Now playing:\n\n" + song + "\n\n");
+            bot.user.setPresence({
+                status: "online",
+                afk: false,
+                activity: {
+                    name: song,
+                },
             });
-        }
-    );
+            log.debug("Set timeout to be called again");
+        });
+    });
     bot.setTimeout(updatePresence, config.statusUpdateIntervalMs);
 }
 
