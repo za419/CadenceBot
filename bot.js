@@ -204,11 +204,8 @@ function searchResultsFormat(songs) {
 }
 
 function nowPlayingFormat(text) {
-    text = text.substring("parseMusic(".length, text.length - 2);
     var json = JSON.parse(text);
-    var artist = json["/cadence1"]["artist_name"].trim();
-    var song = json["/cadence1"]["song_title"].trim();
-    return '"' + song + '" by ' + artist;
+    return songFormat(json);
 }
 
 function splitOnLastLine(text, length, separator = "\n") {
@@ -844,7 +841,7 @@ function command(message) {
         );
         const url = config.API.aria.prefix + config.API.aria.search;
         var data = {
-            search: messageContent.substring(config.commands.search.length),
+            Search: messageContent.substring(config.commands.search.length),
         };
 
         log.info("Making a request to " + url);
@@ -1861,23 +1858,23 @@ function updatePresence() {
     }
 
     log.debug("Fetching nowplaying information...");
-    fetch(config.API.stream.prefix + config.API.stream.nowplaying).then(
-        response => {
-            response.text().then(text => {
-                log.debug("Received response:\n\n" + text + "\n\n");
-                song = nowPlayingFormat(text);
-                log.debug("Now playing:\n\n" + song + "\n\n");
-                bot.user.setPresence({
-                    status: "online",
-                    afk: false,
-                    activity: {
-                        name: song,
-                    },
-                });
-                log.debug("Set timeout to be called again");
+    const URL = config.API.aria.prefix + config.API.aria.nowplaying;
+    log.debug(`fetch('${URL}')`);
+    fetch(URL).then(response => {
+        response.text().then(text => {
+            log.debug("Received response:\n\n" + text + "\n\n");
+            song = nowPlayingFormat(text);
+            log.debug("Now playing:\n\n" + song + "\n\n");
+            bot.user.setPresence({
+                status: "online",
+                afk: false,
+                activity: {
+                    name: song,
+                },
             });
-        }
-    );
+            log.debug("Set timeout to be called again");
+        });
+    });
     bot.setTimeout(updatePresence, config.statusUpdateIntervalMs);
 }
 
