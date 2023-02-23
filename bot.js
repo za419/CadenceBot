@@ -812,7 +812,7 @@ function command(message) {
         log.notice("Issued help message.");
     } else if (messageContent === config.commands.nowplaying) {
         log.notice("Received nowplaying command.");
-        const url = config.API.stream.prefix + config.API.stream.nowplaying;
+        const url = config.API.aria.prefix + config.API.aria.nowplaying;
         log.info("Issuing fetch request to " + url);
         fetch(url).then(response => {
             log.info("Received response.");
