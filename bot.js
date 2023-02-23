@@ -845,7 +845,7 @@ function command(message) {
         };
 
         log.info("Making a request to " + url);
-        log.debug("data.search=" + data.search);
+        log.debug("data.Search=" + data.Search);
         var post = {
             url,
             body: data,
