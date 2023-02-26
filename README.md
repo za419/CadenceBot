@@ -6,11 +6,58 @@
 
 CadenceBot is a [Discord](https://discordapp.com/) bot, which serves as a client for [Cadence Radio](https://github.com/kenellorando/cadence).
 
-CadenceBot is fully featured, and is functionally equivalent to the [web client](http://cadenceradio.com/).
+CadenceBot is fully featured, and is functionally equivalent to the [web client](http://cadenceradio.com/). You can add CadenceBot to your Discord server by clicking [this link.](https://discord.com/api/oauth2/authorize?client_id=372999377569972224&permissions=274881252352&scope=bot)
+
+## Implementation and details
+
+For more details of the Cadence ecosystem as a whole, see the main README on the [main Cadence repository](https://github.com/kenellorando/cadence). The following diagrams and description will center around CadenceBot itself.
+
+<details>
+<summary>Music and interaction with Discord</summary>
+
+![CadenceBot will only create one connection with the Cadence stream server to fetch the music stream, but will connect to individual Discord servers to forward that stream](https://user-images.githubusercontent.com/15851480/221444794-4dcbe189-402c-45ef-a75e-189a57b12c81.svg)
+
+Put simply, CadenceBot will connect once to the stream server (globally for the entire instance), to reduce load on the backend layer - This will also keep all Discord servers listening to the same bot in sync, but it means a stream downlink failure will affect the entire bot, and it means that any future work on the bot will not include allowing one bot to service multiple music streams (in other words, to connect to more than one Cadence stream, one must deploy as many bot instances).
+
+Separately, CadenceBot subscribes to Discord to receive messages invoking commands, and therefore also sends messages back to Discord as part of user interaction.
+</details>
+
+<details>
+<summary>The Cadence Stack</summary>
+
+![The client, ie CadenceBot, layers over the backend layer (the stream and API servers), which interface with internal data storage services](https://user-images.githubusercontent.com/15851480/221442426-5f3d8f24-5e0a-4c4b-82ba-09bac6e1a072.svg)
+
+CadenceBot is a client in the Cadence stack - Specifically, it is the Discord client (as opposed to the "main" web client, or any other alternative clients that may be created. The client layer is the top, user-facing layer, which provides Cadence services in a way that unknowledgable users can understand, receive, and interact with. The goal is for all clients to provide a cohesive experience - Each client should have the same core feature set, and the implementations of each should behave as similarly to one another as possible, to whatever extent these goals are reasonable within the platforms they serve (that is to say, it is not reasonable for a Discord client to provide its own volume slider, as Discord naturally provides its own, or for a web client to provide a "conversational" interface as one can for a text-based Discord client).
+
+Beneath the client layer is the backend layer, with which the clients interact, and which provides them with sources of data (song metadata, availability), with the Cadence broadcast, and with behavior interfaces. Beneath the backend layer sits the internal layer, which provides the actual data sources the backend services consume.
+</details>
+
+<details>
+<summary>Dataflow within the Cadence ecosystem</summary>
+
+![Clients, such as web or CadenceBot, interact bidirectionally with API, but only fetches data from the stream server](https://user-images.githubusercontent.com/15851480/221443338-9f36e5e2-26bb-4df2-8244-ec6a3d3b132a.svg)
+
+At a high level, the services provided by Cadence can be split into four functional parts - Referring to the stack presented above, the client and internal layers both act as a monolith, as far as the outside world is concerned - Though their implementation may be more or less monolithic as is useful to maintainers of those layers.
+
+However, the backend layer is split into two functional components - The REST API, which provides metadata and control of the music stream, and the stream server, which generates and broadcasts the music stream from the library.
+</details>
+
+<details>
+<summary>CadenceBot Configuration Loading</summary>
+
+![CadenceBot configuration is stored in three files - the default configuration is shipped with the bot written by maintainers and provides a working complete setup, the override configuration can be written and provided by an administrator to customize their deployment, and the bans list is maintained by the bot and determines which users are not permitted to interact with the bot](https://user-images.githubusercontent.com/15851480/221443879-31331f76-c3a6-4a44-a329-b9c9cb8b7635.svg)
+
+CadenceBot is shipped by a working, complete configuration file by default. This file (`default-config.json`) includes a minimal set of configuration that will connect to the main production Cadence deployment. It will include some demonstration as well of available configuration options, as an example of how to write an override configuration file.
+
+The override configuration file (`config.json`) is optional, and will not cause issues if it does not exist or fails to load. If it does load, any options set from it will override options set in the default configuration, while any unset options will fall back to defaults.
+
+Finally, the ban list (`bans.json`) is created and administrated by the bot itself, and will preserve the list of banned users (along with information on when temporary bans are applicable) in case of bot restart. Since bans can be applied by the instance administrator dynamically from Discord, this list must be under the bot's control - It can be alterned manually only while the bot is offline, as changes will not be detected and the file may be reloaded at any time while the bot is active.
+</details>
 
 ## Creating an instance of CadenceBot
 
-### Using `apt`
+<details>
+<summary>Using `apt`</summary>
 
 CadenceBot has a setup script for any platform which uses `apt` as package manager, which has `bash`, and for which `node.js`, `ffmpeg`, and `gcc`/`g++` are available.
 
@@ -29,8 +76,10 @@ If you choose not to create the authentication file during setup, you'll have to
 If at any point you need to recreate this setup, for example to change the address logs are mailed to, you can simply rerun `first-time-setup.sh` - The required sections will not do anything harmful to your setup unless you need a particular version of some packages for some reason outside CadenceBot, and the optional sections can be skipped simply by pressing enter.
 
 If you have followed these steps properly, you should be able to run `restart.sh` or `node bot.js`, and your instance of CadenceBot will start running.
+</details>
 
-### Not using `apt`
+<details>
+<summary>Not using `apt`</summary>
 
 CadenceBot does not have any complete automated setup for platforms which do not use `apt`.
 
@@ -61,8 +110,10 @@ If you choose not to create the authentication file during setup, you'll have to
 If at any point you need to recreate this setup, for example to change the address logs are mailed to, you can simply rerun `first-time-setup.sh` - The required sections will not do anything harmful to your setup unless you need a particular version of some packages for some reason outside CadenceBot, and the optional sections can be skipped simply by pressing enter.
 
 If you have followed these steps properly, you should be able to run `restart.sh` or `node bot.js`, and your instance of CadenceBot will start running.
+</details>
 
-### Manual setup
+<details>
+<summary>Fully manual setup</summary>
 
 Completely manual setup is not recommended, only because of the need to install the npm packages in `setup.sh`, in the order they appear. I therefore recommend at least running that script. Manual setup using that script proceeds as follows:
 
@@ -95,14 +146,17 @@ To do this, simply copy it into the `.git/hooks/` directory, as at least the `po
 The `auto-setup.sh` script removes `node_modules` and re-runs `setup.sh`. If you wish, you can write your own script to duplicate this behavior, or simply skip it - This function is not necessarily required for CadenceBot to run, but it does avoid errors when new CadenceBot features rely on module updates, so if you don't keep your setup up-to-date automatically, be ready to have to update your modules as shown in `setup.sh` (keep in mind that this script does change on occasion).
 
 Now, CadenceBot should run properly, even if a change requires a new module or new module version. There is only one detail left - When CadenceBot is restarted by the `restart.sh` script, it keeps its log in the `CadenceBot.log` file, which is overwritten each time the script is run. If this is not desired, you can make a `maillog.sh` script, which shall be run before starting the bot each time `restart.sh` is run, with the intention of being used to archive the log before it is deleted (by email, usually). Add whichever commands you would like to this script to have your logs archived automatically.
+</details>
 
-## Prettier
+## Development
+
+### Prettier
 
 [Prettier](https://prettier.io/) will be used to maintain the formatting of code files in CadenceBot - These being shell scripts (\*.sh) and Node files (\*.js). Configuration files (\*.json) are not affected by this at the moment.
 
 While it is not necessarily required to use Prettier during development, formatting will be performed before new releases are tagged to help maintain some style consistency in the project (via `tag-release.sh`)
 
-## Branches
+### Branches
 
 Branch names should avoid uppercase characters where reasonable.
 
@@ -117,7 +171,7 @@ Branch names should avoid uppercase characters where reasonable.
     - That is, as soon as the feature can be activated and can run on the development server (it might not work, or it might occasionally crash the bot, but it does not always crash, even when the feature is triggered), and when the feature is set to go into production (when it is deemed likely to be practical and likely to be a wanted addition to the bot).
     - The feature branch should then be deleted.
 
-## Release procedure
+### Release procedure
 
 A new release is made whenever `dev-master` is merged into `master`, which is to say whenever a feature is moved from "development" or "testing" to "production". Releases should follow [Semantic versioning](https://semver.org/) (with the difference that, occasionally, I refer to releases which increment patch version as 'minor releases', those which increment minor version as 'releases' and those which increment major version as 'major releases'). Since CadenceBot does not deliver much of an API (it can be used as one, interacting with `command` by mocked messages as is done somewhat often in the bot itself, but this is not the intended use of the bot, and the specifics of what fields the mocked message must define are undocumented, must be found by inspecting the code, and are under no obligation not to change at any time), CadenceBot follows different rules for when version numbers are incremented - Semver compliance is mostly for rigidly formatted versioning which can be automatically parsed.
 
