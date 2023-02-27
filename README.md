@@ -15,7 +15,7 @@ For more details of the Cadence ecosystem as a whole, see the main README on the
 <details>
 <summary>Music and interaction with Discord</summary>
 
-![CadenceBot will only create one connection with the Cadence stream server to fetch the music stream, but will connect to individual Discord servers to forward that stream](https://user-images.githubusercontent.com/15851480/221444794-4dcbe189-402c-45ef-a75e-189a57b12c81.svg)
+![CadenceBot will only create one connection with the Cadence stream server to fetch the music stream, but will connect to individual Discord servers to forward that stream](.github/images/music-and-discord.svg)
 
 Put simply, CadenceBot will connect once to the stream server (globally for the entire instance), to reduce load on the backend layer - This will also keep all Discord servers listening to the same bot in sync, but it means a stream downlink failure will affect the entire bot, and it means that any future work on the bot will not include allowing one bot to service multiple music streams (in other words, to connect to more than one Cadence stream, one must deploy as many bot instances).
 
@@ -25,7 +25,7 @@ Separately, CadenceBot subscribes to Discord to receive messages invoking comman
 <details>
 <summary>The Cadence Stack</summary>
 
-![The client, ie CadenceBot, layers over the backend layer (the stream and API servers), which interface with internal data storage services](https://user-images.githubusercontent.com/15851480/221442426-5f3d8f24-5e0a-4c4b-82ba-09bac6e1a072.svg)
+![The client, ie CadenceBot, layers over the backend layer (the stream and API servers), which interface with internal data storage services](.github/images/cadence-stack.svg)
 
 CadenceBot is a client in the Cadence stack - Specifically, it is the Discord client (as opposed to the "main" web client, or any other alternative clients that may be created. The client layer is the top, user-facing layer, which provides Cadence services in a way that unknowledgable users can understand, receive, and interact with. The goal is for all clients to provide a cohesive experience - Each client should have the same core feature set, and the implementations of each should behave as similarly to one another as possible, to whatever extent these goals are reasonable within the platforms they serve (that is to say, it is not reasonable for a Discord client to provide its own volume slider, as Discord naturally provides its own, or for a web client to provide a "conversational" interface as one can for a text-based Discord client).
 
@@ -35,7 +35,7 @@ Beneath the client layer is the backend layer, with which the clients interact, 
 <details>
 <summary>Dataflow within the Cadence ecosystem</summary>
 
-![Clients, such as web or CadenceBot, interact bidirectionally with API, but only fetches data from the stream server](https://user-images.githubusercontent.com/15851480/221443338-9f36e5e2-26bb-4df2-8244-ec6a3d3b132a.svg)
+![Clients, such as web or CadenceBot, interact bidirectionally with API, but only fetches data from the stream server](.github/images/data-and-command-flow.svg)
 
 At a high level, the services provided by Cadence can be split into four functional parts - Referring to the stack presented above, the client and internal layers both act as a monolith, as far as the outside world is concerned - Though their implementation may be more or less monolithic as is useful to maintainers of those layers.
 
@@ -45,7 +45,7 @@ However, the backend layer is split into two functional components - The REST AP
 <details>
 <summary>CadenceBot Configuration Loading</summary>
 
-![CadenceBot configuration is stored in three files - the default configuration is shipped with the bot written by maintainers and provides a working complete setup, the override configuration can be written and provided by an administrator to customize their deployment, and the bans list is maintained by the bot and determines which users are not permitted to interact with the bot](https://user-images.githubusercontent.com/15851480/221443879-31331f76-c3a6-4a44-a329-b9c9cb8b7635.svg)
+![CadenceBot configuration is stored in three files - the default configuration is shipped with the bot written by maintainers and provides a working complete setup, the override configuration can be written and provided by an administrator to customize their deployment, and the bans list is maintained by the bot and determines which users are not permitted to interact with the bot](.github/images/config-setup.svg)
 
 CadenceBot is shipped by a working, complete configuration file by default. This file (`default-config.json`) includes a minimal set of configuration that will connect to the main production Cadence deployment. It will include some demonstration as well of available configuration options, as an example of how to write an override configuration file.
 
