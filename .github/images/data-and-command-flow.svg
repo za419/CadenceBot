@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="110cm"
+   height="72cm"
+   viewBox="-586 680 2193 1429"
+   version="1.1"
+   id="svg2882"
+   sodipodi:docname="data-and-command-flow.svg"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2886" />
+  <sodipodi:namedview
+     id="namedview2884"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="cm"
+     showgrid="false"
+     inkscape:zoom="0.20579754"
+     inkscape:cx="959.68107"
+     inkscape:cy="-177.35878"
+     inkscape:window-width="914"
+     inkscape:window-height="1360"
+     inkscape:window-x="1637"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg2882" />
+  <rect
+     style="fill:#ffffff;stroke-width:0.527483"
+     id="rect2888"
+     width="2223.5076"
+     height="1474.7224"
+     x="-602.00061"
+     y="656.72583"
+     transform="translate(-7.092637e-6,2.0003476e-5)"
+     ry="0" />
+  <g
+     id="g2768">
+    <polygon
+       style="fill: #ffb347"
+       points="1122.89,681.893 1606,1089.95 1122.89,1498 639.787,1089.95 "
+       id="polygon2760" />
+    <polygon
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       points="1122.89,681.893 1606,1089.95 1122.89,1498 639.787,1089.95 "
+       id="polygon2762" />
+    <text
+       font-size="56.4436"
+       style="fill: #000000;text-anchor:middle;font-family:Arial,sans-serif;font-style:normal;font-weight:normal"
+       x="1122.89"
+       y="1111.17"
+       id="text2766"><tspan
+         x="1122.89"
+         y="1111.17"
+         id="tspan2764">CadenceBot</tspan></text>
+  </g>
+  <g
+     id="g2782">
+    <rect
+       style="fill: #77dd77"
+       x="-521.956"
+       y="877.99"
+       width="958.7"
+       height="424.032"
+       id="rect2770" />
+    <rect
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       x="-521.956"
+       y="877.99"
+       width="958.7"
+       height="424.032"
+       id="rect2772" />
+    <text
+       font-size="40.6394"
+       style="fill: #000000;text-anchor:middle;font-family:Arial,sans-serif;font-style:normal;font-weight:normal"
+       x="-42.6061"
+       y="1054.46"
+       id="text2780"><tspan
+         x="-42.6061"
+         y="1054.46"
+         id="tspan2774">CadenceRadio API</tspan><tspan
+         x="-42.6061"
+         y="1105.26"
+         id="tspan2776" /><tspan
+         x="-42.6061"
+         y="1156.06"
+         id="tspan2778">Provides nowplaying info, allows search and request</tspan></text>
+  </g>
+  <g
+     id="g2802">
+    <rect
+       style="fill: #e85959"
+       x="-584.399"
+       y="1488.93"
+       width="771.794"
+       height="619.575"
+       id="rect2784" />
+    <rect
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       x="-584.399"
+       y="1488.93"
+       width="771.794"
+       height="619.575"
+       id="rect2786" />
+    <line
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       x1="-507.22"
+       y1="1488.93"
+       x2="-507.22"
+       y2="2108.5"
+       id="line2788" />
+    <line
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       x1="-584.399"
+       y1="1550.88"
+       x2="187.394"
+       y2="1550.88"
+       id="line2790" />
+    <text
+       font-size="40.6394"
+       style="fill: #000000;text-anchor:middle;font-family:Arial,sans-serif;font-style:normal;font-weight:normal"
+       x="-159.913"
+       y="1787.8"
+       id="text2800"><tspan
+         x="-159.913"
+         y="1787.8"
+         id="tspan2792">Music storage, database layer, etc</tspan><tspan
+         x="-159.913"
+         y="1823.08"
+         id="tspan2794" /><tspan
+         x="-159.913"
+         y="1858.36"
+         id="tspan2796">Not directly touched by CadenceBot</tspan><tspan
+         x="-159.913"
+         y="1893.63"
+         id="tspan2798">Supports API and stream</tspan></text>
+  </g>
+  <g
+     id="g2818">
+    <rect
+       style="fill: #1d2882"
+       x="657.888"
+       y="1562.02"
+       width="931.147"
+       height="475.168"
+       id="rect2804" />
+    <rect
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       x="657.888"
+       y="1562.02"
+       width="931.147"
+       height="475.168"
+       id="rect2806" />
+    <text
+       font-size="40.6394"
+       style="fill: #ffffff;text-anchor:middle;font-family:Arial,sans-serif;font-style:normal;font-weight:normal"
+       x="1123.46"
+       y="1738.66"
+       id="text2816"><tspan
+         x="1123.46"
+         y="1738.66"
+         id="tspan2808">CadenceRadio Stream</tspan><tspan
+         x="1123.46"
+         y="1789.46"
+         id="tspan2810" /><tspan
+         x="1123.46"
+         y="1840.26"
+         id="tspan2812">Generates music stream</tspan><tspan
+         x="1123.46"
+         y="1891.06"
+         id="tspan2814">API gets nowplaying from here</tspan></text>
+  </g>
+  <g
+     id="g2826">
+    <line
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       x1="638.787"
+       y1="1089.97"
+       x2="447.488"
+       y2="1089.98"
+       id="line2820" />
+    <polygon
+       style="fill: #000000"
+       points="439.988,1089.98 449.987,1084.98 447.488,1089.98 449.988,1094.98 "
+       id="polygon2822" />
+    <polygon
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       points="439.988,1089.98 449.987,1084.98 447.488,1089.98 449.988,1094.98 "
+       id="polygon2824" />
+  </g>
+  <g
+     id="g2834">
+    <line
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       x1="437.752"
+       y1="1089.98"
+       x2="629.051"
+       y2="1089.97"
+       id="line2828" />
+    <polygon
+       style="fill: #000000"
+       points="636.551,1089.97 626.551,1094.97 629.051,1089.97 626.55,1084.97 "
+       id="polygon2830" />
+    <polygon
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       points="636.551,1089.97 626.551,1094.97 629.051,1089.97 626.55,1084.97 "
+       id="polygon2832" />
+  </g>
+  <g
+     id="g2842">
+    <line
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       x1="307.431"
+       y1="1303.02"
+       x2="723.098"
+       y2="1555.97"
+       id="line2836" />
+    <polygon
+       style="fill: #000000"
+       points="729.505,1559.87 718.363,1558.94 723.098,1555.97 723.562,1550.4 "
+       id="polygon2838" />
+    <polygon
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       points="729.505,1559.87 718.363,1558.94 723.098,1555.97 723.562,1550.4 "
+       id="polygon2840" />
+  </g>
+  <g
+     id="g2850">
+    <line
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       x1="731.415"
+       y1="1561.03"
+       x2="315.748"
+       y2="1308.08"
+       id="line2844" />
+    <polygon
+       style="fill: #000000"
+       points="309.341,1304.18 320.483,1305.11 315.748,1308.08 315.285,1313.65 "
+       id="polygon2846" />
+    <polygon
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       points="309.341,1304.18 320.483,1305.11 315.748,1308.08 315.285,1313.65 "
+       id="polygon2848" />
+  </g>
+  <g
+     id="g2858">
+    <line
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       x1="188.403"
+       y1="1798.89"
+       x2="647.145"
+       y2="1799.24"
+       id="line2852" />
+    <polygon
+       style="fill: #000000"
+       points="654.645,1799.25 644.641,1804.24 647.145,1799.24 644.649,1794.24 "
+       id="polygon2854" />
+    <polygon
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       points="654.645,1799.25 644.641,1804.24 647.145,1799.24 644.649,1794.24 "
+       id="polygon2856" />
+  </g>
+  <g
+     id="g2866">
+    <line
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       x1="-43.4695"
+       y1="1487.94"
+       x2="-43.0894"
+       y2="1312.76"
+       id="line2860" />
+    <polygon
+       style="fill: #000000"
+       points="-43.0731,1305.26 -38.0948,1315.27 -43.0894,1312.76 -48.0948,1315.25 "
+       id="polygon2862" />
+    <polygon
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       points="-43.0731,1305.26 -38.0948,1315.27 -43.0894,1312.76 -48.0948,1315.25 "
+       id="polygon2864" />
+  </g>
+  <g
+     id="g2874">
+    <line
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       x1="1123.27"
+       y1="1561.02"
+       x2="1123.23"
+       y2="1508.45"
+       id="line2868" />
+    <polygon
+       style="fill: #000000"
+       points="1123.22,1500.95 1128.23,1510.95 1123.23,1508.45 1118.23,1510.95 "
+       id="polygon2870" />
+    <polygon
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       points="1123.22,1500.95 1128.23,1510.95 1123.23,1508.45 1118.23,1510.95 "
+       id="polygon2872" />
+  </g>
+  <text
+     font-size="19.7556"
+     style="fill: #000000;text-anchor:middle;font-family:Arial,sans-serif;font-style:normal;font-weight:normal"
+     x="1118.81"
+     y="1190.1"
+     id="text2880"><tspan
+       x="1118.81"
+       y="1190.1"
+       id="tspan2876">Or other Cadence client, such as web</tspan><tspan
+       x="1118.81"
+       y="1214.79"
+       id="tspan2878">CadenceBot does not care about other clients.</tspan></text>
+</svg>
