@@ -1485,7 +1485,7 @@ function command(message) {
             saveBans(config.bannedUsers);
             message.reply(
                 "I've removed any bans for " +
-                    target +
+                    target.toString() +
                     ", and will now listen to their commands again."
             );
         }
