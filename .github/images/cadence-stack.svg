@@ -4,7 +4,7 @@
   <g>
     <rect style="fill: #ffb347" x="920" y="240" width="631" height="296"/>
     <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="920" y="240" width="631" height="296"/>
-    <text font-size="28.2218" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1235.5" y="380.922">
+    <text font-size="28.2218" style="fill: #000000;text-anchor:middle;font-family:Arial,sans-serif;font-style:normal;font-weight:normal" x="1235.5" y="380.922">
       <tspan x="1235.5" y="380.922">Client</tspan>
       <tspan x="1235.5" y="416.2"></tspan>
     </text>
@@ -12,7 +12,7 @@
   <g>
     <rect style="fill: #1d2882" x="920" y="536" width="631" height="296"/>
     <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="920" y="536" width="631" height="296"/>
-    <text font-size="28.2218" style="fill: #ffffff;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1235.5" y="676.922">
+    <text font-size="28.2218" style="fill: #ffffff;text-anchor:middle;font-family:Arial,sans-serif;font-style:normal;font-weight:normal" x="1235.5" y="676.922">
       <tspan x="1235.5" y="676.922">Backend</tspan>
       <tspan x="1235.5" y="712.2"></tspan>
     </text>
@@ -20,20 +20,20 @@
   <g>
     <rect style="fill: #e85959" x="920" y="832" width="631" height="296"/>
     <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="920" y="832" width="631" height="296"/>
-    <text font-size="28.2218" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1235.5" y="972.922">
+    <text font-size="28.2218" style="fill: #000000;text-anchor:middle;font-family:Arial,sans-serif;font-style:normal;font-weight:normal" x="1235.5" y="972.922">
       <tspan x="1235.5" y="972.922">Internal</tspan>
       <tspan x="1235.5" y="1008.2"></tspan>
     </text>
   </g>
-  <text font-size="19.7553" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1235.5" y="388">
+  <text font-size="19.7553" style="fill: #000000;text-anchor:middle;font-family:Arial,sans-serif;font-style:normal;font-weight:normal" x="1235.5" y="388">
     <tspan x="1235.5" y="388"></tspan>
     <tspan x="1235.5" y="412.694">(CadenceBot/cadenceradio.com)</tspan>
   </text>
-  <text font-size="19.7553" style="fill: #ffffff;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1235.5" y="684">
+  <text font-size="19.7553" style="fill: #ffffff;text-anchor:middle;font-family:Arial,sans-serif;font-style:normal;font-weight:normal" x="1235.5" y="684">
     <tspan x="1235.5" y="684"></tspan>
     <tspan x="1235.5" y="708.694">(API/stream)</tspan>
   </text>
-  <text font-size="19.7553" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1235.5" y="980">
+  <text font-size="19.7553" style="fill: #000000;text-anchor:middle;font-family:Arial,sans-serif;font-style:normal;font-weight:normal" x="1235.5" y="980">
     <tspan x="1235.5" y="980"></tspan>
     <tspan x="1235.5" y="1004.69">(database/music storage)</tspan>
   </text>

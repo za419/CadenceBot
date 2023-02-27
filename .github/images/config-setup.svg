@@ -1,81 +1,325 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
-<svg width="72cm" height="43cm" viewBox="590 -374 1429 855" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-  <g>
-    <rect style="fill: #77dd77" x="592" y="-372" width="298.15" height="372"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="592" y="-372" width="298.15" height="372"/>
-    <text font-size="16.9331" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="741.075" y="-200.8">
-      <tspan x="741.075" y="-200.8">Default Configuration</tspan>
-      <tspan x="741.075" y="-179.633">Developer-created, released with bot</tspan>
-      <tspan x="741.075" y="-158.467">(default-config.json)</tspan>
-    </text>
+<svg
+   width="72cm"
+   height="43cm"
+   viewBox="590 -374 1429 855"
+   version="1.1"
+   id="svg120"
+   sodipodi:docname="config-setup.svg"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs124" />
+  <sodipodi:namedview
+     id="namedview122"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="cm"
+     showgrid="false"
+     inkscape:zoom="0.44464699"
+     inkscape:cx="1936.3675"
+     inkscape:cy="940.07158"
+     inkscape:window-width="2560"
+     inkscape:window-height="1369"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg120" />
+  <rect
+     style="opacity:1;fill:#ffffff;fill-opacity:1;stroke-width:0.52609"
+     id="rect282"
+     width="1473.7809"
+     height="889.78821"
+     x="571.95361"
+     y="-389.0592" />
+  <g
+     id="g14">
+    <rect
+       style="fill: #77dd77"
+       x="592"
+       y="-372"
+       width="298.15"
+       height="372"
+       id="rect2" />
+    <rect
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       x="592"
+       y="-372"
+       width="298.15"
+       height="372"
+       id="rect4" />
+    <text
+       font-size="16.9331"
+       style="fill:#000000;text-anchor:middle;font-family:Arial,sans-serif;font-style:normal;font-weight:normal;-inkscape-font-specification:'Arial, Normal';font-stretch:normal;font-variant:normal;font-size:16.9331px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+       x="741.075"
+       y="-200.8"
+       id="text12"
+       inkscape:label="text12"><tspan
+         x="741.075"
+         y="-200.8"
+         id="tspan6"
+         style="-inkscape-font-specification:'Arial, Normal';font-family:Arial,sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:16.93309965px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Default Configuration</tspan><tspan
+         x="741.075"
+         y="-179.633"
+         id="tspan8"
+         style="-inkscape-font-specification:'Arial, Normal';font-family:Arial,sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:16.93309965px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Developer-created, released with bot</tspan><tspan
+         x="741.075"
+         y="-158.467"
+         id="tspan10"
+         style="-inkscape-font-specification:'Arial, Normal';font-family:Arial,sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:16.93309965px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">(default-config.json)</tspan></text>
   </g>
-  <g>
-    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="741.63" y1="0.987305" x2="741.916" y2="97.2767"/>
-    <polygon style="fill: #000000" points="741.938,104.777 736.909,94.7915 741.916,97.2767 746.909,94.7618 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="741.938,104.777 736.909,94.7915 741.916,97.2767 746.909,94.7618 "/>
+  <g
+     id="g22">
+    <line
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       x1="741.63"
+       y1="0.987305"
+       x2="741.916"
+       y2="97.2767"
+       id="line16" />
+    <polygon
+       style="fill: #000000"
+       points="741.938,104.777 736.909,94.7915 741.916,97.2767 746.909,94.7618 "
+       id="polygon18" />
+    <polygon
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       points="741.938,104.777 736.909,94.7915 741.916,97.2767 746.909,94.7618 "
+       id="polygon20" />
   </g>
-  <g>
-    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="741.075" y1="107.013" x2="741.075" y2="10.7234"/>
-    <polygon style="fill: #000000" points="741.075,3.22337 746.075,13.2234 741.075,10.7234 736.075,13.2234 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="741.075,3.22337 746.075,13.2234 741.075,10.7234 736.075,13.2234 "/>
+  <g
+     id="g30">
+    <line
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       x1="741.075"
+       y1="107.013"
+       x2="741.075"
+       y2="10.7234"
+       id="line24" />
+    <polygon
+       style="fill: #000000"
+       points="741.075,3.22337 746.075,13.2234 741.075,10.7234 736.075,13.2234 "
+       id="polygon26" />
+    <polygon
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       points="741.075,3.22337 746.075,13.2234 741.075,10.7234 736.075,13.2234 "
+       id="polygon28" />
   </g>
-  <g>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="741.788,54 1040,54 1040,-186 1209.42,-186 "/>
-    <polygon style="fill: #000000" points="1216.92,-186 1206.92,-181 1209.42,-186 1206.92,-191 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1216.92,-186 1206.92,-181 1209.42,-186 1206.92,-191 "/>
+  <g
+     id="g38">
+    <polyline
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       points="741.788,54 1040,54 1040,-186 1209.42,-186 "
+       id="polyline32" />
+    <polygon
+       style="fill: #000000"
+       points="1216.92,-186 1206.92,-181 1209.42,-186 1206.92,-191 "
+       id="polygon34" />
+    <polygon
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       points="1216.92,-186 1206.92,-181 1209.42,-186 1206.92,-191 "
+       id="polygon36" />
   </g>
-  <text font-size="16.9331" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="640" y="60">
-    <tspan x="640" y="60">Merged into</tspan>
-  </text>
-  <g>
-    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="1369.08" y1="107.013" x2="1369.08" y2="10.7234"/>
-    <polygon style="fill: #000000" points="1369.08,3.22337 1374.08,13.2234 1369.08,10.7234 1364.08,13.2234 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1369.08,3.22337 1374.08,13.2234 1369.08,10.7234 1364.08,13.2234 "/>
+  <text
+     font-size="16.9331"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16.9331px;font-family:Arial,sans-serif;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-anchor:start;fill:#000000"
+     x="647.39478"
+     y="57.042091"
+     id="text42"><tspan
+       x="647.39478"
+       y="57.042091"
+       id="tspan40"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16.9331px;font-family:Arial,sans-serif;-inkscape-font-specification:'Arial, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Merged into</tspan></text>
+  <g
+     id="g50">
+    <line
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       x1="1369.08"
+       y1="107.013"
+       x2="1369.08"
+       y2="10.7234"
+       id="line44" />
+    <polygon
+       style="fill: #000000"
+       points="1369.08,3.22337 1374.08,13.2234 1369.08,10.7234 1364.08,13.2234 "
+       id="polygon46" />
+    <polygon
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       points="1369.08,3.22337 1374.08,13.2234 1369.08,10.7234 1364.08,13.2234 "
+       id="polygon48" />
   </g>
-  <g>
-    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="1368" y1="56" x2="1709.73" y2="55.9411"/>
-    <polygon style="fill: #000000" points="1717.23,55.9398 1707.23,60.9416 1709.73,55.9411 1707.23,50.9416 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1717.23,55.9398 1707.23,60.9416 1709.73,55.9411 1707.23,50.9416 "/>
+  <g
+     id="g58">
+    <line
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       x1="1368"
+       y1="56"
+       x2="1709.73"
+       y2="55.9411"
+       id="line52" />
+    <polygon
+       style="fill: #000000"
+       points="1717.23,55.9398 1707.23,60.9416 1709.73,55.9411 1707.23,50.9416 "
+       id="polygon54" />
+    <polygon
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       points="1717.23,55.9398 1707.23,60.9416 1709.73,55.9411 1707.23,50.9416 "
+       id="polygon56" />
   </g>
-  <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="1260" y="80">
-    <tspan x="1260" y="80"></tspan>
-  </text>
-  <text font-size="16.9331" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="1268" y="64">
-    <tspan x="1268" y="64">Appended to</tspan>
-    <tspan x="1268" y="85.1667">existing bans</tspan>
-  </text>
-  <g>
-    <rect style="fill: #1d2882" x="592" y="108" width="298.15" height="372"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="592" y="108" width="298.15" height="372"/>
-    <text font-size="16.9331" style="fill: #ffffff;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="741.075" y="279.2">
-      <tspan x="741.075" y="279.2">Override Configuration</tspan>
-      <tspan x="741.075" y="300.367">IA-created, gitignored</tspan>
-      <tspan x="741.075" y="321.533">(config.json)</tspan>
-    </text>
+  <text
+     font-size="16.9331"
+     style="fill:#000000;text-anchor:start;font-family:Arial,sans-serif;font-style:normal;font-weight:normal;-inkscape-font-specification:'Arial, Normal';font-stretch:normal;font-variant:normal;font-size:16.9331px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+     x="1268"
+     y="64"
+     id="text68"><tspan
+       x="1268"
+       y="64"
+       id="tspan64"
+       style="-inkscape-font-specification:'Arial, Normal';font-family:Arial,sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:16.93309965px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Appended to</tspan><tspan
+       x="1268"
+       y="85.1667"
+       id="tspan66"
+       style="-inkscape-font-specification:'Arial, Normal';font-family:Arial,sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:16.93309965px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">existing bans</tspan></text>
+  <g
+     id="g82">
+    <rect
+       style="fill: #1d2882"
+       x="592"
+       y="108"
+       width="298.15"
+       height="372"
+       id="rect70" />
+    <rect
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       x="592"
+       y="108"
+       width="298.15"
+       height="372"
+       id="rect72" />
+    <text
+       font-size="16.9331"
+       style="fill:#ffffff;text-anchor:middle;font-family:Arial,sans-serif;font-style:normal;font-weight:normal;-inkscape-font-specification:'Arial, Normal';font-stretch:normal;font-variant:normal;font-size:16.9331px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+       x="741.075"
+       y="279.2"
+       id="text80"><tspan
+         x="741.075"
+         y="279.2"
+         id="tspan74"
+         style="-inkscape-font-specification:'Arial, Normal';font-family:Arial,sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:16.93309965px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Override Configuration</tspan><tspan
+         x="741.075"
+         y="300.367"
+         id="tspan76"
+         style="-inkscape-font-specification:'Arial, Normal';font-family:Arial,sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:16.93309965px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">IA-created, gitignored</tspan><tspan
+         x="741.075"
+         y="321.533"
+         id="tspan78"
+         style="-inkscape-font-specification:'Arial, Normal';font-family:Arial,sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:16.93309965px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">(config.json)</tspan></text>
   </g>
-  <g>
-    <rect style="fill: #00ffff" x="1220" y="-372" width="298.15" height="372"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1220" y="-372" width="298.15" height="372"/>
-    <text font-size="16.9331" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1369.08" y="-179.633">
-      <tspan x="1369.08" y="-179.633">Basic Configuration</tspan>
-    </text>
+  <g
+     id="g92">
+    <rect
+       style="fill: #00ffff"
+       x="1220"
+       y="-372"
+       width="298.15"
+       height="372"
+       id="rect84" />
+    <rect
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       x="1220"
+       y="-372"
+       width="298.15"
+       height="372"
+       id="rect86" />
+    <text
+       font-size="16.9331"
+       style="fill:#000000;text-anchor:middle;font-family:Arial,sans-serif;font-style:normal;font-weight:normal;-inkscape-font-specification:'Arial, Normal';font-stretch:normal;font-variant:normal;font-size:16.9331px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+       x="1369.08"
+       y="-179.633"
+       id="text90"><tspan
+         x="1369.08"
+         y="-179.633"
+         id="tspan88"
+         style="-inkscape-font-specification:'Arial, Normal';font-family:Arial,sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:16.93309965px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Basic Configuration</tspan></text>
   </g>
-  <g>
-    <rect style="fill: #e85959" x="1220" y="108" width="298.15" height="372"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1220" y="108" width="298.15" height="372"/>
-    <text font-size="16.9331" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1369.08" y="279.2">
-      <tspan x="1369.08" y="279.2">Ban List</tspan>
-      <tspan x="1369.08" y="300.367">Administered by bot, gitignored</tspan>
-      <tspan x="1369.08" y="321.533">(bans.json)</tspan>
-    </text>
+  <g
+     id="g106">
+    <rect
+       style="fill: #e85959"
+       x="1220"
+       y="108"
+       width="298.15"
+       height="372"
+       id="rect94" />
+    <rect
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       x="1220"
+       y="108"
+       width="298.15"
+       height="372"
+       id="rect96" />
+    <text
+       font-size="16.9331"
+       style="fill:#000000;text-anchor:middle;font-family:Arial,sans-serif;font-style:normal;font-weight:normal;-inkscape-font-specification:'Arial, Normal';font-stretch:normal;font-variant:normal;font-size:16.9331px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+       x="1369.08"
+       y="279.2"
+       id="text104"><tspan
+         x="1369.08"
+         y="279.2"
+         id="tspan98"
+         style="-inkscape-font-specification:'Arial, Normal';font-family:Arial,sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:16.93309965px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Ban List</tspan><tspan
+         x="1369.08"
+         y="300.367"
+         id="tspan100"
+         style="-inkscape-font-specification:'Arial, Normal';font-family:Arial,sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:16.93309965px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Administered by bot, gitignored</tspan><tspan
+         x="1369.08"
+         y="321.533"
+         id="tspan102"
+         style="-inkscape-font-specification:'Arial, Normal';font-family:Arial,sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:16.93309965px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">(bans.json)</tspan></text>
   </g>
-  <g>
-    <rect style="fill: #ffb347" x="1720.46" y="-130.086" width="298.15" height="372"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1720.46" y="-130.086" width="298.15" height="372"/>
-    <text font-size="16.9331" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1869.53" y="51.6969">
-      <tspan x="1869.53" y="51.6969">Full Configuration</tspan>
-      <tspan x="1869.53" y="72.8636">(config object, as used by code)</tspan>
-    </text>
+  <g
+     id="g118">
+    <rect
+       style="fill: #ffb347"
+       x="1720.46"
+       y="-130.086"
+       width="298.15"
+       height="372"
+       id="rect108" />
+    <rect
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       x="1720.46"
+       y="-130.086"
+       width="298.15"
+       height="372"
+       id="rect110" />
+    <text
+       font-size="16.9331"
+       style="fill:#000000;text-anchor:middle;font-family:Arial,sans-serif;font-style:normal;font-weight:normal;-inkscape-font-specification:'Arial, Normal';font-stretch:normal;font-variant:normal;font-size:16.9331px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal"
+       x="1869.53"
+       y="51.6969"
+       id="text116"><tspan
+         x="1869.53"
+         y="51.6969"
+         id="tspan112"
+         style="-inkscape-font-specification:'Arial, Normal';font-family:Arial,sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:16.93309965px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">Full Configuration</tspan><tspan
+         x="1869.53"
+         y="72.8636"
+         id="tspan114"
+         style="-inkscape-font-specification:'Arial, Normal';font-family:Arial,sans-serif;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal;font-size:16.93309965px;font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal">(config object, as used by code)</tspan></text>
   </g>
+  <rect
+     style="opacity:1;fill:#ffffff;fill-opacity:1;stroke-width:0.52609"
+     id="rect2573"
+     width="4.4368634"
+     height="5.3242359"
+     x="831.5304"
+     y="69.094734" />
 </svg>

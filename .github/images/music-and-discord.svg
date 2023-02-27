@@ -1,76 +1,277 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
-<svg width="103cm" height="33cm" viewBox="248 222 2058 660" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-  <g>
-    <polygon style="fill: #ffb347" points="1202.89,223.893 1540,552.447 1202.89,881 865.787,552.447 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1202.89,223.893 1540,552.447 1202.89,881 865.787,552.447 "/>
-    <text font-size="40.6394" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1202.89" y="567.697">
-      <tspan x="1202.89" y="567.697">CadenceBot</tspan>
-    </text>
+<svg
+   width="103cm"
+   height="33cm"
+   viewBox="248 222 2058 660"
+   version="1.1"
+   id="svg3068"
+   sodipodi:docname="music-and-discord.svg"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs3072" />
+  <sodipodi:namedview
+     id="namedview3070"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="cm"
+     showgrid="false"
+     inkscape:zoom="0.87913511"
+     inkscape:cx="714.90718"
+     inkscape:cy="540.30376"
+     inkscape:window-width="2560"
+     inkscape:window-height="1369"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg3068" />
+  <rect
+     style="fill:#ffffff;stroke-width:0.529167"
+     id="rect3074"
+     width="2082.7339"
+     height="673.18451"
+     x="237.88574"
+     y="216.18738" />
+  <g
+     id="g2964">
+    <polygon
+       style="fill: #ffb347"
+       points="1202.89,223.893 1540,552.447 1202.89,881 865.787,552.447 "
+       id="polygon2956" />
+    <polygon
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       points="1202.89,223.893 1540,552.447 1202.89,881 865.787,552.447 "
+       id="polygon2958" />
+    <text
+       font-size="40.6394"
+       style="fill: #000000;text-anchor:middle;font-family:Arial,sans-serif;font-style:normal;font-weight:normal"
+       x="1202.89"
+       y="567.697"
+       id="text2962"><tspan
+         x="1202.89"
+         y="567.697"
+         id="tspan2960">CadenceBot</tspan></text>
   </g>
-  <g>
-    <ellipse style="fill: #2a932a" cx="2027.43" cy="549.966" rx="278.398" ry="291.79"/>
-    <ellipse style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" cx="2027.43" cy="549.966" rx="278.398" ry="291.79"/>
-    <text font-size="28.2218" style="fill: #ffffff;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="2027.43" y="525.25">
-      <tspan x="2027.43" y="525.25">Discord.js</tspan>
-      <tspan x="2027.43" y="560.527"></tspan>
-      <tspan x="2027.43" y="595.805">Provides JS interface for Discord REST API</tspan>
-    </text>
+  <g
+     id="g2978">
+    <ellipse
+       style="fill: #2a932a"
+       cx="2027.43"
+       cy="549.966"
+       rx="278.398"
+       ry="291.79"
+       id="ellipse2966" />
+    <ellipse
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       cx="2027.43"
+       cy="549.966"
+       rx="278.398"
+       ry="291.79"
+       id="ellipse2968" />
+    <text
+       font-size="28.2218"
+       style="fill: #ffffff;text-anchor:middle;font-family:Arial,sans-serif;font-style:normal;font-weight:normal"
+       x="2027.43"
+       y="525.25"
+       id="text2976"><tspan
+         x="2027.43"
+         y="525.25"
+         id="tspan2970">Discord.js</tspan><tspan
+         x="2027.43"
+         y="560.527"
+         id="tspan2972" /><tspan
+         x="2027.43"
+         y="595.805"
+         id="tspan2974">Provides JS interface for Discord REST API</tspan></text>
   </g>
-  <g>
-    <rect style="fill: #1d2882" x="250" y="413" width="319.65" height="286"/>
-    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="250" y="413" width="319.65" height="286"/>
-    <text font-size="28.2218" style="fill: #ffffff;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="409.825" y="531.283">
-      <tspan x="409.825" y="531.283">Cadence Stream server</tspan>
-      <tspan x="409.825" y="566.561"></tspan>
-      <tspan x="409.825" y="601.839">Producing music stream</tspan>
-    </text>
+  <g
+     id="g2992">
+    <rect
+       style="fill: #1d2882"
+       x="250"
+       y="413"
+       width="319.65"
+       height="286"
+       id="rect2980" />
+    <rect
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       x="250"
+       y="413"
+       width="319.65"
+       height="286"
+       id="rect2982" />
+    <text
+       font-size="28.2218"
+       style="fill: #ffffff;text-anchor:middle;font-family:Arial,sans-serif;font-style:normal;font-weight:normal"
+       x="409.825"
+       y="531.283"
+       id="text2990"><tspan
+         x="409.825"
+         y="531.283"
+         id="tspan2984">Cadence Stream server</tspan><tspan
+         x="409.825"
+         y="566.561"
+         id="tspan2986" /><tspan
+         x="409.825"
+         y="601.839"
+         id="tspan2988">Producing music stream</tspan></text>
   </g>
-  <g>
-    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="570.639" y1="555.279" x2="856.567" y2="553.998"/>
-    <polygon style="fill: #000000" points="864.067,553.965 854.089,559.01 856.567,553.998 854.044,549.01 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="864.067,553.965 854.089,559.01 856.567,553.998 854.044,549.01 "/>
+  <g
+     id="g3000">
+    <line
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       x1="570.639"
+       y1="555.279"
+       x2="856.567"
+       y2="553.998"
+       id="line2994" />
+    <polygon
+       style="fill: #000000"
+       points="864.067,553.965 854.089,559.01 856.567,553.998 854.044,549.01 "
+       id="polygon2996" />
+    <polygon
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       points="864.067,553.965 854.089,559.01 856.567,553.998 854.044,549.01 "
+       id="polygon2998" />
   </g>
-  <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="672" y="548">
-    <tspan x="672" y="548">Single connection</tspan>
-  </text>
-  <text font-size="22.5774" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1202.89" y="552.447">
-    <tspan x="1202.89" y="552.447"></tspan>
-    <tspan x="1202.89" y="580.669"></tspan>
-    <tspan x="1202.89" y="608.891"></tspan>
-    <tspan x="1202.89" y="637.113">Re-encodes stream</tspan>
-    <tspan x="1202.89" y="665.336">Handles message-based commands</tspan>
-  </text>
-  <text font-size="16.9331" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="1475" y="454">
-    <tspan x="1475" y="454">One music rebroadcast per server</tspan>
-  </text>
-  <g>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1439.87,453.864 1478,438 1718,438 1754.47,451.198 "/>
-    <polygon style="fill: #000000" points="1761.53,453.75 1750.42,455.049 1754.47,451.198 1753.82,445.646 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1761.53,453.75 1750.42,455.049 1754.47,451.198 1753.82,445.646 "/>
+  <text
+     font-size="12.7998"
+     style="fill: #000000;text-anchor:start;font-family:Arial,sans-serif;font-style:normal;font-weight:normal"
+     x="672"
+     y="548"
+     id="text3004"><tspan
+       x="672"
+       y="548"
+       id="tspan3002">Single connection</tspan></text>
+  <text
+     font-size="22.5774"
+     style="fill: #000000;text-anchor:middle;font-family:Arial,sans-serif;font-style:normal;font-weight:normal"
+     x="1202.89"
+     y="552.447"
+     id="text3016"><tspan
+       x="1202.89"
+       y="552.447"
+       id="tspan3006" /><tspan
+       x="1202.89"
+       y="580.669"
+       id="tspan3008" /><tspan
+       x="1202.89"
+       y="608.891"
+       id="tspan3010" /><tspan
+       x="1202.89"
+       y="637.113"
+       id="tspan3012">Re-encodes stream</tspan><tspan
+       x="1202.89"
+       y="665.336"
+       id="tspan3014">Handles message-based commands</tspan></text>
+  <text
+     font-size="16.9331"
+     style="fill: #000000;text-anchor:start;font-family:Arial,sans-serif;font-style:normal;font-weight:normal"
+     x="1475"
+     y="454"
+     id="text3020"><tspan
+       x="1475"
+       y="454"
+       id="tspan3018">One music rebroadcast per server</tspan></text>
+  <g
+     id="g3028">
+    <polyline
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       points="1439.87,453.864 1478,438 1718,438 1754.47,451.198 "
+       id="polyline3022" />
+    <polygon
+       style="fill: #000000"
+       points="1761.53,453.75 1750.42,455.049 1754.47,451.198 1753.82,445.646 "
+       id="polygon3024" />
+    <polygon
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       points="1761.53,453.75 1750.42,455.049 1754.47,451.198 1753.82,445.646 "
+       id="polygon3026" />
   </g>
-  <g>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1454.56,468.188 1482,459 1715,459 1748.89,468.868 "/>
-    <polygon style="fill: #000000" points="1756.09,470.964 1745.09,472.97 1748.89,468.868 1747.89,463.368 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1756.09,470.964 1745.09,472.97 1748.89,468.868 1747.89,463.368 "/>
+  <g
+     id="g3036">
+    <polyline
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       points="1454.56,468.188 1482,459 1715,459 1748.89,468.868 "
+       id="polyline3030" />
+    <polygon
+       style="fill: #000000"
+       points="1756.09,470.964 1745.09,472.97 1748.89,468.868 1747.89,463.368 "
+       id="polygon3032" />
+    <polygon
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       points="1756.09,470.964 1745.09,472.97 1748.89,468.868 1747.89,463.368 "
+       id="polygon3034" />
   </g>
-  <g>
-    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1471.49,484.68 1494,479 1706,478 1744.76,486.678 "/>
-    <polygon style="fill: #000000" points="1752.08,488.317 1741.23,491.011 1744.76,486.678 1743.41,481.253 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1752.08,488.317 1741.23,491.011 1744.76,486.678 1743.41,481.253 "/>
+  <g
+     id="g3044">
+    <polyline
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       points="1471.49,484.68 1494,479 1706,478 1744.76,486.678 "
+       id="polyline3038" />
+    <polygon
+       style="fill: #000000"
+       points="1752.08,488.317 1741.23,491.011 1744.76,486.678 1743.41,481.253 "
+       id="polygon3040" />
+    <polygon
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       points="1752.08,488.317 1741.23,491.011 1744.76,486.678 1743.41,481.253 "
+       id="polygon3042" />
   </g>
-  <g>
-    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="1539.99" y1="551.433" x2="1738.69" y2="550.835"/>
-    <polygon style="fill: #000000" points="1746.19,550.812 1736.21,555.842 1738.69,550.835 1736.17,545.842 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1746.19,550.812 1736.21,555.842 1738.69,550.835 1736.17,545.842 "/>
+  <g
+     id="g3052">
+    <line
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       x1="1539.99"
+       y1="551.433"
+       x2="1738.69"
+       y2="550.835"
+       id="line3046" />
+    <polygon
+       style="fill: #000000"
+       points="1746.19,550.812 1736.21,555.842 1738.69,550.835 1736.17,545.842 "
+       id="polygon3048" />
+    <polygon
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       points="1746.19,550.812 1736.21,555.842 1738.69,550.835 1736.17,545.842 "
+       id="polygon3050" />
   </g>
-  <g>
-    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="1748.43" y1="550.806" x2="1549.72" y2="551.403"/>
-    <polygon style="fill: #000000" points="1542.22,551.426 1552.21,546.396 1549.72,551.403 1552.24,556.396 "/>
-    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1542.22,551.426 1552.21,546.396 1549.72,551.403 1552.24,556.396 "/>
+  <g
+     id="g3060">
+    <line
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       x1="1748.43"
+       y1="550.806"
+       x2="1549.72"
+       y2="551.403"
+       id="line3054" />
+    <polygon
+       style="fill: #000000"
+       points="1542.22,551.426 1552.21,546.396 1549.72,551.403 1552.24,556.396 "
+       id="polygon3056" />
+    <polygon
+       style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000"
+       points="1542.22,551.426 1552.21,546.396 1549.72,551.403 1552.24,556.396 "
+       id="polygon3058" />
   </g>
-  <text font-size="16.9331" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="1553" y="540">
-    <tspan x="1553" y="540">Bidirectional messaging</tspan>
-    <tspan x="1553" y="561.167"></tspan>
-  </text>
+  <text
+     font-size="16.9331"
+     style="fill: #000000;text-anchor:start;font-family:Arial,sans-serif;font-style:normal;font-weight:normal"
+     x="1553"
+     y="540"
+     id="text3066"><tspan
+       x="1553"
+       y="540"
+       id="tspan3062">Bidirectional messaging</tspan><tspan
+       x="1553"
+       y="561.167"
+       id="tspan3064" /></text>
 </svg>
