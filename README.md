@@ -57,7 +57,7 @@ Finally, the ban list (`bans.json`) is created and administrated by the bot itse
 ## Creating an instance of CadenceBot
 
 <details>
-<summary>Using `apt`</summary>
+<summary>Using <code>apt</code></summary>
 
 CadenceBot has a setup script for any platform which uses `apt` as package manager, which has `bash`, and for which `node.js`, `ffmpeg`, and `gcc`/`g++` are available.
 
@@ -79,7 +79,7 @@ If you have followed these steps properly, you should be able to run `restart.sh
 </details>
 
 <details>
-<summary>Not using `apt`</summary>
+<summary>Not using <code>apt</code></summary>
 
 CadenceBot does not have any complete automated setup for platforms which do not use `apt`.
 
