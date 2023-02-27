@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="72cm" height="43cm" viewBox="590 -374 1429 855" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g>
+    <rect style="fill: #77dd77" x="592" y="-372" width="298.15" height="372"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="592" y="-372" width="298.15" height="372"/>
+    <text font-size="16.9331" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="741.075" y="-200.8">
+      <tspan x="741.075" y="-200.8">Default Configuration</tspan>
+      <tspan x="741.075" y="-179.633">Developer-created, released with bot</tspan>
+      <tspan x="741.075" y="-158.467">(default-config.json)</tspan>
+    </text>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="741.63" y1="0.987305" x2="741.916" y2="97.2767"/>
+    <polygon style="fill: #000000" points="741.938,104.777 736.909,94.7915 741.916,97.2767 746.909,94.7618 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="741.938,104.777 736.909,94.7915 741.916,97.2767 746.909,94.7618 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="741.075" y1="107.013" x2="741.075" y2="10.7234"/>
+    <polygon style="fill: #000000" points="741.075,3.22337 746.075,13.2234 741.075,10.7234 736.075,13.2234 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="741.075,3.22337 746.075,13.2234 741.075,10.7234 736.075,13.2234 "/>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="741.788,54 1040,54 1040,-186 1209.42,-186 "/>
+    <polygon style="fill: #000000" points="1216.92,-186 1206.92,-181 1209.42,-186 1206.92,-191 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1216.92,-186 1206.92,-181 1209.42,-186 1206.92,-191 "/>
+  </g>
+  <text font-size="16.9331" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="640" y="60">
+    <tspan x="640" y="60">Merged into</tspan>
+  </text>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="1369.08" y1="107.013" x2="1369.08" y2="10.7234"/>
+    <polygon style="fill: #000000" points="1369.08,3.22337 1374.08,13.2234 1369.08,10.7234 1364.08,13.2234 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1369.08,3.22337 1374.08,13.2234 1369.08,10.7234 1364.08,13.2234 "/>
+  </g>
+  <g>
+    <line style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x1="1368" y1="56" x2="1709.73" y2="55.9411"/>
+    <polygon style="fill: #000000" points="1717.23,55.9398 1707.23,60.9416 1709.73,55.9411 1707.23,50.9416 "/>
+    <polygon style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="1717.23,55.9398 1707.23,60.9416 1709.73,55.9411 1707.23,50.9416 "/>
+  </g>
+  <text font-size="12.7998" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="1260" y="80">
+    <tspan x="1260" y="80"></tspan>
+  </text>
+  <text font-size="16.9331" style="fill: #000000;text-anchor:start;font-family:sans-serif;font-style:normal;font-weight:normal" x="1268" y="64">
+    <tspan x="1268" y="64">Appended to</tspan>
+    <tspan x="1268" y="85.1667">existing bans</tspan>
+  </text>
+  <g>
+    <rect style="fill: #1d2882" x="592" y="108" width="298.15" height="372"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="592" y="108" width="298.15" height="372"/>
+    <text font-size="16.9331" style="fill: #ffffff;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="741.075" y="279.2">
+      <tspan x="741.075" y="279.2">Override Configuration</tspan>
+      <tspan x="741.075" y="300.367">IA-created, gitignored</tspan>
+      <tspan x="741.075" y="321.533">(config.json)</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #00ffff" x="1220" y="-372" width="298.15" height="372"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1220" y="-372" width="298.15" height="372"/>
+    <text font-size="16.9331" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1369.08" y="-179.633">
+      <tspan x="1369.08" y="-179.633">Basic Configuration</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #e85959" x="1220" y="108" width="298.15" height="372"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1220" y="108" width="298.15" height="372"/>
+    <text font-size="16.9331" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1369.08" y="279.2">
+      <tspan x="1369.08" y="279.2">Ban List</tspan>
+      <tspan x="1369.08" y="300.367">Administered by bot, gitignored</tspan>
+      <tspan x="1369.08" y="321.533">(bans.json)</tspan>
+    </text>
+  </g>
+  <g>
+    <rect style="fill: #ffb347" x="1720.46" y="-130.086" width="298.15" height="372"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="1720.46" y="-130.086" width="298.15" height="372"/>
+    <text font-size="16.9331" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:normal" x="1869.53" y="51.6969">
+      <tspan x="1869.53" y="51.6969">Full Configuration</tspan>
+      <tspan x="1869.53" y="72.8636">(config object, as used by code)</tspan>
+    </text>
+  </g>
+</svg>
