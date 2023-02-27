@@ -1,5 +1,7 @@
+* 			text=auto eol=lf
+
 *.js        text eol=lf
 *.md        text eol=lf
 *.json      text eol=lf
 *.sh        text eol=lf
-
+*.svg		text eol=lf
