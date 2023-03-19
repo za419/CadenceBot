@@ -1167,18 +1167,24 @@ function command(message) {
                     log.warning(
                         "Request failed with status code " + response.statusCode
                     );
-                    log.notice("Issued rate limiting message.");
 
                     // Grab the report of how much time is left from the response, and parse it into a string
-                    const left = generateTimeString(
-                        JSON.parse(body).TimeRemaining
-                    );
+					try {
+						const left = generateTimeString(
+							JSON.parse(body).TimeRemaining
+						);
 
-                    message.reply(
-                        "Sorry, Cadence limits how quickly you can make requests. You may request again in " +
-                            left +
-                            "."
-                    );
+						message.reply(
+							"Sorry, Cadence limits how quickly you can make requests. You may request again in " +
+								left +
+								"."
+						);
+						log.notice("Issued rate limiting message.");
+					} catch (e) {
+						log.info("Unable to send normal ratelimiting message due to error, falling back to generic reply");
+						log.error(`Received error ${e}`)
+						message.reply("Sorry, Cadence limits how often you can make requests, please try again later.");
+					}
                 } else {
                     log.error(
                         "Request failed with status code " + response.statusCode
