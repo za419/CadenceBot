@@ -845,7 +845,7 @@ function command(message) {
         };
 
         log.info("Making a request to " + url);
-        log.debug("data.search=" + data.search);
+        log.debug("data.Search=" + data.Search);
         var post = {
             url,
             body: data,
@@ -866,7 +866,7 @@ function command(message) {
                 if (songs == null || songs.length == 0) {
                     log.info("No results.");
                     message.reply(
-                        'Cadence has no results for "' + data.search + '".'
+                        'Cadence has no results for "' + data.Search + '".'
                     );
                 } else {
                     log.info(songs.length + " result(s).");
