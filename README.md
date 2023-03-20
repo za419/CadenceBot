@@ -4,11 +4,27 @@
 [![GitHub issues](https://img.shields.io/github/issues/za419/CadenceBot?style=flat-square)](https://github.com/za419/CadenceBot/issues)
 [![GitHub forks](https://img.shields.io/github/forks/za419/CadenceBot?style=flat-square)](https://github.com/za419/CadenceBot/network)
 
-CadenceBot is a [Discord](https://discordapp.com/) bot, which serves as a client for [Cadence Radio](https://github.com/kenellorando/cadence).
+**CadenceBot** is a [Discord](https://discordapp.com/) bot client for a [Cadence Radio](https://github.com/kenellorando/cadence) stack. 
 
-CadenceBot is fully featured, and is functionally equivalent to the [web client](http://cadenceradio.com/). You can add CadenceBot to your Discord server by clicking [this link.](https://discord.com/api/oauth2/authorize?client_id=372999377569972224&permissions=274881252352&scope=bot)
+It allows you to control your station through a Discord server and listen to the radio in voice channels! 
 
-## Implementation and details
+You can demo CadenceBot immediately by [adding it to your Discord server](https://discord.com/api/oauth2/authorize?client_id=372999377569972224&permissions=274881252352&scope=bot).
+
+## Quick Setup
+
+### Requirements
+1. You have familiarity self-hosting on a Linux server and using the `apt` package manager.
+
+### Installation
+1. [Get your token from Discord](https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token) and save it somewhere.
+2. Run the script `first-time-setup.sh`. This will prompt you for an (optional) email to deliver bot logs to and the Discord token you saved in the previous step.
+3. Run `restart.sh` or `node bot.js` and your instance of CadenceBot will start running.
+
+If at any point you need to recreate this setup to change configured parameters, you may simply rerun `first-time-setup.sh`.
+
+- See all alternative installation methods on [Installation Guide].
+
+## Implementation Details
 
 For more details of the Cadence ecosystem as a whole, see the main README on the [main Cadence repository](https://github.com/kenellorando/cadence). The following diagrams and description will center around CadenceBot itself.
 
@@ -54,110 +70,20 @@ The override configuration file (`config.json`) is optional, and will not cause 
 Finally, the ban list (`bans.json`) is created and administrated by the bot itself, and will preserve the list of banned users (along with information on when temporary bans are applicable) in case of bot restart. Since bans can be applied by the instance administrator dynamically from Discord, this list must be under the bot's control - It can be alterned manually only while the bot is offline, as changes will not be detected and the file may be reloaded at any time while the bot is active.
 </details>
 
-## Creating an instance of CadenceBot
-
-<details>
-<summary>Using <code>apt</code></summary>
-
-CadenceBot has a setup script for any platform which uses `apt` as package manager, which has `bash`, and for which `node.js`, `ffmpeg`, and `gcc`/`g++` are available.
-
-First, [get your token from Discord](https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token). I recommend allowing the setup script prepare your authentication file, and it will need that token, so save it for later.
-
-Then, clone the repository into a folder of your choosing on your server. Enter this folder, and run the script `first-time-setup.sh`.
-
-You'll be prompted first if you would like to set up emailing of logs on restarting the bot. When CadenceBot is started using the `restart.sh` script, all logging is directed into CadenceBot.log, stored in the same folder as the script. When the script is run, it overwrites that log. If you would like, a script called `maillog.sh` can be run to archive the log. The setup script can create this script for you, sending the log in the body of an email to the address of your choosing, with a subject line consisting of appending the current date and time to a prefix of your choosing. Remember to check your spam mail!
-
-If you choose not to do this during setup, but want to do it later, either write the appropriate commands into `maillog.sh`, or simply rerun `first-time-setup.sh`.
-
-You'll be prompted after that process is completed or skipped to setup your authentication file. I recommend doing this through the setup script - Although it's easy to do manually, it's simpler to use the script. Just enter the token you saved earlier.
-
-If you choose not to create the authentication file during setup, you'll have to do it before starting the bot (otherwise it will simply fail to start). You can either do this by rerunning the `first-time-setup.sh` script, or by placing your token in a file called `auth.json` (see `auth-example.json`).
-
-If at any point you need to recreate this setup, for example to change the address logs are mailed to, you can simply rerun `first-time-setup.sh` - The required sections will not do anything harmful to your setup unless you need a particular version of some packages for some reason outside CadenceBot, and the optional sections can be skipped simply by pressing enter.
-
-If you have followed these steps properly, you should be able to run `restart.sh` or `node bot.js`, and your instance of CadenceBot will start running.
-</details>
-
-<details>
-<summary>Not using <code>apt</code></summary>
-
-CadenceBot does not have any complete automated setup for platforms which do not use `apt`.
-
-Before anything else, clone the repository into a folder of your choosing on the server, and enter the folder. Then, install CadenceBot's dependencies:
-
-First, [install the latest `Node.js`](https://nodejs.org/en/download/) - You need at least version 12.0.0.
-
-Then, install the following:
-
- - `ffmpeg`
-
- - `gcc`
-
- - `g++`
-
-Now, [get your token from Discord](https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token). I recommend allowing the setup script prepare your authentication file, and it will need that token, so save it for later.
-
-Then, you can run the script `first-time-setup.sh` in the repository folder - It will generate errors related to the use of `apt`, but these can be disregarded.
-
-You'll be prompted first if you would like to set up emailing of logs on restarting the bot. When CadenceBot is started using the `restart.sh` script, all logging is directed into CadenceBot.log, stored in the same folder as the script. When the script is run, it overwrites that log. If you would like, a script called `maillog.sh` can be run to archive the log. The setup script can create this script for you, sending the log in the body of an email to the address of your choosing, with a subject line consisting of appending the current date and time to a prefix of your choosing. Remember to check your spam mail!
-
-If you choose not to do this during setup, but want to do it later, either write the appropriate commands into `maillog.sh`, or simply rerun `first-time-setup.sh`.
-
-You'll be prompted after that process is completed or skipped to setup your authentication file. I recommend doing this through the setup script - Although it's easy to do manually, it's simpler to use the script. Just enter the token you saved earlier.
-
-If you choose not to create the authentication file during setup, you'll have to do it before starting the bot (otherwise it will simply fail to start). You can either do this by rerunning the `first-time-setup.sh` script, or by placing your token in a file called `auth.json` (see `auth-example.json`).
-
-If at any point you need to recreate this setup, for example to change the address logs are mailed to, you can simply rerun `first-time-setup.sh` - The required sections will not do anything harmful to your setup unless you need a particular version of some packages for some reason outside CadenceBot, and the optional sections can be skipped simply by pressing enter.
-
-If you have followed these steps properly, you should be able to run `restart.sh` or `node bot.js`, and your instance of CadenceBot will start running.
-</details>
-
-<details>
-<summary>Fully manual setup</summary>
-
-Completely manual setup is not recommended, only because of the need to install the npm packages in `setup.sh`, in the order they appear. I therefore recommend at least running that script. Manual setup using that script proceeds as follows:
-
-Clone the CadenceBot repository into a directory of your choosing.
-
-First, [install the latest `Node.js`](https://nodejs.org/en/download/) - You need at least version 12.0.0.
-
-Then, install the following:
-
- - `ffmpeg`
-
- - `gcc`
-
- - `g++`
-
-Now, run `setup.sh`, or open the file and install the npm packages present there in the order they appear.
-
-The next step is to setup your authentication file. [Get your token from Discord](https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token), and place it in a file named `auth.json`, following the format in `auth-example.json`.
-
-Once this script finishes, [get your token from Discord](https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token), and place it in a file called `auth.json` (see `auth-example.json`).
-
-At this point, you should be able to run CadenceBot, but in order to ensure that your `node_modules` stay up-to-date as new changes are made to CadenceBot, it is recommended that you install the `auto-setup.sh` script as a git hook.
-
-To do this, simply copy it into the `.git/hooks/` directory, as at least the `post-merge` hook. The `first-time-setup.sh` script copies my setup, which can is to have `auto-setup.sh` run on both post-merge and post-checkout. This can be duplicated with:
-
-`cp auto-setup.sh .git/hooks/post-checkout`
-
-`cp auto-setup.sh .git/hooks/post-merge`
-
-The `auto-setup.sh` script removes `node_modules` and re-runs `setup.sh`. If you wish, you can write your own script to duplicate this behavior, or simply skip it - This function is not necessarily required for CadenceBot to run, but it does avoid errors when new CadenceBot features rely on module updates, so if you don't keep your setup up-to-date automatically, be ready to have to update your modules as shown in `setup.sh` (keep in mind that this script does change on occasion).
-
-Now, CadenceBot should run properly, even if a change requires a new module or new module version. There is only one detail left - When CadenceBot is restarted by the `restart.sh` script, it keeps its log in the `CadenceBot.log` file, which is overwritten each time the script is run. If this is not desired, you can make a `maillog.sh` script, which shall be run before starting the bot each time `restart.sh` is run, with the intention of being used to archive the log before it is deleted (by email, usually). Add whichever commands you would like to this script to have your logs archived automatically.
-</details>
-
 ## Development
 
-### Prettier
-
+<details>
+  <summary>Prettier</summary>
+  
 [Prettier](https://prettier.io/) will be used to maintain the formatting of code files in CadenceBot - These being shell scripts (\*.sh) and Node files (\*.js). Configuration files (\*.json) are not affected by this at the moment.
 
 While it is not necessarily required to use Prettier during development, formatting will be performed before new releases are tagged to help maintain some style consistency in the project (via `tag-release.sh`)
+  
+</details>
 
-### Branches
-
+<details>
+  <summary>Branches</summary>
+  
 Branch names should avoid uppercase characters where reasonable.
 
 - `dev-master`: Features which are in development or in testing, but will eventually make it to `master`, unless there's some catastrophe in their implementation (such as if they become impractical to translate into production, or if the performance impact of a feature becomes too great)
@@ -170,9 +96,12 @@ Branch names should avoid uppercase characters where reasonable.
   - These branches should be merged into `dev-master` as soon as they are in an 'operational' state
     - That is, as soon as the feature can be activated and can run on the development server (it might not work, or it might occasionally crash the bot, but it does not always crash, even when the feature is triggered), and when the feature is set to go into production (when it is deemed likely to be practical and likely to be a wanted addition to the bot).
     - The feature branch should then be deleted.
+  
+</details>
 
-### Release procedure
-
+<details>
+  <summary>Release Procedure</summary>
+  
 A new release is made whenever `dev-master` is merged into `master`, which is to say whenever a feature is moved from "development" or "testing" to "production". Releases should follow [Semantic versioning](https://semver.org/) (with the difference that, occasionally, I refer to releases which increment patch version as 'minor releases', those which increment minor version as 'releases' and those which increment major version as 'major releases'). Since CadenceBot does not deliver much of an API (it can be used as one, interacting with `command` by mocked messages as is done somewhat often in the bot itself, but this is not the intended use of the bot, and the specifics of what fields the mocked message must define are undocumented, must be found by inspecting the code, and are under no obligation not to change at any time), CadenceBot follows different rules for when version numbers are incremented - Semver compliance is mostly for rigidly formatted versioning which can be automatically parsed.
 
 Version numbers are incremented as follows:
@@ -199,3 +128,4 @@ To facilitate this release process, this repository includes `tag-release.sh`, w
  - Prompt you to review the changes before pushing them to `master`.
 
 Note that the script does not apply any sort of validation or sanity check to the passed version number at this time: It is up to you, as maintainer, to validate that the version number is correctly formatted, is newer than existing version numbers, and has proper scope.
+</details>
