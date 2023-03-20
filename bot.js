@@ -854,25 +854,25 @@ function command(message) {
             followOriginalHttpMethod: true,
             gzip: true,
         };
-        request.post(post, function (err, response, songs) {
+        request.post(post, function (err, response, body) {
             log.info("Received response.");
             if (!err && (!response || response.statusCode == 200)) {
                 log.info(
                     "No error, and either no status code or status code 200."
                 );
                 log.debug(
-                    "Received body:\n\n" + JSON.stringify(songs) + "\n\n"
+                    "Received body:\n\n" + JSON.stringify(body) + "\n\n"
                 );
-                if (songs == null || songs.length == 0) {
+                if (body == null || body.length == 0) {
                     log.info("No results.");
                     message.reply(
                         'Cadence has no results for "' + data.Search + '".'
                     );
                 } else {
-                    log.info(songs.length + " result(s).");
-                    lastSearchedSongs[message.channel.id] = songs;
+                    log.info(body.length + " result(s).");
+                    lastSearchedSongs[message.channel.id] = body;
                     var response = "Cadence returned:\n";
-                    response += searchResultsFormat(songs);
+                    response += searchResultsFormat(body);
                     log.debug("Issuing response:\n\n" + response + "\n\n");
                     sendLongReply(message, response);
                 }
