@@ -860,9 +860,7 @@ function command(message) {
                 log.info(
                     "No error, and either no status code or status code 200."
                 );
-                log.debug(
-                    "Received body:\n\n" + JSON.stringify(body) + "\n\n"
-                );
+                log.debug("Received body:\n\n" + JSON.stringify(body) + "\n\n");
                 if (body == null || body.length == 0) {
                     log.info("No results.");
                     message.reply(
@@ -1169,22 +1167,26 @@ function command(message) {
                     );
 
                     // Grab the report of how much time is left from the response, and parse it into a string
-					try {
-						const left = generateTimeString(
-							JSON.parse(body).TimeRemaining
-						);
+                    try {
+                        const left = generateTimeString(
+                            JSON.parse(body).TimeRemaining
+                        );
 
-						message.reply(
-							"Sorry, Cadence limits how quickly you can make requests. You may request again in " +
-								left +
-								"."
-						);
-						log.notice("Issued rate limiting message.");
-					} catch (e) {
-						log.info("Unable to send normal ratelimiting message due to error, falling back to generic reply");
-						log.error(`Received error ${e}`)
-						message.reply("Sorry, Cadence limits how often you can make requests, please try again later.");
-					}
+                        message.reply(
+                            "Sorry, Cadence limits how quickly you can make requests. You may request again in " +
+                                left +
+                                "."
+                        );
+                        log.notice("Issued rate limiting message.");
+                    } catch (e) {
+                        log.info(
+                            "Unable to send normal ratelimiting message due to error, falling back to generic reply"
+                        );
+                        log.error(`Received error ${e}`);
+                        message.reply(
+                            "Sorry, Cadence limits how often you can make requests, please try again later."
+                        );
+                    }
                 } else {
                     log.error(
                         "Request failed with status code " + response.statusCode
@@ -1327,6 +1329,52 @@ function command(message) {
         }
         log.info("Current server status:\n" + status);
         message.reply(status);
+    }
+    if (messageContent === config.commands.history) {
+        log.notice(
+            "Received song history command in text channel " +
+                message.channel.name +
+                ", server " +
+                message.guild.name +
+                "."
+        );
+        const url = config.API.aria.prefix + config.API.aria.history;
+
+        log.info("Making a request to " + url);
+        request.get({ url, form: {} }, (err, response, body) => {
+            if (!err && body != null) {
+                log.info("Request succeeded.");
+                log.debug("Received body:");
+                log.debug(body);
+                let history;
+                if ((body = "" || (history = JSON.parse(body)).length === 0)) {
+                    log.info("Results are empty. Replying appropriately.");
+                    message.reply("Cadence has no song history at the moment.");
+                } else {
+                    log.info(
+                        `Results are nonempty, and contain ${history.length} songs. Formatting reply.`
+                    );
+                    let response =
+                        "Cadence has recently played the following songs:\n";
+                    response += searchResultsFormat(history);
+
+                    // I'm not sure history will ever be long enough to actually merit the overhead of sendLongReply, as small as it is.
+                    // The API spec says it will return at most 10 songs, while with "normal" metadata I've observed it takes about 50.
+                    // However, bad things will happen if we don't use it and end up needing it.
+                    // Let's program defensively and not assume shenangigans don't happen.
+                    sendLongReply(message, response);
+                    log.info("Sent reply.");
+                }
+            } else {
+                console.error("Received null body or non-null error!");
+                console.error(`body: ${body}`);
+                console.error(`error: ${err}`);
+                console.error(`Response status code: ${response.statusCode}`);
+                message.reply(
+                    `Error ${response.statusCode}. Please try again later.`
+                );
+            }
+        });
     } else if (
         config.enableLogMailing &&
         message.content == config.logMailCommand
