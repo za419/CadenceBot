@@ -190,11 +190,14 @@
       "library": "NOT IMPLEMENTED BY UPSTREAM",
       "nowplaying": "/api/nowplaying/metadata",
       "history": "/api/history",
+      "listenurl": "/api/listenurl",
       "key": false
     },
     "stream": {
-      "prefix": "https://stream.cadenceradio.com",
-      "stream": "/cadence1"
+      "automatic": true,
+      "protocol": "https",
+      "fallbackPrefix": "stream.cadenceradio.com",
+      "fallbackStream": "/cadence1"
     }
   },
   "logging": {
