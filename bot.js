@@ -117,13 +117,22 @@ const stream = bot.voice.createBroadcast();
 // This variable will track our current stream status, for reporting reasons
 let streamStatus = "Startup";
 
+// This will be the path we connect to.
+// By default, we shall use fallback paths set in config
+// But, if configured to try to auto-fetch it, we'll grab the new path and put it here.
+let streamPath =
+    config.API.stream.protocol +
+    "://" +
+    config.API.stream.fallbackPrefix +
+    config.API.stream.fallbackStream;
+
 // This function initializes the stream.
 // It is provided to allow the stream to reinitialize itself when it encounters an issue...
 // Which appears to happen rather often with the broadcast.
 function beginGlobalPlayback() {
     streamStatus = "Connecting...";
     try {
-        stream.play(config.API.stream.prefix + config.API.stream.stream, {
+        stream.play(streamPath, {
             bitrate: config.stream.bitrate,
             volume: config.stream.volume,
             passes: config.stream.retryCount,
@@ -136,6 +145,38 @@ function beginGlobalPlayback() {
         streamStatus = "Connection failed.";
         setTimeout(beginGlobalPlayback, 100);
     }
+}
+
+// If the stream path should be set automatically, try to override our streamPath from the upstream.
+if (config.API.stream.automatic) {
+    log.info("Attempting automatic set of steam path.");
+    const url = config.API.aria.prefix + config.API.aria.listenurl;
+    log.debug(`Making request to ${url}`);
+    request.get({ url, form: {} }, (err, response, body) => {
+        if (!err && body != null) {
+            log.info("Received response:");
+            log.info(body);
+
+            try {
+                const path = JSON.parse(body).ListenURL;
+                streamPath = config.API.stream.protocol + "://" + path;
+                log.info(`Setting path to ${path} and reconnecting.`);
+
+                // End the stream to trigger a reconnect.
+                stream.end();
+
+                // If it hangs on reconnecting for a while, set the status to something useful.
+                // Generally, about 60ms of dead air is considered acceptable in radio transmissions...
+                // So that's probably a good window (it's also four intervals of end+reattempt)
+                setTimeout(() => {
+                    if (streamStatus === "Ended.") {
+                        streamStatus =
+                            "Attempting to reconnect for change of listenURL.";
+                    }
+                }, 60);
+            } catch (error) {}
+        }
+    });
 }
 
 // Start up the stream before we initialize event handlers.
