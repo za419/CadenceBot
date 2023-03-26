@@ -6,7 +6,8 @@
     "nowplaying": "Cadence now playing",
     "search": "Cadence search ",
     "request": "Cadence request ",
-    "status": "Cadence status"
+    "status": "Cadence status",
+    "history": "Cadence history"
   },
   "commandDescriptions": {
     "play": {
@@ -34,6 +35,9 @@
     },
     "status": {
       "description": "Confirms that CadenceBot is active and reports on the state of the stream connection"
+    },
+    "history": {
+      "description": "Displays a list of up to the last ten unique songs played on Cadence"
     }
   },
   "commandAliases": [
@@ -183,8 +187,9 @@
       "prefix": "https://cadenceradio.com",
       "search": "/api/search",
       "request": "/api/request/id",
-      "library": "/api/aria1/library",
+      "library": "NOT IMPLEMENTED BY UPSTREAM",
       "nowplaying": "/api/nowplaying/metadata",
+      "history": "/api/history",
       "key": false
     },
     "stream": {
