@@ -170,18 +170,8 @@ if (config.API.stream.automatic) {
                 streamPath = config.API.stream.protocol + "://" + path;
                 log.info(`Setting path to ${streamPath} and reconnecting.`);
 
-                // End the stream to trigger a reconnect.
-                stream.end();
-
-                // If it hangs on reconnecting for a while, set the status to something useful.
-                // Generally, about 60ms of dead air is considered acceptable in radio transmissions...
-                // So that's probably a good window (it's also four intervals of end+reattempt)
-                setTimeout(() => {
-                    if (streamStatus === "Ended.") {
-                        streamStatus =
-                            "Attempting to reconnect for change of listenURL.";
-                    }
-                }, 60);
+                // Trigger a new playback
+                beginGlobalPlayback();
             } catch (error) {}
         }
     });
