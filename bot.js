@@ -168,7 +168,7 @@ if (config.API.stream.automatic) {
             try {
                 const path = JSON.parse(body).ListenURL;
                 streamPath = config.API.stream.protocol + "://" + path;
-                log.info(`Setting path to ${path} and reconnecting.`);
+                log.info(`Setting path to ${streamPath} and reconnecting.`);
 
                 // End the stream to trigger a reconnect.
                 stream.end();
