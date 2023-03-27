@@ -230,6 +230,7 @@
   "padLog": true,
   "roundtripDelayMs": 500,
   "statusUpdateIntervalMs": 3000,
+  "maxCachedAlbumArts": 10,
   "enableRequestTags": false,
   "useGuildTagsForRequests": false,
   "allowInsecure": true,
