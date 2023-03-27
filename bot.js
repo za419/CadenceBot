@@ -108,13 +108,38 @@ var reconnectTimeout = 30; // Seconds
 
 var lastSearchedSongs = {};
 
-// Cache for the most recently fetched album art.
-// This is kind of an awkward/potentially bug-prone item...
-// We don't want to keep hitting Cadence with requests for potentially large album art on request
-// But, if someone asks for nowplaying in between when the song changes and when we update presence...
-// Well, we simply might end up posting the wrong album art for a song, which isn't very nice.
-// We might need to reduce the default interval in addition to SSE support to try and avoid that.
-let lastAlbumArt = null;
+// Memoization layer around album art, to avoid excessive fetches.
+async function getAlbumArt(currentSong) {
+    if (this.cache == null) {
+        log.debug("Initializing album art cache...");
+        this.cache = {};
+    }
+
+    log.debug(`Searching album art cache for '${currentSong}'`);
+    if (this.cache[currentSong] != null) {
+        log.debug(
+            `Found cached art with length ${this.cache[currentSong].length}.`
+        );
+        return this.cache[currentSong];
+    }
+
+    log.debug("Cache miss. Fetching art for addition to cache.");
+    const artURL = config.API.aria.prefix + config.API.aria.albumart;
+    log.debug(`fetch('${artURL}')`);
+    const response = await fetch(artURL);
+    const text = await response.text();
+    log.debug(`Received response with length ${text.length}.`);
+    try {
+        const art = Buffer.from(JSON.parse(text).Picture, "base64");
+        this.cache[currentSong] = art;
+        log.debug("Added art to cache");
+        return art;
+    } catch (err) {
+        log.debug("Encountered error with parse of album art:");
+        log.debug(err);
+        return null;
+    }
+}
 
 // This is the single audio stream which will be used for all CadenceBot listeners.
 // This saves bandwidth and encoding overhead as compared to having one stream for each server.
@@ -869,31 +894,29 @@ function command(message) {
         log.notice("Received nowplaying command.");
         const url = config.API.aria.prefix + config.API.aria.nowplaying;
         log.info("Issuing fetch request to " + url);
-        fetch(url).then(response => {
+        fetch(url).then(async response => {
             log.info("Received response.");
-            response.text().then(text => {
-                log.info("Response text:\n\n" + text + "\n\n");
-                log.info("Parsing response...");
-                song = nowPlayingFormat(text);
-                bot.user.setPresence({ game: { name: song } });
-                log.notice("Parse complete: Now playing " + song);
-                message.reply("Now playing: " + song);
+            const text = await response.text();
+            log.info("Response text:\n\n" + text + "\n\n");
+            log.info("Parsing response...");
+            song = nowPlayingFormat(text);
+            bot.user.setPresence({ game: { name: song } });
+            log.notice("Parse complete: Now playing " + song);
+            message.reply("Now playing: " + song);
 
-                // If we have saved album art, attach it
-                if (lastAlbumArt) {
-                    log.info("Found existing album art.");
-                    log.debug(
-                        `Stored album art is ${lastAlbumArt.length} bytes long`
-                    );
-                    const attachment = new Discord.MessageAttachment(
-                        lastAlbumArt,
-                        "AlbumArt.png"
-                    );
-                    message.channel.send(attachment);
-                } else {
-                    log.info("No available album art.");
-                }
-            });
+            // If we have saved album art, attach it
+            const albumArt = await getAlbumArt(song);
+            if (albumArt) {
+                log.info("Found existing album art.");
+                log.debug(`Stored album art is ${albumArt.length} bytes long`);
+                const attachment = new Discord.MessageAttachment(
+                    albumArt,
+                    "AlbumArt.png"
+                );
+                message.channel.send(attachment);
+            } else {
+                log.info("No available album art.");
+            }
         });
     } else if (messageContent.startsWith(config.commands.search)) {
         log.notice(
@@ -1996,23 +2019,6 @@ function updatePresence() {
                     name: song,
                 },
             });
-        });
-    });
-
-    log.debug("Updating cached album art...");
-    const artURL = config.API.aria.prefix + config.API.aria.albumart;
-    log.debug(`fetch('${artURL}')`);
-    fetch(artURL).then(response => {
-        response.text().then(text => {
-            log.debug(`Received response with length ${text.length}.`);
-            try {
-                lastAlbumArt = Buffer.from(JSON.parse(text).Picture, "base64");
-                log.debug("Set new cached album art");
-            } catch (err) {
-                lastAlbumArt = null;
-                log.debug("Encountered error with parse of album art:");
-                log.debug(err);
-            }
         });
     });
 
