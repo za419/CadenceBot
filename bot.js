@@ -1998,7 +1998,7 @@ function updatePresence() {
     log.debug(`fetch('${artURL}')`);
     fetch(artURL).then(response => {
         response.text().then(text => {
-            log.debug(`Received response:\n\n${text}\n\n`);
+            log.debug(`Received response with length ${text.length}.`);
             try {
                 lastAlbumArt = Buffer.from(JSON.parse(text).Picture, "base64");
                 log.debug("Set new cached album art");
