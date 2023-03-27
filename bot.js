@@ -887,7 +887,7 @@ function command(message) {
                     );
                     const attachment = new Discord.MessageAttachment(
                         lastAlbumArt,
-                        "Album Art"
+                        "AlbumArt.png"
                     );
                     message.channel.send(attachment);
                 } else {
