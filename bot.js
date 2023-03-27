@@ -754,6 +754,13 @@ function command(message) {
                             msg.reply = function (s) {
                                 log.debug("Sent message: " + s);
                             };
+                            msg.channel = {
+                                send: d => {
+                                    log.debug(
+                                        `Sent additional data with length ${d.length}.`
+                                    );
+                                },
+                            };
                             log.notice(
                                 "Sending false nowplaying command in server " +
                                     message.guild.name +
