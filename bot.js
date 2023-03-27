@@ -140,6 +140,7 @@ let streamPath =
 function beginGlobalPlayback() {
     streamStatus = "Connecting...";
     try {
+        log.info(`Connecting to music stream at ${streamPath}...`);
         stream.play(streamPath, {
             bitrate: config.stream.bitrate,
             volume: config.stream.volume,
