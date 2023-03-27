@@ -191,6 +191,7 @@
       "nowplaying": "/api/nowplaying/metadata",
       "history": "/api/history",
       "listenurl": "/api/listenurl",
+      "albumart": "/api/nowplaying/albumart",
       "key": false
     },
     "stream": {
