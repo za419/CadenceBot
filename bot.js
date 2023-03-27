@@ -172,7 +172,15 @@ if (config.API.stream.automatic) {
 
                 // Trigger a new playback
                 beginGlobalPlayback();
-            } catch (error) {}
+            } catch (error) {
+                log.error("Error encountered during parse of listen URL:");
+                log.error(error);
+            }
+        } else {
+            log.error("Received null body or non-null error!");
+            log.error(`body: ${body}`);
+            log.error(`error: ${err}`);
+            log.error(`Response status code: ${response.statusCode}`);
         }
     });
 }
@@ -1420,10 +1428,10 @@ function command(message) {
                     log.info("Sent reply.");
                 }
             } else {
-                console.error("Received null body or non-null error!");
-                console.error(`body: ${body}`);
-                console.error(`error: ${err}`);
-                console.error(`Response status code: ${response.statusCode}`);
+                log.error("Received null body or non-null error!");
+                log.error(`body: ${body}`);
+                log.error(`error: ${err}`);
+                log.error(`Response status code: ${response.statusCode}`);
                 message.reply(
                     `Error ${response.statusCode}. Please try again later.`
                 );
