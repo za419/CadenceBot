@@ -108,6 +108,14 @@ var reconnectTimeout = 30; // Seconds
 
 var lastSearchedSongs = {};
 
+// Cache for the most recently fetched album art.
+// This is kind of an awkward/potentially bug-prone item...
+// We don't want to keep hitting Cadence with requests for potentially large album art on request
+// But, if someone asks for nowplaying in between when the song changes and when we update presence...
+// Well, we simply might end up posting the wrong album art for a song, which isn't very nice.
+// We might need to reduce the default interval in addition to SSE support to try and avoid that.
+let lastAlbumArt = null;
+
 // This is the single audio stream which will be used for all CadenceBot listeners.
 // This saves bandwidth and encoding overhead as compared to having one stream for each server.
 // As an added bonus, it also keeps all CadenceBot listeners in perfect sync!
@@ -864,6 +872,21 @@ function command(message) {
                 bot.user.setPresence({ game: { name: song } });
                 log.notice("Parse complete: Now playing " + song);
                 message.reply("Now playing: " + song);
+
+                // If we have saved album art, attach it
+                if (lastAlbumArt) {
+                    log.info("Found existing album art.");
+                    log.debug(
+                        `Stored album art is ${lastAlbumArt.length} bytes long`
+                    );
+                    const attachment = new Discord.MessageAttachment(
+                        lastAlbumArt,
+                        "Album Art"
+                    );
+                    message.channel.send(attachment);
+                } else {
+                    log.info("No available album art.");
+                }
             });
         });
     } else if (messageContent.startsWith(config.commands.search)) {
@@ -1957,7 +1980,7 @@ function updatePresence() {
     log.debug(`fetch('${URL}')`);
     fetch(URL).then(response => {
         response.text().then(text => {
-            log.debug("Received response:\n\n" + text + "\n\n");
+            log.debug(`Received response:\n\n${text}\n\n`);
             song = nowPlayingFormat(text);
             log.debug("Now playing:\n\n" + song + "\n\n");
             bot.user.setPresence({
@@ -1967,9 +1990,27 @@ function updatePresence() {
                     name: song,
                 },
             });
-            log.debug("Set timeout to be called again");
         });
     });
+
+    log.debug("Updating cached album art...");
+    const artURL = config.API.aria.prefix + config.API.aria.albumart;
+    log.debug(`fetch('${artURL}')`);
+    fetch(artURL).then(response => {
+        response.text().then(text => {
+            log.debug(`Received response:\n\n${text}\n\n`);
+            try {
+                lastAlbumArt = Buffer.from(JSON.parse(text).Picture, "base64");
+                log.debug("Set new cached album art");
+            } catch (err) {
+                lastAlbumArt = null;
+                log.debug("Encountered error with parse of album art:");
+                log.debug(err);
+            }
+        });
+    });
+
+    log.debug("Set timeout to be called again");
     bot.setTimeout(updatePresence, config.statusUpdateIntervalMs);
 }
 
