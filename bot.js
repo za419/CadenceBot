@@ -131,6 +131,35 @@ async function getAlbumArt(currentSong) {
     log.debug(`Received response with length ${text.length}.`);
     try {
         const art = Buffer.from(JSON.parse(text).Picture, "base64");
+
+        // If configured to limit the size of the cache, and we're at the limit, drop an artwork to make room.
+        if (config.maxCachedAlbumArts > 0) {
+            log.info(
+                "Album art cache has a maximum configured size. Checking for cleanup need."
+            );
+            while (
+                Object.keys(this.cache).length >= config.maxCachedAlbumArts
+            ) {
+                log.debug(
+                    `Cache currently has ${
+                        Object.keys(this.cache).length
+                    } artworks, which is at least at the limit of ${
+                        config.maxCachedAlbumArts
+                    }.`
+                );
+                const key = Object.keys(this.cache)[0];
+                log.debug(`Removing artwork cached for '${key}'...`);
+                delete this.cache[key];
+            }
+            log.info("Cache is below the size limit.");
+            log.debug(
+                `Current size is ${
+                    Object.keys(this.cache).length
+                }, configured limit is ${config.maxCachedAlbumArts}.`
+            );
+        }
+
+        // Now that we know there's at least one clear slot, we can store the new art in there.
         this.cache[currentSong] = art;
         log.debug("Added art to cache");
         return art;
