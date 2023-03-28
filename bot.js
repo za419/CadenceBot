@@ -108,6 +108,68 @@ var reconnectTimeout = 30; // Seconds
 
 var lastSearchedSongs = {};
 
+// Memoization layer around album art, to avoid excessive fetches.
+async function getAlbumArt(currentSong) {
+    if (this.cache == null) {
+        log.debug("Initializing album art cache...");
+        this.cache = {};
+    }
+
+    log.debug(`Searching album art cache for '${currentSong}'`);
+    if (this.cache[currentSong] != null) {
+        log.debug(
+            `Found cached art with length ${this.cache[currentSong].length}.`
+        );
+        return this.cache[currentSong];
+    }
+
+    log.debug("Cache miss. Fetching art for addition to cache.");
+    const artURL = config.API.aria.prefix + config.API.aria.albumart;
+    log.debug(`fetch('${artURL}')`);
+    const response = await fetch(artURL);
+    const text = await response.text();
+    log.debug(`Received response with length ${text.length}.`);
+    try {
+        const art = Buffer.from(JSON.parse(text).Picture, "base64");
+
+        // If configured to limit the size of the cache, and we're at the limit, drop an artwork to make room.
+        if (config.maxCachedAlbumArts > 0) {
+            log.info(
+                "Album art cache has a maximum configured size. Checking for cleanup need."
+            );
+            while (
+                Object.keys(this.cache).length >= config.maxCachedAlbumArts
+            ) {
+                log.debug(
+                    `Cache currently has ${
+                        Object.keys(this.cache).length
+                    } artworks, which is at least at the limit of ${
+                        config.maxCachedAlbumArts
+                    }.`
+                );
+                const key = Object.keys(this.cache)[0];
+                log.debug(`Removing artwork cached for '${key}'...`);
+                delete this.cache[key];
+            }
+            log.info("Cache is below the size limit.");
+            log.debug(
+                `Current size is ${
+                    Object.keys(this.cache).length
+                }, configured limit is ${config.maxCachedAlbumArts}.`
+            );
+        }
+
+        // Now that we know there's at least one clear slot, we can store the new art in there.
+        this.cache[currentSong] = art;
+        log.debug("Added art to cache");
+        return art;
+    } catch (err) {
+        log.debug("Encountered error with parse of album art:");
+        log.debug(err);
+        return null;
+    }
+}
+
 // This is the single audio stream which will be used for all CadenceBot listeners.
 // This saves bandwidth and encoding overhead as compared to having one stream for each server.
 // As an added bonus, it also keeps all CadenceBot listeners in perfect sync!
@@ -117,13 +179,23 @@ const stream = bot.voice.createBroadcast();
 // This variable will track our current stream status, for reporting reasons
 let streamStatus = "Startup";
 
+// This will be the path we connect to.
+// By default, we shall use fallback paths set in config
+// But, if configured to try to auto-fetch it, we'll grab the new path and put it here.
+let streamPath =
+    config.API.stream.protocol +
+    "://" +
+    config.API.stream.fallbackPrefix +
+    config.API.stream.fallbackStream;
+
 // This function initializes the stream.
 // It is provided to allow the stream to reinitialize itself when it encounters an issue...
 // Which appears to happen rather often with the broadcast.
 function beginGlobalPlayback() {
     streamStatus = "Connecting...";
     try {
-        stream.play(config.API.stream.prefix + config.API.stream.stream, {
+        log.info(`Connecting to music stream at ${streamPath}...`);
+        stream.play(streamPath, {
             bitrate: config.stream.bitrate,
             volume: config.stream.volume,
             passes: config.stream.retryCount,
@@ -136,6 +208,36 @@ function beginGlobalPlayback() {
         streamStatus = "Connection failed.";
         setTimeout(beginGlobalPlayback, 100);
     }
+}
+
+// If the stream path should be set automatically, try to override our streamPath from the upstream.
+if (config.API.stream.automatic) {
+    log.info("Attempting automatic set of steam path.");
+    const url = config.API.aria.prefix + config.API.aria.listenurl;
+    log.debug(`Making request to ${url}`);
+    request.get({ url, form: {} }, (err, response, body) => {
+        if (!err && body != null) {
+            log.info("Received response:");
+            log.info(body);
+
+            try {
+                const path = JSON.parse(body).ListenURL;
+                streamPath = config.API.stream.protocol + "://" + path;
+                log.info(`Setting path to ${streamPath} and reconnecting.`);
+
+                // Trigger a new playback
+                beginGlobalPlayback();
+            } catch (error) {
+                log.error("Error encountered during parse of listen URL:");
+                log.error(error);
+            }
+        } else {
+            log.error("Received null body or non-null error!");
+            log.error(`body: ${body}`);
+            log.error(`error: ${err}`);
+            log.error(`Response status code: ${response.statusCode}`);
+        }
+    });
 }
 
 // Start up the stream before we initialize event handlers.
@@ -706,6 +808,13 @@ function command(message) {
                             msg.reply = function (s) {
                                 log.debug("Sent message: " + s);
                             };
+                            msg.channel = {
+                                send: d => {
+                                    log.debug(
+                                        `Sent additional data with length ${d.length}.`
+                                    );
+                                },
+                            };
                             log.notice(
                                 "Sending false nowplaying command in server " +
                                     message.guild.name +
@@ -814,16 +923,29 @@ function command(message) {
         log.notice("Received nowplaying command.");
         const url = config.API.aria.prefix + config.API.aria.nowplaying;
         log.info("Issuing fetch request to " + url);
-        fetch(url).then(response => {
+        fetch(url).then(async response => {
             log.info("Received response.");
-            response.text().then(text => {
-                log.info("Response text:\n\n" + text + "\n\n");
-                log.info("Parsing response...");
-                song = nowPlayingFormat(text);
-                bot.user.setPresence({ game: { name: song } });
-                log.notice("Parse complete: Now playing " + song);
-                message.reply("Now playing: " + song);
-            });
+            const text = await response.text();
+            log.info("Response text:\n\n" + text + "\n\n");
+            log.info("Parsing response...");
+            song = nowPlayingFormat(text);
+            bot.user.setPresence({ game: { name: song } });
+            log.notice("Parse complete: Now playing " + song);
+            message.reply("Now playing: " + song);
+
+            // If we have saved album art, attach it
+            const albumArt = await getAlbumArt(song);
+            if (albumArt) {
+                log.info("Found existing album art.");
+                log.debug(`Stored album art is ${albumArt.length} bytes long`);
+                const attachment = new Discord.MessageAttachment(
+                    albumArt,
+                    "AlbumArt.png"
+                );
+                message.channel.send(attachment);
+            } else {
+                log.info("No available album art.");
+            }
         });
     } else if (messageContent.startsWith(config.commands.search)) {
         log.notice(
@@ -860,9 +982,7 @@ function command(message) {
                 log.info(
                     "No error, and either no status code or status code 200."
                 );
-                log.debug(
-                    "Received body:\n\n" + JSON.stringify(body) + "\n\n"
-                );
+                log.debug("Received body:\n\n" + JSON.stringify(body) + "\n\n");
                 if (body == null || body.length == 0) {
                     log.info("No results.");
                     message.reply(
@@ -1169,22 +1289,26 @@ function command(message) {
                     );
 
                     // Grab the report of how much time is left from the response, and parse it into a string
-					try {
-						const left = generateTimeString(
-							JSON.parse(body).TimeRemaining
-						);
+                    try {
+                        const left = generateTimeString(
+                            JSON.parse(body).TimeRemaining
+                        );
 
-						message.reply(
-							"Sorry, Cadence limits how quickly you can make requests. You may request again in " +
-								left +
-								"."
-						);
-						log.notice("Issued rate limiting message.");
-					} catch (e) {
-						log.info("Unable to send normal ratelimiting message due to error, falling back to generic reply");
-						log.error(`Received error ${e}`)
-						message.reply("Sorry, Cadence limits how often you can make requests, please try again later.");
-					}
+                        message.reply(
+                            "Sorry, Cadence limits how quickly you can make requests. You may request again in " +
+                                left +
+                                "."
+                        );
+                        log.notice("Issued rate limiting message.");
+                    } catch (e) {
+                        log.info(
+                            "Unable to send normal ratelimiting message due to error, falling back to generic reply"
+                        );
+                        log.error(`Received error ${e}`);
+                        message.reply(
+                            "Sorry, Cadence limits how often you can make requests, please try again later."
+                        );
+                    }
                 } else {
                     log.error(
                         "Request failed with status code " + response.statusCode
@@ -1327,6 +1451,52 @@ function command(message) {
         }
         log.info("Current server status:\n" + status);
         message.reply(status);
+    }
+    if (messageContent === config.commands.history) {
+        log.notice(
+            "Received song history command in text channel " +
+                message.channel.name +
+                ", server " +
+                message.guild.name +
+                "."
+        );
+        const url = config.API.aria.prefix + config.API.aria.history;
+
+        log.info("Making a request to " + url);
+        request.get({ url, form: {} }, (err, response, body) => {
+            if (!err && body != null) {
+                log.info("Request succeeded.");
+                log.debug("Received body:");
+                log.debug(body);
+                let history;
+                if ((body = "" || (history = JSON.parse(body)).length === 0)) {
+                    log.info("Results are empty. Replying appropriately.");
+                    message.reply("Cadence has no song history at the moment.");
+                } else {
+                    log.info(
+                        `Results are nonempty, and contain ${history.length} songs. Formatting reply.`
+                    );
+                    let response =
+                        "Cadence has recently played the following songs:\n";
+                    response += searchResultsFormat(history);
+
+                    // I'm not sure history will ever be long enough to actually merit the overhead of sendLongReply, as small as it is.
+                    // The API spec says it will return at most 10 songs, while with "normal" metadata I've observed it takes about 50.
+                    // However, bad things will happen if we don't use it and end up needing it.
+                    // Let's program defensively and not assume shenangigans don't happen.
+                    sendLongReply(message, response);
+                    log.info("Sent reply.");
+                }
+            } else {
+                log.error("Received null body or non-null error!");
+                log.error(`body: ${body}`);
+                log.error(`error: ${err}`);
+                log.error(`Response status code: ${response.statusCode}`);
+                message.reply(
+                    `Error ${response.statusCode}. Please try again later.`
+                );
+            }
+        });
     } else if (
         config.enableLogMailing &&
         message.content == config.logMailCommand
@@ -1868,7 +2038,7 @@ function updatePresence() {
     log.debug(`fetch('${URL}')`);
     fetch(URL).then(response => {
         response.text().then(text => {
-            log.debug("Received response:\n\n" + text + "\n\n");
+            log.debug(`Received response:\n\n${text}\n\n`);
             song = nowPlayingFormat(text);
             log.debug("Now playing:\n\n" + song + "\n\n");
             bot.user.setPresence({
@@ -1878,9 +2048,10 @@ function updatePresence() {
                     name: song,
                 },
             });
-            log.debug("Set timeout to be called again");
         });
     });
+
+    log.debug("Set timeout to be called again");
     bot.setTimeout(updatePresence, config.statusUpdateIntervalMs);
 }
 
